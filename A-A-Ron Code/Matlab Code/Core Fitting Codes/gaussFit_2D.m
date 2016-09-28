@@ -2,8 +2,10 @@ function[fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, para
 
 % Revamped 6-4-13 by ACH to handle 2D fitting
 
-addpath('T:\RChandra\A-A-Ron Code\General Matlab');
-addpath('T:\RChandra\A-A-Ron Code\General Matlab\LM Method');
+% addpath('T:\RChandra\A-A-Ron Code\General Matlab');
+% addpath('T:\RChandra\A-A-Ron Code\General Matlab\LM Method');
+addpath([home '\A-A-Ron Code\General Matlab']);
+addpath([home '\A-A-Ron Code\General Matlab\LM Method']);
 
 [n_time, n_pix, n_spatial] = size(data);
 

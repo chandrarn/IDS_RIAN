@@ -19,6 +19,8 @@ close all; clc;
 profile on;
 import MDSplus.*
 Conn=Connection('landau.hit');
+home = pwd;
+home=home(1:end-21); % grab the base filepath for the git repository
 
 
 %NOTE: 6/24/15: hardcoded hitsi3 shot to pull from, pdc3 tree is being
