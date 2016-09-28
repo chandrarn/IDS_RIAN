@@ -14,6 +14,12 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Matlab data files
+*.mat
+
+# Any image Files
+
+
 # Windows shortcuts
 *.lnk
 

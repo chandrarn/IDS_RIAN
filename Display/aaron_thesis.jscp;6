@@ -1,0 +1,410 @@
+Scope.geometry: 1688x1028+-4+-4
+Scope.update.disable: false
+Scope.update.disable_when_icon: true
+Scope.font: java.awt.Font[family=Arial,name=Arial,style=bold,size=16]
+
+
+Scope.color_0: Black,java.awt.Color[r=0,g=0,b=0]
+Scope.color_1: Blue,java.awt.Color[r=0,g=0,b=255]
+Scope.color_2: Cyan,java.awt.Color[r=0,g=255,b=255]
+Scope.color_3: Green,java.awt.Color[r=0,g=255,b=0]
+Scope.color_4: Magenta,java.awt.Color[r=255,g=0,b=255]
+Scope.color_5: Orange,java.awt.Color[r=255,g=200,b=0]
+Scope.color_6: Pink,java.awt.Color[r=255,g=175,b=175]
+Scope.color_7: Red,java.awt.Color[r=255,g=0,b=0]
+Scope.color_8: Yellow,java.awt.Color[r=255,g=255,b=0]
+
+Scope.data_server_name: Local
+Scope.data_server_class: LocalDataProvider
+Scope.fast_network_access: false
+Scope.reversed: false
+
+Scope.global_1_1.experiment: HITSI
+Scope.global_1_1.xmax: .003
+Scope.global_1_1.xmin: -.0005
+Scope.global_1_1.horizontal_offset: 0
+Scope.global_1_1.vertical_offset: 0
+
+Scope.columns: 2
+Scope.rows_in_column_1: 9
+
+
+Scope.plot_1_1.height: 100
+Scope.plot_1_1.grid_mode: 0
+Scope.plot_1_1.x_log: false
+Scope.plot_1_1.y_log: false
+Scope.plot_1_1.update_limits: true
+Scope.plot_1_1.palette: Green scale
+Scope.plot_1_1.bitShift: 0
+Scope.plot_1_1.bitClip: false
+Scope.plot_1_1.num_shot: 1
+Scope.plot_1_1.num_expr: 1
+Scope.plot_1_1.ymin: -9.0e3
+Scope.plot_1_1.ymax: 10.0e3
+Scope.plot_1_1.title: "i_inj_x (A)"
+Scope.plot_1_1.global_defaults: 147329
+Scope.plot_1_1.label_1: i_inj_x
+Scope.plot_1_1.y_expr_1: \i_inj_x
+Scope.plot_1_1.mode_1D_1_1: Line
+Scope.plot_1_1.mode_2D_1_1: xz(y)
+Scope.plot_1_1.color_1_1: 0
+Scope.plot_1_1.marker_1_1: 0
+Scope.plot_1_1.step_marker_1_1: 1
+
+
+Scope.plot_2_1.height: 100
+Scope.plot_2_1.grid_mode: 0
+Scope.plot_2_1.x_log: false
+Scope.plot_2_1.y_log: false
+Scope.plot_2_1.update_limits: true
+Scope.plot_2_1.palette: Green scale
+Scope.plot_2_1.bitShift: 0
+Scope.plot_2_1.bitClip: false
+Scope.plot_2_1.num_shot: 1
+Scope.plot_2_1.num_expr: 1
+Scope.plot_2_1.ymin: -400
+Scope.plot_2_1.ymax: 400
+Scope.plot_2_1.title: "v_inj_x (V)"                   hitsi_path                   10.10.10.189::/usr/local/trees/hitsi/~f~e~d~c/~t/; landau.hit::/usr/local/trees/hitsi/newdata/~t/
+Scope.plot_2_1.global_defaults: 147329
+Scope.plot_2_1.label_1: v_inj_x             hitsi3_path                   10.10.10.189::/usr/local/trees/hitsi3/~f~e~d~c/~t/; landau.hit::/usr/local/trees/hitsi3/newdata/~t/
+Scope.plot_2_1.y_expr_1: offset_baseline(\v_inj_x)
+Scope.plot_2_1.mode_1D_1_1: Line
+Scope.plot_2_1.mode_2D_1_1: xz(y)
+Scope.plot_2_1.color_1_1: 0
+Scope.plot_2_1.marker_1_1: 0
+Scope.plot_2_1.step_marker_1_1: 1
+
+
+Scope.plot_3_1.height: 100
+Scope.plot_3_1.grid_mode: 0
+Scope.plot_3_1.x_log: false
+Scope.plot_3_1.y_log: false
+Scope.plot_3_1.update_limits: true
+Scope.plot_3_1.palette: Green scale
+Scope.plot_3_1.bitShift: 0
+Scope.plot_3_1.bitClip: false
+Scope.plot_3_1.num_shot: 1
+Scope.plot_3_1.num_expr: 1
+Scope.plot_3_1.title: "psi_inj_x (mWb)"       analysis_path          10.10.10.189::/usr/local/trees/hitsi/~f~e~d~c/~t/;landau.hit::/usr/local/trees/hitsi/newdata/~t/
+Scope.plot_3_1.global_defaults: 196481
+Scope.plot_3_1.label_1: psi_inj_x          analysis3_path              10.10.10.189::/usr/local/trees/hitsi3/~f~e~d~c/~t/; landau.hit::/usr/local/trees/hitsi3/newdata/~t/
+Scope.plot_3_1.y_expr_1: offset_baseline(1.0e3^\psi_inj_x)
+Scope.plot_3_1.mode_1D_1_1: Line
+Scope.plot_3_1.mode_2D_1_1: xz(y)
+Scope.plot_3_1.color_1_1: 0
+Scope.plot_3_1.marker_1_1: 0
+Scope.plot_3_1.step_marker_1_1: 1
+
+
+Scope.plot_4_1.height: 100
+Scope.plot_4_1.grid_mode: 0
+Scope.plot_4_1.x_log: false
+Scope.plot_4_1.y_log: false
+Scope.plot_4_1.update_limits: true
+Scope.plot_4_1.palette: Green scale
+Scope.plot_4_1.bitShift: 0
+Scope.plot_4_1.bitClip: false
+Scope.plot_4_1.num_shot: 1
+Scope.plot_4_1.num_expr: 1
+Scope.plot_4_1.title: "i_primary_x (A)"
+Scope.plot_4_1.global_defaults: 196481
+Scope.plot_4_1.label_1: i_primary_x
+Scope.plot_4_1.y_expr_1: \i_primary_x
+Scope.plot_4_1.mode_1D_1_1: Line
+Scope.plot_4_1.mode_2D_1_1: xz(y)
+Scope.plot_4_1.color_1_1: 0
+Scope.plot_4_1.marker_1_1: 0
+Scope.plot_4_1.step_marker_1_1: 1
+
+
+Scope.plot_5_1.height: 100
+Scope.plot_5_1.grid_mode: 0
+Scope.plot_5_1.x_log: false
+Scope.plot_5_1.y_log: false
+Scope.plot_5_1.update_limits: true
+Scope.plot_5_1.palette: Green scale
+Scope.plot_5_1.bitShift: 0
+Scope.plot_5_1.bitClip: false
+Scope.plot_5_1.num_shot: 1
+Scope.plot_5_1.num_expr: 1
+Scope.plot_5_1.title: "i_lc_rogo_x (A)"
+Scope.plot_5_1.global_defaults: 196481
+Scope.plot_5_1.label_1: i_lc_rogo_x
+Scope.plot_5_1.y_expr_1: \i_lc_rogo_x
+Scope.plot_5_1.mode_1D_1_1: Line
+Scope.plot_5_1.mode_2D_1_1: xz(y)
+Scope.plot_5_1.color_1_1: 0
+Scope.plot_5_1.marker_1_1: 0
+Scope.plot_5_1.step_marker_1_1: 1
+
+
+Scope.plot_6_1.height: 100
+Scope.plot_6_1.grid_mode: 0
+Scope.plot_6_1.x_log: false
+Scope.plot_6_1.y_log: false
+Scope.plot_6_1.update_limits: true
+Scope.plot_6_1.palette: Green scale
+Scope.plot_6_1.bitShift: 0
+Scope.plot_6_1.bitClip: false
+Scope.plot_6_1.num_shot: 1
+Scope.plot_6_1.num_expr: 1
+Scope.plot_6_1.title: "i_fluxcoil_x (A)"
+Scope.plot_6_1.global_defaults: 196481
+Scope.plot_6_1.label_1: i_fluxcoil_x
+Scope.plot_6_1.y_expr_1: sub_baseline_string("\\i_fluxcoil_x")
+Scope.plot_6_1.mode_1D_1_1: Line
+Scope.plot_6_1.mode_2D_1_1: xz(y)
+Scope.plot_6_1.color_1_1: 0
+Scope.plot_6_1.marker_1_1: 0
+Scope.plot_6_1.step_marker_1_1: 1
+
+
+Scope.plot_7_1.height: 100
+Scope.plot_7_1.grid_mode: 0
+Scope.plot_7_1.x_log: false
+Scope.plot_7_1.y_log: false
+Scope.plot_7_1.update_limits: true
+Scope.plot_7_1.palette: Green scale
+Scope.plot_7_1.bitShift: 0
+Scope.plot_7_1.bitClip: false
+Scope.plot_7_1.num_shot: 1
+Scope.plot_7_1.num_expr: 1
+Scope.plot_7_1.title: "kdot_inj_x (Wb2/s"
+Scope.plot_7_1.global_defaults: 196481
+Scope.plot_7_1.label_1: kdot_inj_x
+Scope.plot_7_1.y_expr_1: \kdot_inj_x
+Scope.plot_7_1.mode_1D_1_1: Line
+Scope.plot_7_1.mode_2D_1_1: xz(y)
+Scope.plot_7_1.color_1_1: 0
+Scope.plot_7_1.marker_1_1: 0
+Scope.plot_7_1.step_marker_1_1: 1
+
+
+Scope.plot_8_1.height: 100
+Scope.plot_8_1.grid_mode: 0
+Scope.plot_8_1.x_log: false
+Scope.plot_8_1.y_log: false
+Scope.plot_8_1.update_limits: true
+Scope.plot_8_1.palette: Green scale
+Scope.plot_8_1.bitShift: 0
+Scope.plot_8_1.bitClip: false
+Scope.plot_8_1.num_shot: 1
+Scope.plot_8_1.num_expr: 1
+Scope.plot_8_1.title: "p_inj_x (MW)"
+Scope.plot_8_1.global_defaults: 196481
+Scope.plot_8_1.y_expr_1: 1.0e-6*\p_inj_x
+Scope.plot_8_1.mode_1D_1_1: Line
+Scope.plot_8_1.mode_2D_1_1: xz(y)
+Scope.plot_8_1.color_1_1: 0
+Scope.plot_8_1.marker_1_1: 0
+Scope.plot_8_1.step_marker_1_1: 1
+
+
+Scope.plot_9_1.height: 100
+Scope.plot_9_1.grid_mode: 0
+Scope.plot_9_1.x_log: false
+Scope.plot_9_1.y_log: false
+Scope.plot_9_1.update_limits: true
+Scope.plot_9_1.palette: Green scale
+Scope.plot_9_1.bitShift: 0
+Scope.plot_9_1.bitClip: false
+Scope.plot_9_1.num_shot: 1
+Scope.plot_9_1.num_expr: 1
+Scope.plot_9_1.title: "press_xinj ????"
+Scope.plot_9_1.global_defaults: 196481
+Scope.plot_9_1.label_1: press_xinj
+Scope.plot_9_1.y_expr_1: \press_xinj
+Scope.plot_9_1.mode_1D_1_1: Line
+Scope.plot_9_1.mode_2D_1_1: xz(y)
+Scope.plot_9_1.color_1_1: 0
+Scope.plot_9_1.marker_1_1: 0
+Scope.plot_9_1.step_marker_1_1: 1
+Scope.rows_in_column_2: 9
+
+
+Scope.plot_1_2.height: 100
+Scope.plot_1_2.grid_mode: 0
+Scope.plot_1_2.x_log: false
+Scope.plot_1_2.y_log: false
+Scope.plot_1_2.update_limits: true
+Scope.plot_1_2.palette: Green scale
+Scope.plot_1_2.bitShift: 0
+Scope.plot_1_2.bitClip: false
+Scope.plot_1_2.num_shot: 1
+Scope.plot_1_2.num_expr: 2
+Scope.plot_1_2.title: "i_inj_y (A)"
+Scope.plot_1_2.global_defaults: 196481
+Scope.plot_1_2.y_expr_1: \i_inj_x
+Scope.plot_1_2.mode_1D_1_1: Line
+Scope.plot_1_2.mode_2D_1_1: xz(y)
+Scope.plot_1_2.color_1_1: 0
+Scope.plot_1_2.marker_1_1: 0
+Scope.plot_1_2.step_marker_1_1: 1
+Scope.plot_1_2.y_expr_2: \i_inj_y
+Scope.plot_1_2.mode_1D_2_1: Line
+Scope.plot_1_2.mode_2D_2_1: xz(y)
+Scope.plot_1_2.color_2_1: 0
+Scope.plot_1_2.marker_2_1: 0
+Scope.plot_1_2.step_marker_2_1: 1
+
+
+Scope.plot_2_2.height: 100
+Scope.plot_2_2.grid_mode: 0
+Scope.plot_2_2.x_log: false
+Scope.plot_2_2.y_log: false
+Scope.plot_2_2.update_limits: true
+Scope.plot_2_2.palette: Green scale
+Scope.plot_2_2.bitShift: 0
+Scope.plot_2_2.bitClip: false
+Scope.plot_2_2.num_shot: 1
+Scope.plot_2_2.num_expr: 1
+Scope.plot_2_2.title: "v_inj_y (V)"
+Scope.plot_2_2.global_defaults: 196481
+Scope.plot_2_2.y_expr_1: offset_baseline(\v_inj_y)
+Scope.plot_2_2.mode_1D_1_1: Line
+Scope.plot_2_2.mode_2D_1_1: xz(y)
+Scope.plot_2_2.color_1_1: 0
+Scope.plot_2_2.marker_1_1: 0
+Scope.plot_2_2.step_marker_1_1: 1
+
+
+Scope.plot_3_2.height: 100
+Scope.plot_3_2.grid_mode: 0
+Scope.plot_3_2.x_log: false
+Scope.plot_3_2.y_log: false
+Scope.plot_3_2.update_limits: true
+Scope.plot_3_2.palette: Green scale
+Scope.plot_3_2.bitShift: 0
+Scope.plot_3_2.bitClip: false
+Scope.plot_3_2.num_shot: 1
+Scope.plot_3_2.num_expr: 1
+Scope.plot_3_2.title: "psi_inj_y (mWb)"
+Scope.plot_3_2.global_defaults: 196481
+Scope.plot_3_2.y_expr_1: offset_baseline(1.0e3^\psi_inj_y)
+Scope.plot_3_2.mode_1D_1_1: Line
+Scope.plot_3_2.mode_2D_1_1: xz(y)
+Scope.plot_3_2.color_1_1: 0
+Scope.plot_3_2.marker_1_1: 0
+Scope.plot_3_2.step_marker_1_1: 1
+
+
+Scope.plot_4_2.height: 100
+Scope.plot_4_2.grid_mode: 0
+Scope.plot_4_2.x_log: false
+Scope.plot_4_2.y_log: false
+Scope.plot_4_2.update_limits: true
+Scope.plot_4_2.palette: Green scale
+Scope.plot_4_2.bitShift: 0
+Scope.plot_4_2.bitClip: false
+Scope.plot_4_2.num_shot: 1
+Scope.plot_4_2.num_expr: 1
+Scope.plot_4_2.title: "i_primary_y (A)"
+Scope.plot_4_2.global_defaults: 196481
+Scope.plot_4_2.y_expr_1: \i_primary_y
+Scope.plot_4_2.mode_1D_1_1: Line
+Scope.plot_4_2.mode_2D_1_1: xz(y)
+Scope.plot_4_2.color_1_1: 0
+Scope.plot_4_2.marker_1_1: 0
+Scope.plot_4_2.step_marker_1_1: 1
+
+
+Scope.plot_5_2.height: 100
+Scope.plot_5_2.grid_mode: 0
+Scope.plot_5_2.x_log: false
+Scope.plot_5_2.y_log: false
+Scope.plot_5_2.update_limits: true
+Scope.plot_5_2.palette: Green scale
+Scope.plot_5_2.bitShift: 0
+Scope.plot_5_2.bitClip: false
+Scope.plot_5_2.num_shot: 1
+Scope.plot_5_2.num_expr: 1
+Scope.plot_5_2.title: "i_lc_rogo_y (A)"
+Scope.plot_5_2.global_defaults: 196481
+Scope.plot_5_2.y_expr_1: \i_lc_rogo_y
+Scope.plot_5_2.mode_1D_1_1: Line
+Scope.plot_5_2.mode_2D_1_1: xz(y)
+Scope.plot_5_2.color_1_1: 0
+Scope.plot_5_2.marker_1_1: 0
+Scope.plot_5_2.step_marker_1_1: 1
+
+
+Scope.plot_6_2.height: 100
+Scope.plot_6_2.grid_mode: 0
+Scope.plot_6_2.x_log: false
+Scope.plot_6_2.y_log: false
+Scope.plot_6_2.update_limits: true
+Scope.plot_6_2.palette: Green scale
+Scope.plot_6_2.bitShift: 0
+Scope.plot_6_2.bitClip: false
+Scope.plot_6_2.num_shot: 1
+Scope.plot_6_2.num_expr: 1
+Scope.plot_6_2.title: "i_fluxcoil_y (A)"
+Scope.plot_6_2.global_defaults: 196481
+Scope.plot_6_2.y_expr_1: sub_baseline_string("\\i_fluxcoil_y")
+Scope.plot_6_2.mode_1D_1_1: Line
+Scope.plot_6_2.mode_2D_1_1: xz(y)
+Scope.plot_6_2.color_1_1: 0
+Scope.plot_6_2.marker_1_1: 0
+Scope.plot_6_2.step_marker_1_1: 1
+
+
+Scope.plot_7_2.height: 100
+Scope.plot_7_2.grid_mode: 0
+Scope.plot_7_2.x_log: false
+Scope.plot_7_2.y_log: false
+Scope.plot_7_2.update_limits: true
+Scope.plot_7_2.palette: Green scale
+Scope.plot_7_2.bitShift: 0
+Scope.plot_7_2.bitClip: false
+Scope.plot_7_2.num_shot: 1
+Scope.plot_7_2.num_expr: 1
+Scope.plot_7_2.title: "kdot_inj_y (Wb2/s)"
+Scope.plot_7_2.global_defaults: 196481
+Scope.plot_7_2.y_expr_1: \kdot_inj_y
+Scope.plot_7_2.mode_1D_1_1: Line
+Scope.plot_7_2.mode_2D_1_1: xz(y)
+Scope.plot_7_2.color_1_1: 0
+Scope.plot_7_2.marker_1_1: 0
+Scope.plot_7_2.step_marker_1_1: 1
+
+
+Scope.plot_8_2.height: 100
+Scope.plot_8_2.grid_mode: 0
+Scope.plot_8_2.x_log: false
+Scope.plot_8_2.y_log: false
+Scope.plot_8_2.update_limits: true
+Scope.plot_8_2.palette: Green scale
+Scope.plot_8_2.bitShift: 0
+Scope.plot_8_2.bitClip: false
+Scope.plot_8_2.num_shot: 1
+Scope.plot_8_2.num_expr: 1
+Scope.plot_8_2.title: "p_inj_y (MW)"
+Scope.plot_8_2.global_defaults: 196481
+Scope.plot_8_2.y_expr_1: 1.0e-6*\p_inj_y
+Scope.plot_8_2.mode_1D_1_1: Line
+Scope.plot_8_2.mode_2D_1_1: xz(y)
+Scope.plot_8_2.color_1_1: 0
+Scope.plot_8_2.marker_1_1: 0
+Scope.plot_8_2.step_marker_1_1: 1
+
+
+Scope.plot_9_2.height: 100
+Scope.plot_9_2.grid_mode: 0
+Scope.plot_9_2.x_log: false
+Scope.plot_9_2.y_log: false
+Scope.plot_9_2.update_limits: true
+Scope.plot_9_2.palette: Green scale
+Scope.plot_9_2.bitShift: 0
+Scope.plot_9_2.bitClip: false
+Scope.plot_9_2.num_shot: 1
+Scope.plot_9_2.num_expr: 1
+Scope.plot_9_2.title: "press_yinj ????"
+Scope.plot_9_2.global_defaults: 196481
+Scope.plot_9_2.y_expr_1: \press_yinj
+Scope.plot_9_2.mode_1D_1_1: Line
+Scope.plot_9_2.mode_2D_1_1: xz(y)
+Scope.plot_9_2.color_1_1: 0
+Scope.plot_9_2.marker_1_1: 0
+Scope.plot_9_2.step_marker_1_1: 1
+
+Scope.vpane_1: 500

@@ -1,0 +1,20 @@
+% this makes a multi-colored line plot
+
+function handle = colored_line_3d(x, y, z, c)
+
+handle = surface( ...
+    [x(:), x(:)], ...
+    [y(:), y(:)], ...
+    [z(:), z(:)], ...
+    [c(:), c(:)], ... % the color vector
+    'EdgeColor', 'flat', ... % color the edges w/flat shading according to the color vector
+    'FaceColor', 'none', ... % don't color the face (which is zero area)
+    'LineWidth', 2 ...
+);
+
+end
+
+
+
+
+

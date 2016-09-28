@@ -1,0 +1,8 @@
+function[m, b] = findSlant(PEAKS)
+
+% Finds 'm*x + b' parameters for adjusting centering estimates in motor
+% calibration.  'x' is the wavelength space coordinate.
+
+% Find inverse slope
+
+m_1 = 

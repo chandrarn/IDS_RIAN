@@ -1,0 +1,1 @@
+function[data2, time, param] = timeSum(data2, param, s)
