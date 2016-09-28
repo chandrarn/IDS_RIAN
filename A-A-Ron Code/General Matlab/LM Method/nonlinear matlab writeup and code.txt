@@ -1,0 +1,253 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fcharset0 Arial;}}
+{\*\generator Msftedit 5.41.21.2500;}\viewkind4\uc1\pard\f0\fs20\par
+Nonlinear parameter estimation and errors from Matlab.\par
+\par
+Introduction\par
+\par
+We needed to estimate a set of parameters and their errors for a nonlinear curve fit of cellular conductance data. The conductance was a function of voltage and was modeled as a Boltzmann term, an exponential term and a constant::\par
+\par
+g = p3/(1+e((v-p1)/p2)) + p5*e((v-45)/p6) + p4\par
+\par
+Where g and v are the input data, with v is in millivolts, and p1-p6 are the desired parameters.\par
+\par
+A program was produced to:\par
+\par
+    Fit data several times with randomly selected starting conditions to validate the fit and make sure the code was not falling into local minima.\par
+    Plot all of the curve fits and separate out the Boltmann and exponential terms.\par
+    Estimate the errors in the parameters as the greater of the multiple fit scatter and the formal propagated error.\par
+    List the parameters and a table of the Boltzmann and exponential term conductances.\par
+\par
+The program\par
+\par
+%Program for Matt Gruhn\par
+%Written by Bruce Land, BRL4@cornell.edu\par
+%May 20, 2004\par
+%===================\par
+%curve fit of 6 parameter conductance function of voltage\par
+%Formula from Matt:\par
+%g=\tab (m3/((1+exp((m0-m1)/m2))^(1)))+(m4)+(m5*exp((m0-45)/m6)); \par
+%need to get parameters and their error range\par
+%--Then separately plot the "boltzmann" and exponential parts separately\par
+%===================\par
+\par
+clear all\par
+%total fit\par
+figure(1)\par
+clf\par
+%part fit\par
+figure(2)\par
+clf\par
+%parameter histograms\par
+figure(3)\par
+clf\par
+\par
+%========================================================\par
+%START settable inputs\par
+%========================================================\par
+%data set 1 from Matt-- cell f \par
+%the voltages\par
+x=[-30.3896\par
+    -25.2314\par
+    -20.0655\par
+    -14.9218\par
+    -9.82205\par
+    -4.71594\par
+    0.380856\par
+    5.53925\par
+    10.749\par
+    15.8878\par
+    21.0423\par
+    26.154\par
+    31.3026\par
+    36.3964\par
+    41.4244\par
+    46.3951\par
+];\par
+\par
+%the measured conductances\par
+y=[0.01428535\par
+    0.032721504\par
+    0.06306213\par
+    0.099658404\par
+    0.134567811\par
+    0.162306115\par
+    0.181366575\par
+    0.196532089\par
+    0.20765796\par
+    0.218294045\par
+    0.22529785\par
+    0.235617098\par
+    0.250215255\par
+    0.268659046\par
+    0.294750456\par
+    0.331398216\par
+];\par
+\par
+%estimate of error in conductance measurement\par
+%Currently set to 2%\par
+dy = y*0.02;\par
+\par
+%formula converted to\par
+%The inline version\par
+func = inline('p(3)./(1+exp((x-p(1))/p(2))) + p(5)*exp((x-45)/p(6)) + p(4)','p','x');  \par
+%initial parameter guess\par
+p0 = [-10 -7 -0.2 -.01 0.2 8 ];\par
+\par
+%To detect the sensitivity of the fit to starting parameter guess,\par
+%the fit is run a number of times.\par
+%each fit is plotted and each parameter plotted as a histogram\par
+Nrepeat=100;\par
+%each parameter is varied by a normal distribution with\par
+%mean equal to the starting guess and std.dev. equal to\par
+%sd*mean\par
+sd = 0.3;\par
+%histogram zoom factor (how many std dev to show)\par
+zfactor = 2;\par
+%parameter outlier cuttoff: lowest and highest N estimates are removed\par
+outcut=10;\par
+%========================================================\par
+%END settable inputs\par
+%========================================================\par
+\par
+%list of all parameter outputs to use in histogram\par
+pList=zeros(Nrepeat,6);\par
+\par
+for rep =1:Nrepeat\par
+    rep\par
+    \par
+    %form the new randomized start vector\par
+    p = [p0(1)*(1+sd*randn), p0(2)*(1+sd*randn), p0(3)*(1+sd*randn),...\par
+            p0(4)*(1+sd*randn), p0(5)*(1+sd*randn), p0(6)*(1+sd*randn)];\par
+    %do the fit\par
+    [p,r,j] = nlinfit(x,y,func,p);\par
+    %copy fit to list\par
+    pList(rep,:) = p';\par
+    \par
+    %get parameter errors\par
+    c95 = nlparci(p,r,j);\par
+    %conductance errors\par
+    [yp, ci] = nlpredci(func,x,p,r,j);\par
+    \par
+    %plot the fit\par
+    figure(1)\par
+    errorbar(x,func(p,x),ci,ci,'b-');\par
+    hold on\par
+    errorbar(x,y,dy,dy,'ro')\par
+    \par
+    %plot the separated fits\par
+    figure(2)\par
+    subplot(2,1,1)\par
+    hold on\par
+    errorbar(x, y-func(p,x)+ p(5)*exp((x-45)/p(6)),dy,dy,'rx')\par
+    %plot(x, (y-func(p,x)+ p(5)*exp((x-45)/p(6))),'ro')\par
+    errorbar(x, p(5)*exp((x-45)/p(6)), 2*ci, 2*ci,'bx-')\par
+    title('Exponential fit')\par
+    \par
+    subplot(2,1,2)\par
+    hold on\par
+    %plot(x, (y-func(p,x)+ p(3)./(1+exp((x-p(1))/p(2)))),'ro')\par
+    errorbar(x, y-func(p,x)+ p(3)./(1+exp((x-p(1))/p(2))),dy,dy,'rx')\par
+    errorbar(x, p(3)./(1+exp((x-p(1))/p(2))), 2*ci, 2*ci,'bx-')\par
+    title('Boltzmann fit')\par
+    \par
+    %drawnow\par
+end\par
+\par
+figure(3)\par
+%plot and print parameter table\par
+fprintf('\\r\\rFit parameters and 95percent confidence range\\r')\par
+for i=1:6\par
+    subplot(6,1,i)\par
+    lowerLimit = mean(pList(:,i))-zfactor*std(pList(:,i));\par
+    upperLimit = mean(pList(:,i))+zfactor*std(pList(:,i));\par
+    hist(pList(:,i),linspace(lowerLimit,upperLimit,30))\par
+    %\par
+    fprintf('%7.3f\\t +/- %7.3f \\r',...\par
+        mean(pList(:,i)),...\par
+        max(2*std(pList(:,i)),mean(pList(:,i))-c95(i,1)));\par
+end\par
+\par
+fprintf('\\r\\rFit parameters omitting outliers\\r')\par
+for i=1:6\par
+    %get rid of outliers\par
+    pup = sort(pList(:,i));\par
+    pup = pup(outcut:end-outcut);\par
+    %print again\par
+    fprintf('%7.3f\\t +/- %7.3f \\r',...\par
+        mean(pup),...\par
+        max(2*std(pup),mean(pup)-c95(i,1)));\par
+    pbest(i)=mean(pup);\par
+end\par
+\par
+%print conductance table\par
+%based on best parameters\par
+v = [-30:5:45];\par
+clear yp ci\par
+[yp,ci] = nlpredci(func,x,pbest,r,j);\par
+fprintf('\\rVolt \\t Total g\\t Boltz\\t Exp \\r')\par
+for i=1:length(v)\par
+    fprintf('%7.3f\\t%7.3f\\t%7.3f\\t%7.3f\\r',...\par
+        v(i),...\par
+        yp(i),...\par
+        pbest(3)./(1+exp((v(i)-pbest(1))/pbest(2))),...\par
+        pbest(5)*exp((v(i)-45)/pbest(6)));\par
+end\par
+\par
+Typical output\par
+\par
+There is graphical and text output from this program. Each figure represents 100 curve fits to the same data. The first figure is a plot of the total curve fit, while figure 2 are the components of the curve fit. Figure 3 are the histograms of 100 different fits to the same data. Also shown are the raw (all sets) parameter means and the the selected (removing outliers). Note the outliers in each figure, and the strong central tendency of the parameter estimates. Finally the program prints a table of voltages and the fit values of total conductance, Boltzmann part, and exponential part.\par
+\par
+ \par
+\par
+ \par
+\par
+Fit parameters and 95percent confidence range\par
+-15.394\tab +/-   0.611 \par
+ -7.951\tab +/-   1.457 \par
+  0.219\tab +/-   0.041 \par
+ -0.016\tab +/-   0.019 \par
+  0.115\tab +/-   0.006 \par
+ 14.805\tab +/-   1.461 \par
+\par
+\par
+Fit parameters omitting outliers\par
+-15.391\tab +/-   0.614 \par
+ -8.098\tab +/-   0.583 \par
+  0.223\tab +/-   0.014 \par
+ -0.018\tab +/-   0.008 \par
+  0.115\tab +/-   0.006 \par
+ 14.713\tab +/-   1.370\par
+ \par
+ Volt    Total g  Boltz   Exp \par
+-30.000\tab   0.013\tab   0.032\tab   0.001\par
+-25.000\tab   0.034\tab   0.052\tab   0.001\par
+-20.000\tab   0.064\tab   0.081\tab   0.001\par
+-15.000\tab   0.099\tab   0.114\tab   0.002\par
+-10.000\tab   0.133\tab   0.147\tab   0.003\par
+ -5.000\tab   0.162\tab   0.175\tab   0.004\par
+  0.000\tab   0.183\tab   0.194\tab   0.005\par
+  5.000\tab   0.197\tab   0.206\tab   0.008\par
+ 10.000\tab   0.208\tab   0.214\tab   0.011\par
+ 15.000\tab   0.217\tab   0.218\tab   0.015\par
+ 20.000\tab   0.225\tab   0.220\tab   0.021\par
+ 25.000\tab   0.236\tab   0.222\tab   0.029\par
+ 30.000\tab   0.250\tab   0.222\tab   0.041\par
+ 35.000\tab   0.269\tab   0.223\tab   0.058\par
+ 40.000\tab   0.295\tab   0.223\tab   0.082\par
+ 45.000\tab   0.331\tab   0.223\tab   0.115\par
+ \par
+\par
+Revision to eliminate constant term\par
+\par
+The fit equation was modified to\par
+\par
+g = p3/(1+e((v-p1)/p2)) + p4*e((v-45)/p5)\par
+\par
+which eliminates the constant term. For some parameter sets, particularly where the total curvature of the data is small, the constant term tended to make the fit unstable. The convergence criteria were more carefully monitored to make sure that the overall fit was reasonable.\par
+\par
+Reference\par
+\par
+Gruhn M, Guckenheimer J, Land BR , Harris-Warrick R (2005)\par
+Dopamine modulation of two delayed rectifier potassium currents in a small neural network, Journal of Neurophysiology, 94: 2888-2900 (pdf)\par
+}
+ 

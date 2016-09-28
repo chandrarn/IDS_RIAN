@@ -1,0 +1,6 @@
+function y = doubletFun(guess, xdata, deltaPix, ratio)
+
+y = guess(1) / (guess(3) * )* (exp(-(xdata - guess(2)).^2 / (2*guess(3)^2)) + ...
+    ratio * exp(-(xdata - (guess(2) + deltaPix)).^2 / (2*guess(3)^2))) ...
+    + guess(4);
+end

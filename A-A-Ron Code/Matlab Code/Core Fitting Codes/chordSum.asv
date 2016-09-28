@@ -1,0 +1,39 @@
+function[data, param] = chordSum(data2, param, s)
+
+[n_time, lamMax, n_chan] = size(data2);
+
+[n_ch, n_sum] = size(s.chSum); % n_ch is the number of resulting "chords"
+                                 % n_sum is the number of chords to sum
+
+% Convert channel numbers to index numbers (slightly different)
+
+
+                                 
+% Modify Parameters
+
+peaks = zeros(n_ch, 3); % preallocate
+FWHM = zeros(n_ch, 1);
+PIX_SP = zeros(n_ch, 1);
+CENTER = zeros(n_ch, 1);
+n_chan = n_ch;
+data = zeros(n_time, lamMax, n_ch);
+
+for n = 1:n_ch
+    peaks(n, 1) = round(mean(param.peaks(s.chSum(n, :), 1))); % peaks channel number is used 
+        % as an index by some codes, so this preserves functionality but
+        % sacrifices accuracy
+    peaks(n, 2) = mean(param.peaks(s.chSum(n, :), 2));
+    peaks(n, 3) = mean(param.peaks(s.chSum(n, :), 3));
+    
+    FWHM(n) = mean(param.FWHM(s.chSum(n, :)));
+    PIX_SP(n) = mean(param.PIX_SP(s.chSum(n, :)));
+    CENTER(n) = mean(param.CENTER(s.chSum(n, :)));
+    
+    data(:, :, n) = sum(data2(:, :, s.chSum(n, :)), 3);
+end
+
+param.peaks = peaks;
+param.FWHM = FWHM;
+param.PIX_SP = PIX_SP;
+param.CENTER = CENTER;
+param.n_chan = n_ch;

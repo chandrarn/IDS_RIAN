@@ -1,0 +1,56 @@
+clear all; close all; clc;
+addpath('S:\MC_IDS\Matlab Code\NIMROD');
+
+shot = 126840;
+
+chans = [10 11 12 13 14];
+% chans = [23 24 25 26 27];
+
+xlim = [0.7 2];
+ysep = 10; % km/s
+
+for n = 1:length(chans)
+    yticks(n) = (n-1)*ysep;
+end
+
+mdsopen('landau.hit::hitsi', shot);
+iinjx = 1e-3*mdsvalue('\I_INJ_X');
+tiinjx = 1e3*mdsvalue('dim_of(\I_INJ_X)');
+iinjy = 1e-3*mdsvalue('\I_INJ_Y');
+tiinjy = 1e3*mdsvalue('dim_of(\I_INJ_Y)');
+mdsclose();
+
+eval(sprintf('load(''dat%i'');', shot)); % HIT-SI IDS Data
+
+for n = 1:length(chans)
+    ch(n) = find(dat.peaks == chans(n));
+end
+
+fntsz = 22;
+S = get(0, 'ScreenSize');
+h1 = figure('Visible','on','Name','Data Comparison','Position',[5 6 S(3)-10 S(4)-75],...
+    'Color', [1 1 1]);
+ax(1) = axes('Parent', h1, 'Position', [.1 .38 .8 .5], 'FontSize', fntsz);
+
+h = plot(dat.time, dat.vel(:, ch(1)), '-b');
+hold on;
+grid on;
+set(h, 'LineWidth', 2);
+for n = 2:length(ch)
+    h = plot(dat.time, (n-1)*ysep + dat.vel(:, ch(n)), '-b');
+    set(h, 'LineWidth', 2);
+end
+set(gca, 'XLim', xlim, 'XTickLab', [], 'YTick', yticks, 'YTickLab', num2str(zeros(length(yticks), 1)));
+ylabel({'Ion Velocity [km/s]'; ['Grid Spacing = ' num2str(ysep) ' km/s']});
+title(['IDS Velocity and Injector Currents, shot ' num2str(shot)]);
+
+ax(2) = axes('Parent', h1, 'Position', [.1 .12 .8 .18], 'FontSize', fntsz);
+h = plot(tiinjx, iinjx, '-r');
+hold on;
+grid on;
+set(h, 'LineWidth', 2);
+h = plot(tiinjy, iinjy, '-g');
+set(h, 'LineWidth', 2);
+set(gca, 'XLim', xlim);
+xlabel('Time [ms]');
+ylabel('I_{INJ} [kA]');

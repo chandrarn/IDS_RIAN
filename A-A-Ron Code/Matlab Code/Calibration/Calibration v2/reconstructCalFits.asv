@@ -1,0 +1,16 @@
+function[Xf, Yf, Zf] = reconstructCalFits(par, brightWing)
+
+xmin = round(par(1, 2)) - 2; % minimum x value of fit
+xmax = round(par(end, 2)) + 2; % maximum x value of fit
+
+ymin = round(mean(par(:, 3))) - brightWing; % minimum y value of fit
+ymax = round(mean(par(:, 3))) + brightWing; % maximum y value of fit
+
+[Xf, Yf] = meshgrid(xmin:xmax, ymin:ymax);
+
+Zf = 0 * Xf; % initialize Zf as zeros
+
+for n = 1:size(par, 1) % loop over all channels
+    
+    
+    fit = singletGauss2D(

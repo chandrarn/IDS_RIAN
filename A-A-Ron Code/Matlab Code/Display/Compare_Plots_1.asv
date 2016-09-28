@@ -1,0 +1,477 @@
+% Basic code for comparing plots of NIMROD output and IDS data
+
+clear all; close all; clc;
+
+addpath('S:\MC_IDS\Matlab Code\Data Repository'); % where corrected IDS data is kept
+addpath('S:\MC_IDS\Matlab Code\NIMROD\Data Repository'); % where corrected NIMROD data is kept
+
+%% Plot Settings
+
+%% Plot_1 Settings: %%%%
+
+shot_a = 13060502; % real shot number with HIT-SI data to compare to (necessary
+                 % even for NIMROD only to reference peaks).
+NIMdate_a = '120911'; % unique identifier for saving NIMROD data- based on date Cihan gave me the file
+NIMfSum_a = 19; % number of frames summed in analysis
+
+plotType_a = 3; % 1 = NIMROD velocity
+                % 2 = NIMROD false temperature
+                % 3 = IDS velocity
+                % 4 = IDS temperature
+                % 5 = IDS residual
+                % 6 = IDS amplitude
+                % 7 = IDS intensity (area * cal factor)
+                % 8 = IDS residual / area
+                % 9 = IDS calculated "delta R plasma"
+                % 10 = Upper temperature error bar
+                % 11 = Lower temperature error bar
+                % 12 = Upper velocity error bar
+                % 13 = Lower velocity error bar
+shiftTime_a = 0; % shift time axis for plot a [ms]
+shiftVel_a = 0; % km/s velocty shift
+torPlot_a = 1; % true for toroidal array (fibers 1 to 36)
+               % false for poloidal array (fibers 37 to 72)
+
+%% Plot_2 Settings: %%%%
+
+shot_b = 13060502; % real shot number with HIT-SI data to compare to (necessary
+                 % even for NIMROD only to reference peaks).
+NIMdate_b = '120911'; % unique identifier for saving NIMROD data- based on date Cihan gave me the file
+NIMfSum_b = 5; % number of frames summed in analysis
+
+plotType_b = 7; % 1 = NIMROD velocity
+                % 2 = NIMROD false temperature
+                % 3 = IDS velocity
+                % 4 = IDS temperature
+                % 5 = IDS residual
+                % 6 = IDS amplitude
+                % 7 = IDS intensity (area * cal factor)
+                % 8 = IDS residual / area
+                % 9 = IDS calculated "delta R plasma"
+                % 10 = Upper temperature error bar
+                % 11 = Lower temperature error bar
+                % 12 = Upper velocity error bar
+                % 13 = Lower velocity error bar
+shiftTime_b = 0; % shift time axis for plot b [ms]
+shiftVel_b = 0; % km/s velocty shift
+torPlot_b = 1; % true for toroidal array (fibers 1 to 36)
+               % false for poloidal array (fibers 37 to 72)
+                
+%% Options
+
+deltaR = 0; % calculate the plasma displacement assuming temperature is false
+uniformTemp = 20; % [eV]
+
+mirror_a = 0; % flip plot a left to right
+diffSettings = 0; % use different settings for each surface plot.
+
+saveFigure = 0; % save figure to file
+fileName = 'S:\HIT_SI\Presentations\Friday Meetings\130503_IDS_BD_1\m_34_temp_126690'; % file name for .png image
+
+timeInMs = 1; % displays time in ms, otherwise time point number
+useImpacts = 1; % plot the x scale in terms of impact parameter, else channel
+
+plotIInj = 0; % plot injector currents for alignment purposes
+
+screenArea = 0; % run velocity and temperature through a filter to discard points with low area
+scArea = 100; % lower limit for Area
+scArea_b = 100;
+
+screenSNR = 0; % discard points with high residual / area ratio
+scSNR = 0.45; % upper limit for residual / area
+scSNR_b = 0.45;
+
+screenChans = 1; % discard specific channels
+scChans = [1:8 29:36]; % channels to discard
+
+findTLim = 0; % print indices to the command line which correspond to times
+tLimMS = [.1 2]; % time points in ms
+
+%% General Settings: %%%%
+
+tempLim = [0 70];
+velLim = [-30 30];
+resLim = [0 150];
+ampLim = [0 900];
+intLim = [0 500];
+snrLim = [0 0.5];
+deltaRLim = [0 60];
+tempErrLim = [0 20];
+velErrLim = [0 5];
+
+timeLim = [0.5 2.4];
+
+%% Calculations
+
+
+%% Calculate and Plot
+for n = 1:2
+    if n == 1 % Plot 1
+        plotType = plotType_a;
+        NIMfSum = NIMfSum_a;
+        shiftVel = shiftVel_a;
+        if torPlot_a
+            chan_range = [1, 36];
+        else
+            chan_range = [37, 72];
+        end
+        eval(sprintf('load(''dat%i'');', shot_a)); % Real HIT-SI Data a
+        load(['nim' NIMdate_a '_' num2str(NIMfSum_a)]); % NIMROD Calculation a
+        switch plotType_a
+            case {1, 2}
+                nim.time = nim.time + shiftTime_a;
+                if timeInMs
+                    [X, Y] = meshgrid(chan_range(1):chan_range(2), nim.time);
+                    ylab = {'Time [ms]'};
+                else
+                    [X, Y] = meshgrid(chan_range(1):chan_range(2), 1:length(nim.time));
+                    ylab = {'Time Point Number'};
+                end
+                if NIMfSum == 0
+                    t2str = 'Time Step = ';
+                else
+                    t2str = 'Time Avg. = ';
+                end
+                title2 = [t2str num2str(nim.t_avg, 3) ' +/- ' num2str(nim.stdev, 2) ' \mu' 's'];
+                title3 = [];
+                
+            case {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+                dat.time = dat.time + shiftTime_a;
+                dat.ItorTime = dat.ItorTime + shiftTime_a;
+                if timeInMs
+                    [X, Y] = meshgrid(dat.peaks, dat.time);
+                    ylab = {'Time [ms]'};
+                else
+                    [X, Y] = meshgrid(dat.peaks, 1:length(dat.time));
+                    ylab = {'Time Point Number'};
+                end
+                t_avg = 1e3 * mean(diff(dat.time));
+                title2 = ['Interval = ' num2str(t_avg, 3) ' \mu' 's'];
+                title3 = [', shot ' num2str(shot_a)];
+                if deltaR
+                    [dat] = calcDeltaR(dat, uniformTemp, t_avg);
+                end
+                if screenArea
+                    [dat] = screenAreaFun(dat, scArea);
+                end
+                if screenSNR
+                    [dat] = screenSNRFun(dat, scSNR);
+                end
+                if screenChans
+                    [dat] = screenChansFun(dat, scChans);
+                end
+                if findTLim % special feature for convertime time to index
+                    [dummy, n1] = min(abs(dat.time - tLimMS(1)));
+                    [dummy, n2] = min(abs(dat.time - tLimMS(2)));
+                    n1
+                    n2
+                end
+        end
+
+    else % Plot 2
+        if diffSettings
+            scSNR = scSNR_b;
+            scArea = scArea_b;
+        end
+        
+        plotType = plotType_b;
+        NIMfSum = NIMfSum_b;
+        shiftVel = shiftVel_b;
+        if torPlot_b
+            chan_range = [1, 36];
+        else
+            chan_range = [37, 72];
+        end
+        switch plotType_b
+            case {1, 2} % Anything NIMROD Related
+                load(['nim' NIMdate_b '_' num2str(NIMfSum_b)]); % NIMROD Calculation b
+                nim.time = nim.time + shiftTime_b;
+                if timeInMs
+                    [X, Y] = meshgrid(chan_range(1):chan_range(2), nim.time);
+                    ylab = {'Time [ms]'};
+                else
+                    [X, Y] = meshgrid(chan_range(1):chan_range(2), 1:length(nim.time));
+                    ylab = {'Time Point Number'};
+                end
+                if NIMfSum == 0
+                    t2str = 'Time Step = ';
+                else
+                    t2str = 'Time Avg. = ';
+                end
+                title2 = [t2str num2str(nim.t_avg, 3) ' +/- ' num2str(nim.stdev, 2) ' \mu' 's'];
+                title3 = [];
+                
+            case {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13} % Anything IDS data Related
+                eval(sprintf('load(''dat%i'');', shot_b)); % Real HIT-SI Data b
+                dat.time = dat.time + shiftTime_b;
+                dat.ItorTime = dat.ItorTime + shiftTime_b;
+                if timeInMs
+                    [X, Y] = meshgrid(dat.peaks, dat.time);
+                    ylab = {'Time [ms]'};
+                else
+                    [X, Y] = meshgrid(dat.peaks, 1:length(dat.time));
+                    ylab = {'Time Point Number'};
+                end
+                t_avg = 1e3 * mean(diff(dat.time));
+                title2 = ['Interval = ' num2str(t_avg, 3) ' \mu' 's'];
+                title3 = [', shot ' num2str(shot_b)];
+                if deltaR
+                    [dat] = calcDeltaR(dat, uniformTemp, t_avg);
+                end
+                if screenArea
+                    [dat] = screenAreaFun(dat, scArea);
+                end
+                if screenSNR
+                    [dat] = screenSNRFun(dat, scSNR);
+                end
+                if screenChans
+                    [dat] = screenChansFun(dat, scChans);
+                end
+        end
+
+    end
+
+    dat.peaks = dat.peaks(find(and(dat.peaks(:) >= chan_range(1), dat.peaks(:) <= chan_range(2))), :);
+ 
+    % tailor xlimit on plots - depends on toroidal vs. poloidal
+    if chan_range(1) == 1 % looking at toroidal array
+        xlim = [dat.peaks(7) dat.peaks(end-7)];
+    elseif chan_range(1) == 37 % looking at poloidal array
+        xlim = [dat.peaks(11) dat.peaks(end-8)];
+    else
+        disp('something is wrong with the channel range');
+        return;
+    end
+    
+    switch plotType
+        case 1
+            % NIMROD velocity
+            data = nim.vel;
+            title1 = 'NIMROD Velocity [km/s]';
+            clim = velLim;
+
+        case 2
+            % NIMROD temperature
+            data = nim.temp;
+            title1 = 'NIMROD Temperature [eV]';
+            clim = tempLim;
+            
+        case 3
+            % IDS Velocity
+            data = shiftVel + dat.vel;
+            title1 = 'IDS Velocity [km/s]';
+            clim = velLim;
+            
+        case 4
+            % IDS Temperature
+            data = dat.temp;
+            title1 = 'IDS Temperature [eV]';
+            clim = tempLim;
+            
+        case 5
+            % IDS Residual
+            data = dat.residual;
+            title1 = 'IDS Residual [counts]';
+            clim = resLim;
+            
+        case 6
+            % IDS Amplitude
+            data = squeeze(dat.fit_par(:, 1, :) ./ (sqrt(2*pi)*dat.fit_par(:, 3, :)));
+            title1 = 'IDS Amplitude [counts]';
+            clim = ampLim;
+            
+        case 7
+            % IDS Intensity
+            data = dat.int;
+            title1 = 'IDS Intensity [Arb. U.]';
+            clim = intLim;
+            
+        case 8
+            % IDS Residual / Area
+            data = dat.residual ./ squeeze(dat.fit_par(:, 1, :));
+            title1 = 'IDS Residual / Area [Arb. U.]';
+            clim = snrLim;
+            
+        case 9
+            % Calculated delta R plasma
+            data = dat.deltaR;
+            title1 = ['Calculated \delta' 'r_{plasma} [cm]'];
+            clim = deltaRLim;
+            
+        case 10
+            % IDS Temperature Upper Error Bar
+            data = dat.tempU;
+            title1 = 'IDS Temperature Upper Error [eV]';
+            clim = tempErrLim;
+            
+        case 11
+            % IDS Temperature Lower Error Bar
+            data = dat.tempL;
+            title1 = 'IDS Temperature Lower Error [eV]';
+            clim = tempErrLim;
+            
+        case 12
+            % IDS Velocity Upper Error Bar
+            data = dat.velU;
+            title1 = 'IDS Velocity Upper Error [km/s]';
+            clim = velErrLim;
+            
+        case 13
+            % IDS Velocity Lower Error Bar
+            data = dat.velL;
+            title1 = 'IDS Velocity Lower Error [km/s]';
+            clim = velErrLim;
+    end
+
+%% Plotting
+    fntsz = 22; % Font Size
+
+    n_skip = 2; % number of points to skip over
+    if useImpacts
+        addpath('S:\MC_IDS');
+        load('impacts.mat');
+        impacts = impacts(dat.peaks(1:n_skip:end)); % cut down the array
+        if and(n == 1, mirror_a)
+            xticklab = num2str(impacts(end:-1:1)', 2); % reverse the labels
+        else
+            xticklab = num2str(impacts', 2);
+        end
+        xlab = 'Impact Parameter [cm]';
+    else
+        xticklab = dat.peaks(1:n_skip:end);
+        xlab = 'Channel Number';
+    end
+    xtick = dat.peaks(1:n_skip:end);
+    
+
+    if n == 1
+        S = get(0,'ScreenSize');
+        h1 = figure('Visible','on','Name','Data Comparison','Position',[5 35 S(3)-12 S(4)-110],...
+            'Color', [1 1 1]);
+        ax(n) = axes('Parent', h1, 'Position', [.1 .12 .32 .79], 'FontSize', fntsz);
+    else
+        ax(n) = axes('Parent', h1, 'Position', [.47 .12 .3 .79], 'FontSize', fntsz);
+        set(gca, 'YTickLabel', []);
+    end
+    
+    hold on;
+    if and(n == 1, mirror_a)
+        surf(X(:, end:-1:1), Y, data);
+    else
+        surf(X, Y, data);
+    end
+    shading interp;
+    colormap jet;
+    grid on;
+    if n == 1
+        colorbar('FontSize', fntsz);
+        ylabel(ylab);
+    end
+    set(gca, 'XTick', xtick, 'XTickLabel', xticklab);
+    if useImpacts
+        set(gca, 'XLim', xlim);
+    end
+    if timeInMs
+        set(gca, 'YLim', timeLim);
+    end
+    xlabel(xlab);
+    title({[title1 ',']; [title2 title3]});
+    caxis(clim);
+
+end
+
+linkaxes(ax, 'xy');
+
+%% Plot Currents
+
+ax(3) = axes('Parent', h1, 'Position', [.82 .12 .12 .79], 'FontSize', fntsz);
+
+switch plotType_a
+    case {1, 2}
+        load(['nim' NIMdate_a '_1']); % NIMROD Calculation a WITH UNALTERED TIME BASE
+        if mirror_a
+            nim.Itor = -nim.Itor;
+        end
+        nim.time = nim.time + shiftTime_a;
+        ha = plot(nim.Itor, nim.time, '-b');
+        hold on;
+        L1 = 'NIMROD';
+        min1 = min(nim.Itor);
+        max1 = max(nim.Itor);
+    case {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+        eval(sprintf('load(''dat%i'');', shot_a)); % Real HIT-SI Data a
+        if mirror_a
+            dat.Itor = -dat.Itor;
+        end
+        ha = plot(dat.Itor, dat.ItorTime, '-b');
+        hold on;
+        L1 = 'Measured';
+        min1 = min(dat.Itor);
+        max1 = max(dat.Itor);
+end
+switch plotType_b
+    case {1, 2}
+        load(['nim' NIMdate_b '_1']); % NIMROD Calculation a WITH UNALTERED TIME BASE
+        nim.time = nim.time + shiftTime_b;
+        hb = plot(nim.Itor, nim.time, '-r');
+        hold on;
+        L2 = 'NIMROD';
+        min2 = min(nim.Itor);
+        max2 = max(nim.Itor);
+    case {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+        eval(sprintf('load(''dat%i'');', shot_b)); % Real HIT-SI Data b
+        hb = plot(dat.Itor, dat.ItorTime, '-r');
+        hold on;
+        L2 = 'Measured';
+        min2 = min(dat.Itor);
+        max2 = max(dat.Itor);
+end
+
+set(ha, 'LineWidth', 2);
+set(hb, 'LineWidth', 2);
+
+try
+    if L1 == L2
+    %     legend(L2);
+    else
+        legend(L1, L2);
+    end
+catch
+    legend(L1, L2);
+end
+
+grid on;
+set(gca, 'YTickLabel', []);
+title({'Toroidal'; 'Current'});
+xlabel('I_{TOR} [kA]');
+% xlabel('Time [ms]');
+% ylabel('I_{TOR} [kA]');
+xlimit(1) = min([min1 min2]);
+xlimit(2) = max([max1 max2]);
+set(gca, 'YLim', timeLim, 'XLim', 1.2*xlimit);
+linkaxes(ax, 'y');
+
+%% Save
+
+if saveFigure
+    fig_save = getframe(h1);
+    [Xfig, mapfig] = frame2im(fig_save);
+    imwrite(Xfig, [fileName '.png']);
+end
+
+%% Kludge to plot injector currents
+
+if plotIInj
+    figure(2)
+    mdsopen('landau.hit::hitsi', shot_b);
+    plot(1e3*mdsvalue('dim_of(\I_INJ_X)'), 1e-3*mdsvalue('\I_INJ_X'));
+    hold all;
+    load NIM_IDS
+    plot(nim.time, NIM_IDS.iinjx);
+end
+    
+    
+    
+    
+
+

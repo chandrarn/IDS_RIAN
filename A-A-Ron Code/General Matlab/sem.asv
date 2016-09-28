@@ -1,0 +1,4 @@
+% Aaron Hossack
+% Standard Error of the Mean
+function[y] = sem(x)
+y = std(x) ./ 

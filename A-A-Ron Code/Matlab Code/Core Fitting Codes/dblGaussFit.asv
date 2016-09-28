@@ -1,0 +1,112 @@
+function[fit_par, resnorm, param] = dblGaussFit(data2, param, options)
+
+%% Initial parameter estimates
+
+[n_time, ymax, xmax] = size(data2); % determine size of data array
+
+sumOfFrame = sum(sum(data2, 3), 2); % sums over two data dimensions of 'data2' array leaving
+                                   % scalar sum of all counts for each time.
+                                   
+[dummy, n_bright] = max(sumOfFrame); % identify time index with most light
+
+[dummy, chan_bright] = max(sum(data2(n_bright, :, :), 2)); % identify brightest channel
+
+% find approximate offset
+
+offset = min(data2(n_bright, :, chan_bright));
+
+% Convert wavelength separation of doublet into channel separation
+
+param.deltaPix = (param.LineLam(1) - param.LineLam(2)) ./ param.PIX_SP; % [m / (m/pix) = pix]
+
+% Find approximate ratio of line intensities
+
+oneDSpectr = squeeze(sum(sum(data2, 3), 1)); % collapse data in time and channel dimensions
+                                             % to get 1-D spectrum
+                                             % 'squeezed' into one column vector
+                                             
+spectrOffst = min(oneDSpectr); % total 1-D spectrum offset
+                                
+[bright, indBright] = max(oneDSpectr); % find maximum intensity and pixel number (index)
+
+dPix = median(param.deltaPix); % median pixel spacing for use in next operations
+
+try
+    dim1 = max(oneDSpectr(indBright + round(dPix) - 1 : indBright + round(dPix) + 1));
+    % if the other line is a longer wavelength, look within a small range at
+    % the expected separation distance
+catch
+    dim1 = 0; % if the code goes here the attempt to find the dim line at
+              % longer wavelength failed because it looked out of bounds
+end
+
+try
+[dim2, indDim2] = max(oneDSpectr(indBright - round(dPix) - 1 : indBright - round(dPix) + 1));
+    % if the other line is a shorter wavelength, look within a small range at
+    % the expected separation distance
+indDim2 = indDim2 + indBright - round(dPix) - 2;
+
+catch
+    dim2 = 0; % if the code goes here the attempt to find the dim line at
+              % shorter wavelength failed because it looked out of bounds
+end
+
+if dim1 > dim2 % the dim line is at a longer wavelength
+    center = indBright; % the 'center' parameter used for velocity fitting
+                        % is arbitrarily chosen in 'loadParams.m' to be the
+                        % lower wavelength line, ergo for this situation
+                        % the bright line is the lower wavelength one and
+                        % is used for the center estimate
+    amplitude = data2(n_bright, indBright, chan_bright); % first guess at primary line amplitude
+    param.ratio = (dim1 - spectrOffst) / (bright - spectrOffst); % line amplitude ratio used for curve fitting
+    
+else % the dim line is at a shorter wavelength
+    center = indBright - dPix; % initial guess for 'center' parameter, always the shorter wavelength
+    amplitude = data2(n_bright, indDim2, chan_bright); % initial guess for primary line amplitude (always shorter wavelength)
+    param.ratio = (bright - spectrOffst) / (dim2 - spectrOffst); % line amplitude ratio for curve fitting
+
+end
+
+% find approximate width
+
+fwhm = 2 * sum(data2(n_bright, 1:round(center), chan_bright) - offset >= 0.5* (amplitude - offset)); % find crude FWHM
+    % twice the number of pixel on the low wavelength side of the low
+    % wavelength line with amplitude >= 1/2 the primary line
+
+width = fwhm / 2.35482; % convert to standard Gaussian function parameter
+
+area = 
+
+guess = [amplitude, center, width, offset]; % initial guess
+
+%% Fit to Gaussians
+
+fit_par = NaN*zeros(n_time, 4, param.n_chan); % preallocate fit parameters
+resnorm = NaN*zeros(n_time, param.n_chan); % preallocate 'resnorm' array
+blank = NaN*ones(1, 4); % overwrite parameters if found to be bad
+
+options.TolFun = 1e-8*amplitude; % set tolerance
+xdata = 1:ymax; % vector of pixel numbers in wavelength space
+% f = inline('guess(1) * exp(-(xdata - guess(2)).^2 / (2*guess(3)^2)) +
+% guess(4)', 'guess', 'xdata');
+
+for m = 1:param.n_chan % order of 'for' loops switched from normal convention
+                       % so that 'f' is not redefined at every iteration
+                       
+    f = @(guess, xdata)doubletFun(guess, xdata, param.deltaPix(m), param.ratio);
+        % this is an "anonymous function", the purpose of which is to allow
+        % the specification of extra unchanging parameters.
+    
+    for n = 1:n_time
+        % curve fit
+        [fit_par(n, :, m), resnorm(n, m), residual, exitflag] = ...
+            lsqcurvefit(f, guess, xdata, data2(n, :, m), param.lb, param.ub, options);
+        
+        % exclude bad data
+        if or(exitflag == 0, sqrt(resnorm(n, m)) > fit_par(n, 1, m)*param.Resid_to_Sig)
+            fit_par(n, :, m) = blank;
+        end
+        
+    end
+end
+end
