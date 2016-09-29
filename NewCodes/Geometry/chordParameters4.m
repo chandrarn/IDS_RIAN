@@ -105,6 +105,7 @@ impacts1 = -R*sind(angles); % sign flip simply for orientation w.r.t machine
 %% For NIMROD comparison, find angles
 
 % assuming IDS is in port 6 and -6
+CoordRot = 225;
 theta_port = 31.87; % degrees, port axis w.r.t machine radius
 anglesTop = angles + theta_port;
 anglesBot = angles - theta_port;
@@ -113,7 +114,7 @@ terminalAng2 = 180-2.*anglesBot - 59;
 theta1 = terminalAng1;
 theta2 = terminalAng2;
 theta = [terminalAng1(end:-1:1), terminalAng2];
-  theta = mod(theta +225 ,360); % translate to machine coordinates
+  theta = mod(theta +CoordRot ,360); % translate to machine coordinates
 % 
 
 % assuming IDS is in a radial port
@@ -134,10 +135,10 @@ thetaR = 180-2*angles +71;
  origin = [Rnim, 0, 71+225 ; Rnim, 0, -59]; % coordinates of IDS wide angle lens
 origin(1:36,1) = ones(1,36).*Rnim;
 origin(1:36,2) = ones(1,36).*1;
-origin(1:36,3) = ones(1,36).*(59+225);
+origin(1:36,3) = ones(1,36).*(59+CoordRot);
 origin(37:72,1) = ones(1,36).*Rnim;
 origin(37:72,2) = ones(1,36).*1;
-origin(37:72,3) = ones(1,36).*(-59+225);
+origin(37:72,3) = ones(1,36).*(-59+CoordRot);
 
 origin(:,1:2) = origin(:,1:2).*.01;
 
@@ -157,7 +158,7 @@ polar([ones(1,length(theta1)).*originR(3); thetaR].*(pi/180),[ones(36,1).*Rnim o
 % plot(IDSchords(:, 3), '+');
 figure(13)
 polar([ones(1,length(theta1)).*origin(1,3); theta(1:36)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]' ,'-*');
-title('IDS upper/lower fibers, NIMROD coordinates');
+title('IDS upper/lower fibers, Lab Frame');
 hold on;
 polar([ones(1,length(theta2)).*origin(37,3); theta(37:end)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]' ,'-*');
 
@@ -294,7 +295,7 @@ end
 
 %% all the bottom mohawk
 if save6 
-CoordRot = 0;225;
+
 Origin(1:10,1) = ((13.736) + (0:9)'.*9) ;% normalize later + 225; % ports, in Normal Machine Coordinates (Tm)
 Gamma(1:10,1) = 180 - Origin(1:10,1); % angle between origin-port and origin-convergence point
 a = 57.785; %Radial location that the ports converge to 
