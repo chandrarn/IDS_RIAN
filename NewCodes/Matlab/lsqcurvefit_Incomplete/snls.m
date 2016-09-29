@@ -141,6 +141,7 @@ case 'iterplusbounds'  % if no finite bounds, this is the same as 'iter'
 otherwise
    showstat = 1;
 end
+showstat=3;
 
 ex = 0; posdef = 1; npcg = 0; pcgit = 0;
 if strcmp(optimgetv61(options,'DerivativeCheck',defaultopt,'fast'),'on')
@@ -195,12 +196,13 @@ end
 %   Determine gradient of the nonlinear least squares function
 g = feval(mtxmpy,A,fvec(:,1),-1,varargin{:});
 
+
 %   Evaluate F (initial point)
 val = fvec(:,1)'*fvec(:,1); vval(it,1) = val;
 
 %   Display
 if showstat > 1 
-   figtr=display1('init',itb,tol,verb,nbnds,x,g,l,u);
+%   figtr=display1('init',itb,tol,verb,nbnds,x,g,l,u);
 end
 if verb > 1
    disp(header)
@@ -209,6 +211,7 @@ end
 %   Main loop: Generate feas. seq. x(it) s.t. ||F(x(it)|| is decreasing.
 while ~ex 
    if any(~isfinite(fvec)) 
+       assignin('base','xcurr',xcurr);
       errmsg= sprintf('%s%s%s',caller,' cannot continue: ',...
          'user function is returning Inf or NaN values.');
       error(errmsg)
@@ -242,8 +245,8 @@ while ~ex
    bndfeas = min(min(x-l,u-x));
    % Display
    if showstat > 1
-      display1('progress',it,optnrm,val,pcgit,...
-         npcg,degen,bndfeas,showstat,nbnds,x,g,l,u,figtr);
+      %display1('progress',it,optnrm,val,pcgit,...
+         %npcg,degen,bndfeas,showstat,nbnds,x,g,l,u,figtr);
    end
    if verb > 1
       currOutput = sprintf(formatstr,it,numFunEvals,val,nrmsx,optnrm,pcgit);
@@ -401,10 +404,10 @@ end
 %
 %   Display
 if showstat > 1 
-   display1('final',figtr);
+%   display1('final',figtr);
 end
 if showstat 
-   xplot(it,vval,voptnrm,vpos,vdeg,vpcg);
+   %xplot(it,vval,voptnrm,vpos,vdeg,vpcg);
 end
 JACOB = sparse(A);     % A is the Jacobian, not the gradient.
 OUTPUT.firstorderopt = optnrm;

@@ -15,6 +15,7 @@ function p = colmmd(S)
 % warning('MATLAB:colmmd:obsolete', ...
 %     ['COLMMD is obsolete and will be removed in a future version.' ...
 %     ' Use COLAMD instead.']);
+% UPDATED FOR R13
 try
     p = sparsfun('colmmd',S);
     [ignore,q] = sparsfun('coletree',S(:,p));

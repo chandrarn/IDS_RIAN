@@ -106,7 +106,7 @@ defaultopt = struct('Display','final','LargeScale','on', ...
    'TolPCG',0.1,'MaxIter',400,...
    'LineSearchType','quadcubic','LevenbergMarquardt','on'); 
 % If just 'defaults' passed in, return the default options in X
-if nargin==1 && nargout <= 1 && isequal(FUN,'defaults')
+if nargin==1 & nargout <= 1 & isequal(FUN,'defaults')
    x = defaultopt;
    return
 end
@@ -116,10 +116,7 @@ end
       if nargin < 5, LB = [];
          if nargin < 4, 
             error('LSQCURVEFIT requires four input arguments');
-         end 
-      end
-   end
- end
+         end, end, end, end
 if nargout > 5
    computeLambda = 1;
 else 

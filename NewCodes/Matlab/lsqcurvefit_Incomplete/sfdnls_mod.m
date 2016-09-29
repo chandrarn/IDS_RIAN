@@ -28,8 +28,9 @@ end
 
 scalealpha = 0;
 x = xcurr(:); % make it a vector
-[m,n] = size(Jstr); 
-ncol = max(group); epsi = sqrt(eps);
+[m,n] = size(Jstr) ;
+ncol = max(group);
+epsi = sqrt(eps);
 if isempty(alpha)
     scalealpha = 1;
     alpha = ones(ncol,1)*sqrt(eps); 

@@ -15,11 +15,6 @@ lenVarIn = length(varargin);
 
 large = 'large-scale';
 medium = 'medium-scale';
-try
-    cd('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\lsqcurvefit');
-catch
-    cd('/media/alfventemp/RChandra/A-A-Ron Code/Matlab Code/Core Fitting Codes/lsqcurvefit');
-end
 
 switch optimget(options,'Display',defaultopt,'fast')
 case {'off','none'}

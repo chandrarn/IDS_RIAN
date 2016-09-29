@@ -3,8 +3,11 @@
 %clear all;
 % refShot = 151124035;
 % newShot = [151217016:151217026];
-refShot = 160525019
-newShot = [ 160601011:160601026];
+% refShot = 160525019
+% newShot = [ 160601011:160601026];
+refShot = 160601011
+newShot = [ 160728009:160728024];
+
 postHoc = 0; % replace info for already corrected data. 
 
 addpath('T:\IDS\Data Analysis\');

@@ -1,12 +1,12 @@
 function[fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, param, options, nn)
-
+global homePath
 % Revamped 6-4-13 by ACH to handle 2D fitting
 % fit_par = [vol, x0, y0, sigx, sigy, min(Z(:))];
 %addpath('T:\RChandra\A-A-Ron Code\General Matlab');
-addpath('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\lsqcurvefit\');
-addpath('T:\RChandra\NewCodes\Matlab\lsqcurvefit\');
-addpath('T:\RChandra\NewCodes\Matlab\lM Method\');
-addpath('T:\RChandra\NewCodes\Matlab\');
+%addpath([homePath '\A-A-Ron Code\Matlab Code\Core Fitting Codes\lsqcurvefit\']);%Git Compliant
+%addpath('T:\RChandra\NewCodes\Matlab\lsqcurvefit\');
+%addpath('T:\RChandra\NewCodes\Matlab\lM Method\');
+% addpath('T:\RChandra\NewCodes\Matlab\');
 
 
 [n_time, ~, ~] = size(data); % time, wavelength, spatial
