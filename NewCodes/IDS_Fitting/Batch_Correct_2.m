@@ -38,7 +38,7 @@ try
 try
     %addAllThePaths;
 end
-shots = [160622021:160622022, 160728009:160728024, 160802005:160802009];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
+shots = [160615027:160615028, 160728011:160728018, 160728021:160728024 ,160802008:160802013,160802015:160802020, 160803011:160803012];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
 timeBound = []; % time point bounds for BD filtering.  Leave blank to use whole movie
 line = [1:4]; % spectral line number, from longest to shortest wavelength
