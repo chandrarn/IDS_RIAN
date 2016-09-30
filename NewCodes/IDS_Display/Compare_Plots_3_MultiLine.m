@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160601022;
+shot = 160728011;
 
-plotType =4; % 3 = IDS velocity
+plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -38,9 +38,9 @@ plotType =4; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 3; % which line to plot, if5 multiple
+line = 2; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
-shiftVel = -4; % km/s velocty shift
+shiftVel = -11; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
@@ -99,7 +99,7 @@ avNan = 0; % average nans
 jLim = [-40 70]; % Limit for current plots
 
 % timeLim = [1.5 2.3];
-timeLim = [.3 2.125];
+timeLim = [.3 2.4];
 % timeLim = [1.664, 1.872]; % aligned for IDS and both codes
 % timeLim = [0.64 0.97]; % testing NIMROD
 
@@ -481,7 +481,7 @@ else
         %breakyaxis([ ybreak(end)+2, ybreak(1)-2]);
         %breakyaxis([ ybreak(1)+2, ybreak(end)-2]);
     end
-    text(timeLim(2)+.30,15,title1,'Rotation',-90,'Fontsize',fntsz);
+    text(timeLim(2)+.25,15,title1,'Rotation',-90,'Fontsize',fntsz);
 
 end
 
@@ -504,7 +504,7 @@ end
 
 %% Plot Currents
 if ~square
-    ax(2) = axes('Parent', h1, 'Position', [.1 .08 (S(3)-720)./1000 .19], 'FontSize', fntsz);
+    ax(2) = axes('Parent', h1, 'Position', [.1 .08 (S(3)-1042)./1000 .19], 'FontSize', fntsz);
 
     plt1 = '-k';
     plt2 = '-r';

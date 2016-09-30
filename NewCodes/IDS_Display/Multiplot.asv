@@ -631,7 +631,7 @@ for n = 1:length(in)
                        % dataPhase(2,1)=0;
                         dataPhase(1,1)=3.2;
                     elseif (n==2 || n==3) && strcmp(dat(1).title,'Shot 160728011')
-                        dataPhase(:,1) = dataPhase(:,1)+2*pi;
+                        dataPhase(:,1) = dataPhase(:,1)
                     end
                     %dataPhase(:,i) = mod(dataPhase(:,i),5.43); % Minimum resolution, 151217026
                     
@@ -726,11 +726,6 @@ for n = 1:length(in)
                 if mean(mean(dataPhase)) >=pi
                     dataPhase= dataPhase-2*pi;
                     disp('Shifting down by 2pi');
-                end
-                
-                %% HARDCODING PHASE CHANGES, 2PI LEGAL
-                if (n==2 || n==3) && in(1).shot==160728011
-                        dataPhase(:,1) = dataPhase(:,1)+2*pi;
                 end
                 for i=1:size(doubleplot,1)
                     if Analysis==1

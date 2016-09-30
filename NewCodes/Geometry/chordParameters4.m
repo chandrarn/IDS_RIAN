@@ -155,12 +155,16 @@ IDSchords(:, 3) = theta' .* IDSchords(:, 3); % set toroidal angles
 
 figure(12)
 polar([ones(1,length(theta1)).*originR(3); thetaR].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]' ,'-*');
+[ones(1,length(theta1)).*originR(3); thetaR].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]
+title('71^o Port')
 % plot(IDSchords(:, 3), '+');
 figure(13)
 polar([ones(1,length(theta1)).*origin(1,3); theta(1:36)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]' ,'-*');
+[ones(1,length(theta1)).*origin(1,3); theta(1:36)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]
 title('IDS upper/lower fibers, Lab Frame');
 hold on;
 polar([ones(1,length(theta2)).*origin(37,3); theta(37:end)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]' ,'-*');
+[ones(1,length(theta2)).*origin(37,3); theta(37:end)].*(pi/180),[ones(36,1).*Rnim ones(36,1).*Rnim]
 
 if saveNim1
     save IDScoords.mat origin IDSchords;
