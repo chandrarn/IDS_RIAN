@@ -12,7 +12,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% Input Settings
 
 %% IDS DATA
-in(1).shot = 160728011;150625998;
+in(1).shot = 160728023;150625998;
 in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
 in(1).color = {'r';[225,105,0]./255};
@@ -28,11 +28,12 @@ in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 in(1).fftPlot = [1]; % FFT of signal, n frequencies
 %%% 160728
 in(2)=in(1);
-in(3)=in(1);
-in(2).shot = 160728013;
+in(2).shot = 160728024;
+in(2).line=2;
 in(2).color = {'b';[66, 188, 244]./255};
-in(3).shot = 160728014;
-in(3).color = {'g';[182, 244, 66]./255};
+% in(3)=in(1);
+% in(3).shot = 160728014;
+% in(3).color = {'g';[182, 244, 66]./255};
 
 % in(2).shot = 160615023;150625998;
 % in(2).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
@@ -78,7 +79,14 @@ in(3).color = {'g';[182, 244, 66]./255};
 % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 % in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
 % in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% 
+% % 129450, 129451
+% in(2) = in(1);
+% in(2).shot=129450;
+% in(2).line=2;
+% in(2).color = {'b';[66, 188, 244]./255};
+% in(3)=in(1);
+% in(3).shot = 129451;
+% in(3).color = {'g';[182, 244, 66]./255};
 % in(2).shot = 151217026;%150625998;
 % in(2).line = 2; % line # NB: 1 is O II, 2 is C III !
 % in(2).legend = [num2str(in(1).shot) ' O II'];
@@ -316,8 +324,8 @@ elseif in(1).shot == 160622021
     timebound = [1.2,2.05];
     chan_ranget = [10:24];
     chan_rangep = [46:60];
-elseif in(1).shot >= 160728009 && in(1).shot <= 160728020
-    timebound = [1.8,2.00];
+elseif in(1).shot >= 160728009 && in(1).shot <= 160728024
+    timebound = [1.55,2.00];
     chan_ranget = [9:24];
     chan_rangep = [45:60];
 end
@@ -691,7 +699,7 @@ for n = 1:length(in)
                     end
                 end
             end
-            if in(n).fftPlot & in(n).doubleplot==1
+            if in(n).fftPlot & in(n).doubleplot==1 % This one is usually executed
                 for i = 1:size(data, 2)
                     cycle1 = (param(i,3,n)*sin(param(i,4,n)+(2*pi).*(0:(1/100):1))+param(i,2,n));
                     cycle2 = (param(i,8,n)*sin(param(i,9,n)+(2*pi).*(0:(1/100):1))+param(i,7,n));
@@ -707,9 +715,10 @@ for n = 1:length(in)
                     set(gca,'ylim',[-2,20]);
                     
                     figure(h3);
-                elseif Analysis==2
+                elseif Analysis==2 
                     %for k=1:2;for j=1:length(dataAvg(:,k));try dataAvg(j.*(pRel(j,k)<.5),k)=NaN;end;end;end
-                     errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),L,U,'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
+                     errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),L,U,'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style,...
+                         'MarkerEdgeColor',[in(n).color{1}]);
                     set(ax7,'ylim',[-2,20]);
                 end
                 % Plot Phases
@@ -730,7 +739,7 @@ for n = 1:length(in)
                 
                 %% HARDCODING PHASE CHANGES, 2PI LEGAL
                 if (n==2 || n==3) && in(1).shot==160728011
-                        dataPhase(:,1) = dataPhase(:,1)+2*pi;
+                        dataPhase(:,2) = dataPhase(:,2)+4*pi;
                 end
                 for i=1:size(doubleplot,1)
                     if Analysis==1
@@ -752,15 +761,22 @@ for n = 1:length(in)
                 if n==1;figure(h2);end
             elseif in(n).fftPlot & Analysis ==2
                 % flow
-                errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2),param(:,3),param(:,3),'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
+                if in(n).shot > 130000
+                errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2),param(:,3),param(:,3),'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style,...
+                    'MarkerFaceColor',[in(n).color{1}]);
+                end
                 set(ax7,'ylim',[-2,15]);
-                
+               
                 % Plot Phases
                 hold on;
                 if max(max(dataPhase))>2*pi
                     dataPhase=dataPhase-(max(max(dataPhase))-2*pi);
                 end
                 for j=1:length(dataPhase(:,1));try dataPhase(j.*(pRel(j,i)<CutPow),1)=NaN;end;end
+                %% HARDCODING
+                if (n==3) && in(1).shot==129499
+                        dataPhase = dataPhase-pi;
+                end
                 plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
                 ylabel(ax8,'[deg]');set(ax8,'ylim',[0,400]);set(ax8,'xticklabel',[]);
                 set(ax8,'xlim',xlim);
@@ -771,7 +787,7 @@ for n = 1:length(in)
                  ylabel(ax9,'[%]');set(ax9,'ylim',[0,100]);
                  set(ax9,'xlim',xlim); title(ax9,'Inj. Mode % of Reconstruction');
                 plot(ax9,xlim,[CutPow,CutPow].*100,'--k');
-                figure(h2);
+                if n == 1;figure(h2);end
             end
             %plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'k','LineWidth', lnwdth, 'LineStyle', in(n).style);
             if Analysis==1 & in(n).doubleplot==1
@@ -800,7 +816,7 @@ for n = 1:length(in)
     for j = 1:size(data, 2)
        %PhaseVelocity.Velocity(j,:) = PhaseVelocity.Velocity(j,:)+ (j-1)*50;   
         data(:, j) = data(:, j) + (j-1) * offset;
-        zeroline(:,j) = zeros(size(data,1)/2,1)+(j-1) * offset;
+        zeroline(:,j) = zeros(ceil(size(data,1)/2),1)+(j-1) * offset;
     end
 
     %% Plot Data
