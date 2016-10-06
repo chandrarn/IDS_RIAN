@@ -12,10 +12,10 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% Input Settings
 
 %% IDS DATA
-in(1).shot = 160728011;150625998;
+in(1).shot = 8160609009;150625998;
 in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-in(1).legend = [num2str(in(1).shot) ': -48.3kA'];
+in(1).legend = [num2str(in(1).shot) ': -68.6kA'];
 in(1).color = {'r';[225,105,0]./255};
 in(1).style = {'-','--'};
 in(1).error = 0; % 1 / 0 for errorbars
@@ -26,18 +26,18 @@ in(1).timeScale = 1e-3; % scale timebase to put into ms
 in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).fftPlot = []; % FFT of signal, n frequencies
 in(1).AnalysisTitle='HIT-SI3: 0-120-240 Phasing, OII';
-%% 160728
-in(2)=in(1);
-in(2).shot = 160728012;
-in(2).line=1;
-in(2).color = {'b';[66, 188, 244]./255};
-in(2).legend = [num2str(in(2).shot) ': -50.0kA'];
-in(3)=in(1);
-in(3).shot = 160728013;
-in(3).color = {'g';[182, 244, 66]./255};
-in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
+% %% 160728
+% in(2)=in(1);
+% in(2).shot = 160728012;
+% in(2).line=2;
+% in(2).color = {'b';[66, 188, 244]./255};
+% in(2).legend = [num2str(in(2).shot) ': -50.0kA'];
+% in(3)=in(1);
+% in(3).shot = 160728013;
+% in(3).color = {'g';[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 
 % in(2).shot = 160615023;150625998;
 % in(2).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
@@ -291,6 +291,7 @@ saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 % defaults
 chan_ranget = [7:26];
 chan_rangep = [43:62];
+xlim = [0,50];
 % 151217026 values:
 if in(1).shot == 151217026
     chan_ranget = [13:26];[3:62];[8:26]; % toroidal, mohawk port in midplane
@@ -339,10 +340,15 @@ elseif in(1).shot >= 160728009 && in(1).shot <= 160728024
     timebound = [1.55,2.00];
     chan_ranget = [9:24];
     chan_rangep = [45:60];
+elseif in(1).shot > 200000000 % nimrod shot
+    chan_ranget = [1:36];
+    chan_rangep = [37:72];
+    timebound = [.9,1.48];
+    xlim = [-20, 60];
 end
 chan_range = [chan_ranget, chan_rangep];
 %chan_range = chan_ranget;
-xlim = [0,50];
+
 %chan_range = chan_rangep
 %chan_range = [1:68];
 %chan_range = [8:2:24];

@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160728011;
+shot = 8160609009;
 
-plotType =4; % 3 = IDS velocity
+plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -40,7 +40,7 @@ plotType =4; % 3 = IDS velocity
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
 line = 1; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
-shiftVel = -11; % km/s velocty shift
+shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
@@ -53,7 +53,7 @@ deltaR = 0; % calculate the plasma displacement assuming temperature is false
 uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
-spa000 = 1; % plot spa045 and spa000 from PDC tree
+spa000 = 0; % plot spa045 and spa000 from PDC tree
 treeType = 'analysis3';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
@@ -64,7 +64,7 @@ saveFigure = 0; % save figure to file
 fileName = '/home/aaron/Dropbox/Thesis/Latex/Images/'; % file name for .png image
 
 timeInMs = 1; % displays time in ms, otherwise time point number
-useImpacts = 1; % plot the x scale in terms of impact parameter, else channel
+useImpacts = 0; % plot the x scale in terms of impact parameter, else channel
 
 screenArea = 0; % run velocity and temperature through a filter to discard points with low area
 scArea = 100; % lower limit for Area
@@ -108,12 +108,14 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
 % chan_ranget = 1:30; % NIMROD mohawk
+chan_ranget = [1:36];
 
  chan_rangep = [46:63]; % poloidal
 %chan_rangep = [37:62]; % poloidal
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 
+chan_rangep = [37:72];
 
 switch line 
     case 1
@@ -150,7 +152,7 @@ end
 
 % Trim all Data for channel range
 cd('T:\RChandra\NewCodes\IDS_Display');
-dat = trimRange(dat, chan_range,(plotType>9)*(plotType<14),[],plotType==18);
+%dat = trimRange(dat, chan_range,(plotType>9)*(plotType<14),[],plotType==18);
 %ybreak = [ dat(1).impacts(length(chan_ranget)), dat(1).impacts(end)];
 %dat.time = dat.time + shiftTime;
 %             dat.ItorTime = dat.ItorTime + shiftTime;
@@ -548,6 +550,9 @@ if ~square
 %         set(he, 'LineWidth', lnwdth);
         hf = plot(itor045Time, itor045, plt4);
 %         set(hf, 'LineWidth', lnwdth);
+    else
+        he = plot(dat(1).ItorTime,dat(1).Itor,plt1);
+        set(he,'LineWidth',lnwdth);
     end
 
 
