@@ -20,7 +20,7 @@ last = param.peaks(end, 2);
 chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
-lam_bound = round(param.Center(1, 1)) - BDwing+6 : round(param.Center(1, end)) + BDwing +18
+lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
