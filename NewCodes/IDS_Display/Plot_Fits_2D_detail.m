@@ -2,7 +2,9 @@
 % Plot raw data and reconstructed fits
 
 %notes: if the channel numbers being used is odd, may need to change
-%chan_sets, and n_chx,n_chy, (n_chx*n_chy = length(chans1))
+%chan_sets, and n_chx,n_chy, (n_chx*n_chy = length(chans1)) 
+
+%Cyan is initial guess, blue is final fit
 
 %close all; 
 clear all; clc;
@@ -13,15 +15,15 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 15121702610;
+shot = 16062202110;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
-chans1 = chan_sets(1, :);
+chans1 = chan_sets(2, :);
 deadCh = [4]; % dead channel for displaying time instead of data
-line = 1; % line INDEX, ie: dat(#).vel
+line = 2; % line INDEX, ie: dat(#).vel
 
 % Make Movie --------------------------------------------------------------
 % timeLim = 30:48;
-timeLim = [50:200];
+timeLim = [150:266];
 saveMOVIE = 0;
 fileMOVIE = ['/home/aaron/IDS/Display/Images/fits' num2str(shot)];
 

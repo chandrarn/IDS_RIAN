@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160728024;
+shot = 160728011;
 
-plotType =3; % 3 = IDS velocity
+plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -109,8 +109,8 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:24]; % toroidal, axial port
 % chan_ranget = 1:30; % NIMROD mohawk
 
-% chan_rangep = [46:63]; % poloidal
-chan_rangep = [37:62]; % poloidal
+ chan_rangep = [46:63]; % poloidal
+%chan_rangep = [37:62]; % poloidal
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 

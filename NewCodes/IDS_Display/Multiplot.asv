@@ -13,7 +13,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 
 %% IDS DATA
 in(1).shot = 160728011;150625998;
-in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
 in(1).legend = [num2str(in(1).shot) ': -48.3kA'];
 in(1).color = {'r';[225,105,0]./255};
@@ -27,11 +27,11 @@ in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle='HIT-SI3: 0-120-240 Phasing, OII';
+in(1).AnalysisTitle='HIT-SI3: 0-120-240 Phasing, CIII';
 %% 160728
 in(2)=in(1);
 in(2).shot = 160728012;
-in(2).line=1;
+in(2).line=2;
 in(2).color = {'b';[66, 188, 244]./255};
 in(2).legend = [num2str(in(2).shot) ': -50.0kA'];
 in(3)=in(1);
@@ -762,10 +762,10 @@ for n = 1:length(in)
                         dataPhase(:,1) = dataPhase(:,1)+2*pi;
                 end
                 if in(n).shot == 160728021 && in(n).line==1
-                    dataPhase = dataPhase+pi;
+                    dataPhase = dataPhase+2*pi;
                 end
                 if in(n).shot == 160728012 && in(n).line==2
-                    %dataPhase(:,2) = dataPhase(:,2)+2*pi;
+                    dataPhase(:,2) = dataPhase(:,2)+pi;
                 end
                 for i=1:size(doubleplot,1)
                     if Analysis==1
