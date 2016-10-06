@@ -23,7 +23,7 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
         param.peaks = reshape(param.peaks,[],5); % sometimes this array is squeezed into a vector
         param.peaks(:,3) = param.peaks(:,3) + y0;
         param.peaks(:,2) = param.peaks(:,2) + x0;
-        param.peaks(find(dat(1).param.peaks(:,1)==32):end,2) = param.peaks(find(dat(1).param.peaks(:,1)==32):end,2) -1; % temp fix for lower array
+        param.peaks(find(param.peaks(:,1)==32):end,2) = param.peaks(find(param.peaks(:,1)==32):end,2) -1; % temp fix for lower array
 %         param.peaks([11:18,20:21,27:28,42:49,52:55],2) = ... % X0 fix, manual
 %             param.peaks([11:18,20:21,27:28,42:49,52:55],2) + 1; % ELIMINATE 21/1/16, for 151217026
 %         param.peaks(:,2)=[10.4032211303711;18.8437366485596;22.8630275726318;27.0328025817871;31.2429351806641;35.3626976013184;39.3851165771484;43.4999961853027;47.8446655273438;51.8583030700684;57.1608161926270;61.2901458740234;65.2988357543945;69.4239120483398;73.5000000000000;77.8307952880859;81.9760971069336;86.3938293457031;89.6407775878906;94.8055343627930;99.4050903320313;103.091369628906;107.623367309570;112.115753173828;116.500030517578;120.619110107422;126.184967041016;130.282913208008;133.638137817383;168.182846069336;172.125213623047;176.224822998047;180.380523681641;184.577499389648;188.500000000000;192.791595458984;196.903701782227;200.937759399414;205.153228759766;209.132675170898;213.189437866211;218.525543212891;222.659332275391;226.430557250977;230.706726074219;234.934707641602;239.075592041016;243.093505859375;247.370925903320;250.500000000000;250.661163330078;250.856323242188;250.171112060547;250.353759765625;250.994598388672]' -2;
@@ -119,7 +119,7 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
         % above limits for [temp; vel]
     param.n_chan = size(param.peaks, 1);
 
-    param.calcError = 0; % calculate uncertainty by LM method - presently broken
+    param.calcError = 1; % calculate uncertainty by LM method - presently broken
     param.ampThresh = 1; % [pixels], amplitude threshold TEMP SET TO ONE
     param.xTol = 0.5; % [pixels], tolerance of recentering on line in spatial dimension
     param.yTol = 3.5; % [pixels], tolerance for velocity offset

@@ -38,11 +38,11 @@ try
 try
     %addAllThePaths;
 end
-shots = [160804011:160804037,160927026:160927032,160825019,160825021:160825023];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
+shots = [160622021];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 shots=shots(end:-1:1);
 nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
-timeBound = []; % time point bounds for BD filtering.  Leave blank to use whole movie
-line = [1:4]; % spectral line number, from longest to shortest wavelength
+timeBound = [100:266]; % time point bounds for BD filtering.  Leave blank to use whole movie
+line = [1:2]; % spectral line number, from longest to shortest wavelength
 useTree = 1; % Use ONLY in cases where caliibration was unable to save to the tree
 %Is the file/tree stucture from HIT-SI, or HIT-SI3?
 % (length(shots(1))>6)
