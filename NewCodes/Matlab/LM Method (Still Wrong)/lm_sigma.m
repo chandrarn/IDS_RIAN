@@ -1,4 +1,4 @@
-function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,p_min,p_max,c)
+function [X2, sigma_p, sigma_y, corr, R_sq] = lm_sigma(func, p, t, y_dat, dp, c, weight)
 
 % [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,p_min,p_max,c)
 %
@@ -66,10 +66,10 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
  prnt = 0;		% >0 final results; >1 intermediate results; >2 plots
  MaxIter = 20*Npar;	% maximum number of iterations
  epsilon_1     = 1e-6;	% convergence tolerance for gradient
- epsilon_2     = 1e-5;	% convergence tolerance for parameters
- epsilon_3     = 1e-9;	% convergence tolerance for Chi-square
- epsilon_4     = 1e-1;	% determines acceptance of a L-M step
- lambda_0      = 1e-1;	% initial value of damping paramter, lambda
+ epsilon_2     = 1e-6;	% convergence tolerance for parameters
+ epsilon_3     = 1e-5;	% convergence tolerance for Chi-square
+ epsilon_4     = 1e-2;	% determines acceptance of a L-M step
+ lambda_0      = 1e-2;	% initial value of damping paramter, lambda
  lambda_UP_fac = 11;	% factor for increasing lambda
  lambda_DN_fac =  9;	% factor for decreasing lambda
  Update_Type   =  1;	% 1: Levenberg-Marquardt lambda update
@@ -81,13 +81,13 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
  plotcmd='figure(11); plot(t(:,1),y_dat,''og'',t(:,1),y_hat,''-b''); drawnow ';
 
 
- if nargin < 5, weight = sqrt((Npnt-Npar+1)/(y_dat'*y_dat)); end
- if nargin < 6, dp = 0.001; end
- if nargin < 7, p_min   = -100*abs(p); end
- if nargin < 8, p_max   =  100*abs(p); end
- if nargin < 9, c       =  1; end
+%  if nargin < 5, weight = sqrt((Npnt-Npar+1)/(y_dat'*y_dat)); end
+%  if nargin < 6, dp = 0.001; end
+%  if nargin < 7, p_min   = -100*abs(p); end
+%  if nargin < 8, p_max   =  100*abs(p); end
+%  if nargin < 9, c       =  1; end
 
- p_min=p_min(:); p_max=p_max(:); 	% make column vectors
+%  p_min=p_min(:); p_max=p_max(:); 	% make column vectors
 
  if length(dp) == 1, dp = dp*ones(Npar,1); end
 
@@ -95,174 +95,177 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
  Nfit = length(idx);			% number of parameters to fit
  stop = 0;				% termination flag
 
- if ( length(weight) < Npnt )		% squared weighting vector 
-	weight_sq = ( weight(1)*ones(Npnt,1) ).^2;	
- else
- 	weight_sq = (weight(:)).^2;
- end
+%  if ( length(weight) < Npnt )		% squared weighting vector 
+% 	weight_sq = ( weight(1)*ones(Npnt,1) ).^2;	
+%  else
+%  	weight_sq = (weight(:)).^2;
+%  end
+% 
+%  [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
+% 
+%  if ( max(abs(beta)) < epsilon_1 )
+% 	fprintf(' *** Your Initial Guess is Extremely Close to Optimal ***\n')
+% 	fprintf(' *** epsilon_1 = %e\n', epsilon_1);
+% 	stop = 1;
+%  end
+% 
+% 
+%  if ( Update_Type == 1 )
+% 	lambda  = lambda_0;			% Marquardt: init'l lambda
+%  else 	
+% 	lambda  = lambda_0 * max(diag(alpha));	% Mathworks and Nielsen
+% 	nu=2;
+%  end
+% 
+% 
+%  X2_old = X2;					% previous value of X2 
+%  p_old = 2*p;					% previous parameters
+% 
+%  cvg_hst = ones(MaxIter,Npar+2);		% initialize convergence history
+% 
+%  iteration = 0;					% iteration counter
+%  while ( ~stop & iteration <= MaxIter )		% --- Main Loop
+% 
+%    iteration = iteration + 1;
+%  
+% % incremental change in parameters
+%    if ( Update_Type == 1 )
+%       delta_p = ( alpha + lambda*diag(diag(alpha)) ) \ beta;	% Marquardt
+%    else
+%       delta_p = ( alpha + lambda*eye(Npar) ) \ beta;	% Mathworks and Nielsen
+%    end
+% 
+% %  big = max(abs(delta_p./p)) > 2;			% this is a big step
+% 
+%    % --- Are parameters [a+delta_a] much better than [a] ?
+% 
+%    p_try = p + delta_p(idx);                      % update the [idx] elements 
+%    p_try = min(max(p_min,p_try),p_max);           % apply constraints
+% 
+%    delta_y = y_dat - feval(func,t,p_try,c);       % residual error using a_try
+%    func_calls = func_calls + 1;
+%    X2_try = delta_y' * ( delta_y .* weight_sq );  % Chi-squared error criteria
+% 
+%    if ( Update_Type == 2 )  
+% %    One step of quadratic line update in the delta_a direction for minimum X2
+%      X2_try1 = X2_try;
+%      alpha_q = beta'*delta_p / ( (X2_try1 - X2)/2 + 2*beta'*delta_p ) ;
+%      delta_p = delta_p * alpha_q;
+% 
+%      p_try = p + delta_p(idx);                     % update only [idx] elements
+%      p_try = min(max(p_min,p_try),p_max);          % apply constraints
+% 
+%      delta_y = y_dat - feval(func,t,p_try,c);      % residual error using p_try
+%      func_calls = func_calls + 1;
+%      X2_try = delta_y' * ( delta_y .* weight_sq ); % Chi-squared error criteria
+%    end
+% 
+%    rho = (X2 - X2_try) / ( 2*delta_p' * (lambda * delta_p + beta) ); % Nielsen
+% 
+%    if ( rho > epsilon_4 )		% it IS significantly better
+% 
+%  	X2_old = X2;
+%  	p_old = p;
+%   	p = p_try(:);			% accept p_try
+% 
+%         [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
+% 
+% 				% decrease lambda ==> Gauss-Newton method
+% 
+%  	if ( Update_Type == 1 )
+%  	    lambda = max(lambda/lambda_DN_fac,1.e-7);		% Levenberg
+%  	end		
+%  	if ( Update_Type == 2 )
+%  	    lambda = max( lambda/(1 + alpha_q) , 1.e-7 );	% Mathworks
+% 	end
+%  	if ( Update_Type == 3 )
+%             lambda = lambda*max( 1/3, 1-(2*rho-1)^3 ); nu = 2;	% Nielsen
+%         end
+% 
+%  	if ( prnt > 2 )
+%  	    eval(plotcmd);
+%  	end
+% 
+%    else					% it IS NOT better
+% 
+% 	X2 = X2_old;			% do not accept a_try
+% 
+% 				% increase lambda  ==> gradient descent method
+% 
+%  	if ( Update_Type == 1 )	
+%  	    lambda = min(lambda*lambda_UP_fac,1.e7);		% Levenberg
+% 	end		
+%  	if ( Update_Type == 2 )	
+%  	    lambda = lambda + abs((X2_try - X2)/2/alpha_q);	% Mathworks
+% 	end
+%  	if ( Update_Type == 3 )	
+%  	    lambda = lambda * nu;   nu = 2*nu;			% Nielsen
+% 	end
+% 
+%    end
+% 
+%    if ( prnt > 1 )
+%     fprintf('>%3d | chi_sq=%10.3e | lambda=%8.1e \n', iteration,X2,lambda );
+%     fprintf('    param:  ');
+%     for pn=1:Npar
+%        fprintf(' %10.3e', p(pn) );
+%     end
+%     fprintf('\n');
+%     fprintf('    dp/p :  ');
+%     for pn=1:Npar
+%        fprintf(' %10.3e', delta_p(pn) / p(pn) );
+%     end
+%     fprintf('\n');
+%    end
+% 
+% 
+%    cvg_hst(iteration,:) = [ p'  X2/2  lambda ];	% update convergence history
+% 
+% 
+%    if ( max(abs(delta_p./p)) < epsilon_2  &  iteration > 2 ) 
+% 	fprintf(' **** Convergence in Parameters **** \n')
+% 	fprintf(' **** epsilon_2 = %e\n', epsilon_2);
+% 	stop = 1;
+%    end
+%    if ( X2/Npnt < epsilon_3  &  iteration > 2 ) 
+% 	fprintf(' **** Convergence in Chi-square  **** \n')
+% 	fprintf(' **** epsilon_3 = %e\n', epsilon_3);
+% 	stop = 1;
+%    end
+%    if ( max(abs(beta)) < epsilon_1  &  iteration > 2 ) 
+% 	fprintf(' **** Convergence in r.h.s. ("beta")  **** \n')
+% 	fprintf(' **** epsilon_1 = %e\n', epsilon_1);
+% 	stop = 1;
+%    end
+%    if ( iteration == MaxIter )
+% 	disp(' !! Maximum Number of Iterations Reached Without Convergence !!')
+%         stop = 1;
+%    end
+% 
+%  end					% --- End of Main Loop
 
- [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
-
- if ( max(abs(beta)) < epsilon_1 )
-	fprintf(' *** Your Initial Guess is Extremely Close to Optimal ***\n')
-	fprintf(' *** epsilon_1 = %e\n', epsilon_1);
-	stop = 1;
- end
-
-
- if ( Update_Type == 1 )
-	lambda  = lambda_0;			% Marquardt: init'l lambda
- else 	
-	lambda  = lambda_0 * max(diag(alpha));	% Mathworks and Nielsen
-	nu=2;
- end
-
-
- X2_old = X2;					% previous value of X2 
- p_old = 2*p;					% previous parameters
-
- cvg_hst = ones(MaxIter,Npar+2);		% initialize convergence history
-
- iteration = 0;					% iteration counter
- while ( ~stop & iteration <= MaxIter )		% --- Main Loop
-
-   iteration = iteration + 1;
- 
-% incremental change in parameters
-   if ( Update_Type == 1 )
-      delta_p = ( alpha + lambda*diag(diag(alpha)) ) \ beta;	% Marquardt
-   else
-      delta_p = ( alpha + lambda*eye(Npar) ) \ beta;	% Mathworks and Nielsen
-   end
-
-%  big = max(abs(delta_p./p)) > 2;			% this is a big step
-
-   % --- Are parameters [a+delta_a] much better than [a] ?
-
-   p_try = p + delta_p(idx);                      % update the [idx] elements 
-   p_try = min(max(p_min,p_try),p_max);           % apply constraints
-
-   delta_y = y_dat - feval(func,t,p_try,c);       % residual error using a_try
-   func_calls = func_calls + 1;
-   X2_try = delta_y' * ( delta_y .* weight_sq );  % Chi-squared error criteria
-
-   if ( Update_Type == 2 )  
-%    One step of quadratic line update in the delta_a direction for minimum X2
-     X2_try1 = X2_try;
-     alpha_q = beta'*delta_p / ( (X2_try1 - X2)/2 + 2*beta'*delta_p ) ;
-     delta_p = delta_p * alpha_q;
-
-     p_try = p + delta_p(idx);                     % update only [idx] elements
-     p_try = min(max(p_min,p_try),p_max);          % apply constraints
-
-     delta_y = y_dat - feval(func,t,p_try,c);      % residual error using p_try
-     func_calls = func_calls + 1;
-     X2_try = delta_y' * ( delta_y .* weight_sq ); % Chi-squared error criteria
-   end
-
-   rho = (X2 - X2_try) / ( 2*delta_p' * (lambda * delta_p + beta) ); % Nielsen
-
-   if ( rho > epsilon_4 )		% it IS significantly better
-
- 	X2_old = X2;
- 	p_old = p;
-  	p = p_try(:);			% accept p_try
-
-        [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
-
-				% decrease lambda ==> Gauss-Newton method
-
- 	if ( Update_Type == 1 )
- 	    lambda = max(lambda/lambda_DN_fac,1.e-7);		% Levenberg
- 	end		
- 	if ( Update_Type == 2 )
- 	    lambda = max( lambda/(1 + alpha_q) , 1.e-7 );	% Mathworks
-	end
- 	if ( Update_Type == 3 )
-            lambda = lambda*max( 1/3, 1-(2*rho-1)^3 ); nu = 2;	% Nielsen
-        end
-
- 	if ( prnt > 2 )
- 	    eval(plotcmd);
- 	end
-
-   else					% it IS NOT better
-
-	X2 = X2_old;			% do not accept a_try
-
-				% increase lambda  ==> gradient descent method
-
- 	if ( Update_Type == 1 )	
- 	    lambda = min(lambda*lambda_UP_fac,1.e7);		% Levenberg
-	end		
- 	if ( Update_Type == 2 )	
- 	    lambda = lambda + abs((X2_try - X2)/2/alpha_q);	% Mathworks
-	end
- 	if ( Update_Type == 3 )	
- 	    lambda = lambda * nu;   nu = 2*nu;			% Nielsen
-	end
-
-   end
-
-   if ( prnt > 1 )
-    fprintf('>%3d | chi_sq=%10.3e | lambda=%8.1e \n', iteration,X2,lambda );
-    fprintf('    param:  ');
-    for pn=1:Npar
-       fprintf(' %10.3e', p(pn) );
-    end
-    fprintf('\n');
-    fprintf('    dp/p :  ');
-    for pn=1:Npar
-       fprintf(' %10.3e', delta_p(pn) / p(pn) );
-    end
-    fprintf('\n');
-   end
-
-
-   cvg_hst(iteration,:) = [ p'  X2/2  lambda ];	% update convergence history
-
-   if prnt > 1
-   if ( max(abs(delta_p./p)) < epsilon_2  &  iteration > 2 ) 
-	fprintf(' **** Convergence in Parameters **** \n')
-	fprintf(' **** epsilon_2 = %e\n', epsilon_2);
-	stop = 1;
-   end
-   if ( X2/Npnt < epsilon_3  &  iteration > 2 ) 
-	fprintf(' **** Convergence in Chi-square  **** \n')
-	fprintf(' **** epsilon_3 = %e\n', epsilon_3);
-	stop = 1;
-   end
-   if ( max(abs(beta)) < epsilon_1  &  iteration > 2 ) 
-	fprintf(' **** Convergence in r.h.s. ("beta")  **** \n')
-	fprintf(' **** epsilon_1 = %e\n', epsilon_1);
-	stop = 1;
-   end
-   if ( iteration == MaxIter )
-	disp(' !! Maximum Number of Iterations Reached Without Convergence !!')
-        stop = 1;
-   end
-   
-   end
-
- end					% --- End of Main Loop
+% Additions by ACH:
+delta_y = y_dat - feval(func,t,p,c);
 
  % --- convergence achieved, find covariance and confidence intervals
 
-% equal weights for paramter error analysis
-
- if ~( max(abs(beta)) < epsilon_1 )
-    weight_sq = (Npnt-Nfit+1)/(delta_y'*delta_y) * ones(Npnt,1);
+ if weight == 0 % manual weighting turned off
+ 
+    weight_sq = (Npnt-Nfit+1) ./ delta_y.^2;
+ else
+     weight_sq = (Npnt-Nfit+1) ./ weight.^2;
  end
+
  [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
 
  X2 = X2/2;
 
- if nargout > 2				% standard error of parameters 
+ if nargout > 1				% standard error of parameters 
    covar = inv(alpha);
    sigma_p = sqrt(diag(covar));
  end
 
- if nargout > 3				% standard error of the fit
+ if nargout > 2				% standard error of the fit
 %  sigma_y = sqrt(diag(dydp * covar * dydp'));
    sigma_y = zeros(Npnt,1);
    for i=1:Npnt
@@ -271,24 +274,23 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
    sigma_y = sqrt(sigma_y);
  end
 
- if nargout > 4				% parameter correlation matrix
+ if nargout > 3				% parameter correlation matrix
    corr = covar ./ [sigma_p*sigma_p'];	
  end
 
- if nargout > 5				% coefficient of multiple determination
+ if nargout > 4				% coefficient of multiple determination
    R_sq = corrcoef([y_dat y_hat]);
    R_sq = R_sq(1,2).^2;		
  end
 
- if nargout > 6				% convergence history
-   cvg_hst = cvg_hst(1:iteration,:);
- end
+%  if nargout > 5				% convergence history
+%    cvg_hst = cvg_hst(1:iteration,:);
+%  end
 
  if ( prnt > 0 )
 	func_calls
 	R_sq
 	sigma_p
-    sigma_y
 	corr
  end
 

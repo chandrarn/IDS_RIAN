@@ -72,7 +72,7 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
  lambda_0      = 1e-1;	% initial value of damping paramter, lambda
  lambda_UP_fac = 11;	% factor for increasing lambda
  lambda_DN_fac =  9;	% factor for decreasing lambda
- Update_Type   =  1;	% 1: Levenberg-Marquardt lambda update
+ Update_Type   =  2;	% 1: Levenberg-Marquardt lambda update
                         % 2: Quadratic update (as in Mathworks lstsqrnonlin)
 			% 3: Nielsen's lambda update equations
 
@@ -248,11 +248,9 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
 
  % --- convergence achieved, find covariance and confidence intervals
 
-% equal weights for paramter error analysis
+% equal weights for paramter error analysis 
+ weight_sq = (Npnt-Nfit+1)/(delta_y'*delta_y) * ones(Npnt,1);
 
- if ~( max(abs(beta)) < epsilon_1 )
-    weight_sq = (Npnt-Nfit+1)/(delta_y'*delta_y) * ones(Npnt,1);
- end
  [alpha,beta,X2,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c);
 
  X2 = X2/2;
@@ -288,7 +286,6 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
 	func_calls
 	R_sq
 	sigma_p
-    sigma_y
 	corr
  end
 
