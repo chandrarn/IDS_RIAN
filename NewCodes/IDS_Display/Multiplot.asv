@@ -12,31 +12,31 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% Input Settings
 
 %% IDS DATA
-in(1).shot = 160728011;150625998;
-in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).shot = 160728021;150625998;
+in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
 in(1).legend = [num2str(in(1).shot) ': -48.3kA'];
-in(1).color = {'r';[225,105,0]./255};
+in(1).color = {'r';'r'};%[225,105,0]./255};
 in(1).style = {'-','--'};
 in(1).error = 0; % 1 / 0 for errorbars
 in(1).velShift = -5; % SHIFT VELOCITY
-in(1).intScale = 1; % scale factor for intensity
+in(1).intScale = 2; % scale factor for intensity
 in(1).timeShift = 0; % ms, shift time base
 in(1).timeScale = 1e-3; % scale timebase to put into ms
 in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle='HIT-SI3: 0-120-240 Phasing, CIII';
-%% 160728
+in(1).AnalysisTitle='HIT-SI3: 0-60-120 Phasing, OII'
+% % 160728
 in(2)=in(1);
-in(2).shot = 160728012;
-in(2).line=2;
-in(2).color = {'b';[66, 188, 244]./255};
-in(2).legend = [num2str(in(2).shot) ': -50.0kA'];
+in(2).shot = 160728023;
+in(2).line=1;
+in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(2).legend = [num2str(in(2).shot) ': -50.8kA'];
 in(3)=in(1);
-in(3).shot = 160728013;
-in(3).color = {'g';[182, 244, 66]./255};
+in(3).shot = 160728024;
+in(3).color = {'g';'g'};%[182, 244, 66]./255};
 in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 
 % in(2).shot = 160615023;150625998;
@@ -69,8 +69,8 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 % in(3).fftPlot = []; % FFT of signal, n frequencies
 
 
-% 129499 
-% note: need to change .*1e-6 to .*1e-3 in sinefit
+% % 129499 
+% % note: need to change .*1e-6 to .*1e-3 in sinefit
 % in(1).shot = 129499;%150625998;
 % in(1).line = 2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ': +90kA'];
@@ -84,7 +84,7 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 % in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 % in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).fftPlot = []; % FFT of signal, n frequencies
 % in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
 % % 129450, 129451
 % in(2) = in(1);
@@ -291,6 +291,7 @@ saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 % defaults
 chan_ranget = [7:26];
 chan_rangep = [43:62];
+xlim = [0,50];
 % 151217026 values:
 if in(1).shot == 151217026
     chan_ranget = [13:26];[3:62];[8:26]; % toroidal, mohawk port in midplane
@@ -339,10 +340,14 @@ elseif in(1).shot >= 160728009 && in(1).shot <= 160728024
     timebound = [1.55,2.00];
     chan_ranget = [9:24];
     chan_rangep = [45:60];
+elseif in(1).shot >= 200000000 %Nimrod
+    timebound = [1.0,1.48];
+    chan_ranget = [1:36];
+    chan_rangep = [37:72];
+    xlim=[-20,60]
 end
 chan_range = [chan_ranget, chan_rangep];
 %chan_range = chan_ranget;
-xlim = [0,50];
 %chan_range = chan_rangep
 %chan_range = [1:68];
 %chan_range = [8:2:24];
@@ -728,7 +733,7 @@ for n = 1:length(in)
                 U=-(dataAvg(:,1)-dataAvg(:,2))-maxDispl';
                 if Analysis==1
                     figure(h5)
-                    errorbar(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),L,U,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
+                    errorbar(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,L,U,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
                     set(gca,'ylim',[-2,20]);
                     
                     figure(h3);
@@ -736,7 +741,7 @@ for n = 1:length(in)
                     %for k=1:2;for j=1:length(dataAvg(:,k));try dataAvg(j.*(pRel(j,k)<.5),k)=NaN;end;end;end
 %                      t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),L,U,'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
 %                           'MarkerEdgeColor',[in(n).color{1}]);
-                         t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
+                         t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
                          'MarkerEdgeColor',[in(n).color{1}]);
                        
                     set(ax7,'ylim',[-2,20]);
@@ -762,10 +767,15 @@ for n = 1:length(in)
                         dataPhase(:,1) = dataPhase(:,1)+2*pi;
                 end
                 if in(n).shot == 160728021 && in(n).line==1
-                    dataPhase = dataPhase+2*pi;
+                    dataPhase = dataPhase+pi;
+                    dataPhase(:,1) = dataPhase(:,1)-2*pi;
+                end
+                if in(n).shot == 160728024 && in(n).line==1
+                    dataPhase = dataPhase-pi;
+
                 end
                 if in(n).shot == 160728012 && in(n).line==2
-                    dataPhase(:,2) = dataPhase(:,2)+pi;
+                    %dataPhase(:,2) = dataPhase(:,2)+2*pi;
                 end
                 for i=1:size(doubleplot,1)
                     if Analysis==1
@@ -826,7 +836,7 @@ for n = 1:length(in)
             end
             %plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'k','LineWidth', lnwdth, 'LineStyle', in(n).style);
             if Analysis==1 & in(n).doubleplot==1
-                plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'color' ,'k','marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color' ,'k','marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(xlim,[0,0],'--k')
                 ylabel('Toroidal Flow [km/s]'); set(gca,'ylim',[-10,10]);
                 xlabel('Impacts [cm]');
@@ -890,11 +900,15 @@ if ~isempty(in(1).fftPlot)
 
     % Annotation
     figure(h6)
-    % a=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Array: Solid','Lower Array: Dashed'},'FitBoxToText','on');
-    % a.Position=[.175,.84,.175,.075]
-    % 
-    % a1=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Error Bar: Max Flow','Lower Error Bar: Min Flow'},'FitBoxToText','on');
-    % a1.Position=[.175,.54,.2,.075];
+    a=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Array: Solid','Lower Array: Dashed'},'FitBoxToText','on');
+    a.Position=[.175,.84,.175,.075]
+    
+    a1=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Error Bar: Max Flow','Lower Error Bar: Min Flow'},'FitBoxToText','on');
+    a1.Position=[.175,.54,.2,.075];
+    
+    a2=annotation('textbox',[.2,.6,.3,.3],'String',{'Amplitude of Sine Fit'},'FitBoxToText','on');
+    a2.Position=[.175,.27,.175,.045];
+
 end
 
 figure(h); % make first figure current

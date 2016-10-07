@@ -1,6 +1,6 @@
 %% Convert NIMROD postprocessing output to normal IDS form
 
-Nimshot = 160609202;
+Nimshot = 160609207;
 line = [1];
 hitsi3=1;
 useTree=1;
@@ -13,7 +13,7 @@ shot = str2num(nimsave.nimIn.wform_fname(2:10));
 % temp override
 shot = 160622021;
 [dat(1).param, options] = loadParams(shot, line, hitsi3, useTree);
-shot = str2num(nimsave.nimIn.wform_fname(2:10));
+shot = str2num(nimsave.nimIn.wform_fname(2:10))+1;
 impacts=load('T:\RChandra\NewCodes\Geometry\impacts5.mat');
 dat(1).param.impacts=impacts.impacts;
 

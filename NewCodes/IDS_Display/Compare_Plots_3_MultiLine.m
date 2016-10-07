@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 8160609009;
+shot = 160728011;
 
-plotType =3; % 3 = IDS velocity
+plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -38,7 +38,7 @@ plotType =3; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 1; % which line to plot, if5 multiple
+line = 2; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
 shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
@@ -64,7 +64,7 @@ saveFigure = 0; % save figure to file
 fileName = '/home/aaron/Dropbox/Thesis/Latex/Images/'; % file name for .png image
 
 timeInMs = 1; % displays time in ms, otherwise time point number
-useImpacts = 0; % plot the x scale in terms of impact parameter, else channel
+useImpacts = 1; % plot the x scale in terms of impact parameter, else channel
 
 screenArea = 0; % run velocity and temperature through a filter to discard points with low area
 scArea = 100; % lower limit for Area
@@ -99,7 +99,7 @@ avNan = 0; % average nans
 jLim = [-40 70]; % Limit for current plots
 
 % timeLim = [1.5 2.3];
-timeLim = [.3 2.4];
+timeLim = [.0 1.4];
 % timeLim = [1.664, 1.872]; % aligned for IDS and both codes
 % timeLim = [0.64 0.97]; % testing NIMROD
 
