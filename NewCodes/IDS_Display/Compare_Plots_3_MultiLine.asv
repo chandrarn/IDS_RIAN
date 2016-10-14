@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160728024;
+shot = 160728013;
 
-plotType =13; % 3 = IDS velocity
+plotType =10; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -64,7 +64,7 @@ saveFigure = 0; % save figure to file
 fileName = '/home/aaron/Dropbox/Thesis/Latex/Images/'; % file name for .png image
 
 timeInMs = 1; % displays time in ms, otherwise time point number
-useImpacts = 0; % plot the x scale in terms of impact parameter, else channel
+useImpacts = 1; % plot the x scale in terms of impact parameter, else channel
 
 screenArea = 0; % run velocity and temperature through a filter to discard points with low area
 scArea = 100; % lower limit for Area
@@ -88,7 +88,7 @@ intLim = [0 100];
 snrLim = [0 0.5];
 deltaRLim = [0 60];
 tempErrLim = [0 10];
-velErrLim = [0 5];
+velErrLim = [0 2];
 cumLim = [-15 15];%[-40 40]%[-40 20]%[-500 1500];
 cumTime = []; % trim time
 cumTempLim = [15,30];

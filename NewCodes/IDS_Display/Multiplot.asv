@@ -12,10 +12,11 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% Input Settings
 
 %% IDS DATA
-in(1).shot = 160728021;150625998;
-in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% 0-120-240
+in(1).shot = 160728011;150625998;
+in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-in(1).legend = [num2str(in(1).shot) ': -48.3kA'];
+in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
 in(1).color = {'r';'r'};%[225,105,0]./255};
 in(1).style = {'-','--'};
 in(1).error = 0; % 1 / 0 for errorbars
@@ -27,17 +28,49 @@ in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle='HIT-SI3: 0-60-120 Phasing, OII'
+in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, ' lines{in(1).line}];
+in(1).phaseShift = 2*pi -pi/2;
 % % 160728
 in(2)=in(1);
-in(2).shot = 160728023;
-in(2).line=1;
+in(2).shot = 160728012;
+in(2).line=2;
 in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(2).legend = [num2str(in(2).shot) ': -50.8kA'];
+in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+in(2).phaseShift = -pi/2;
 in(3)=in(1);
-in(3).shot = 160728024;
+in(3).shot = 160728013;
 in(3).color = {'g';'g'};%[182, 244, 66]./255};
-in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
+in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
+
+% 0-60-120
+% in(1).shot = 160728021;150625998;
+% in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+% in(1).legend = [num2str(in(1).shot) ': -48.3kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).phaseShift = -pi/2; % Shift Phase
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'HIT-SI3: 0-60-120 Phasing, ' lines{in(1).line}];
+% % 160728
+% in(2)=in(1);
+% in(2).shot = 160728023;
+% in(2).line=1;
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2).legend = [num2str(in(2).shot) ': -50.8kA'];
+% in(3)=in(1);
+% in(3).shot = 160728024;
+% in(3).color = {'g';'g'};%[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
+% in(3).phaseShift = 2*pi -pi/2;
 
 % in(2).shot = 160615023;150625998;
 % in(2).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
@@ -70,9 +103,9 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 
 
 % % 129499 
-% % note: need to change .*1e-6 to .*1e-3 in sinefit
+%note: need to change .*1e-6 to .*1e-3 in sinefit
 % in(1).shot = 129499;%150625998;
-% in(1).line = 2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ': +90kA'];
 % in(1).color = {'r';'r'};%[225,105,0]./255};
 % in(1).style = {'-','--'};
@@ -84,12 +117,13 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 % in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 % in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = []; % FFT of signal, n frequencies
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
 % in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
+% in(1).phaseShift =-pi/2;
 % % 129450, 129451
 % in(2) = in(1);
 % in(2).shot=129450;
-% in(2).line=2;
+% in(2).line=1;
 % in(2).legend = [num2str(in(2).shot) ': +89kA'];
 % in(2).color = {'b';'b'};%[66, 188, 244]./255};
 % in(3)=in(1);
@@ -137,7 +171,60 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 % in(2).velShift = 0; % SHIFT VELOCITY
 % in(2).intScale = 1; % scale factor for intensity
 % in(2).timeShift = 0; % ms, shift time base
+% in(1).shot = 160728011;150625998;
+% in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+% in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, ' lines{in(1).line}];
+% in(1).phaseShift = 2*pi -pi/2;
+% % % 160728
+% in(2)=in(1);
+% in(2).shot = 160728012;
+% in(2).line=1;
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+% in(2).phaseShift = -pi/2;
+% in(3)=in(1);
+% in(3).shot = 160728013;
+% in(3).color = {'g';'g'};%[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 
+%% 160609010 NIMROD
+% in(1).shot = 8160609009;150625998;
+% in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+% in(1).legend = [num2str(in(1).shot) ': +67.4kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'NIMROD: 0-120-240 Phasing, D, Iso-Visc.'];
+% in(1).phaseShift = 2*pi-pi/2;
+% % 160728
+% in(2)=in(1);
+% in(2).shot = 8160609009;
+% in(2).line=1;
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+% in(2).phaseShift = -pi/2;
 %% 129530, NIMROD, PSI-TET
 % in(1).shot = 12953010;
 % in(1).line = 2; % line # NB: 1 is O II, 2 is C III !
@@ -265,6 +352,7 @@ in(3).legend = [num2str(in(3).shot) ': +55.2kA'];
 %%
 saving = 0;
 plotCurrents = 1;
+plotSanityPhase = 1;
 plotAverages = 0;
 compactCurrents = 1;
 plotTor = 0; % The line plot will show the differenve between fibers
@@ -278,6 +366,7 @@ end
  plotType = 1; % Velocity
 % plotType = 2; % Temperature
 % plotType = 3; % Intensity
+%plotType = 4; % Displacement
 
 timebound = [1.1, 2.0]; % [ms]
 % timebound = [1.2 2.3]; % [ms]
@@ -340,8 +429,13 @@ elseif in(1).shot >= 160728009 && in(1).shot <= 160728024
     timebound = [1.55,2.00];
     chan_ranget = [9:24];
     chan_rangep = [45:60];
-elseif in(1).shot >= 200000000 %Nimrod
+elseif in(1).shot == 8160609009 %Nimrod
     timebound = [1.0,1.48];
+    chan_ranget = [1:36];
+    chan_rangep = [37:72];
+    xlim=[-20,60]
+elseif in(1).shot == 8160609010 %Nimrod
+    timebound = [1.0,1.25];
     chan_ranget = [1:36];
     chan_rangep = [37:72];
     xlim=[-20,60]
@@ -362,13 +456,15 @@ fntsz = 14;
 lnwdth = 1.5;
 errWdth = 500; % errorbar width setting
 
+
 S = get(0, 'ScreenSize');
 analysisHeight = S(4) - 1;
 figureWidth = (S(3) - 12)/2.25;
 colors = [ 0 0 1; 12/255 117/255 0; 1 0 0 ];
 h = figure('Visible', 'on', 'Name', ['MULTIPLOT-Lines: ' num2str(in(1).line)], 'Position',...
     [5, 35, figureWidth, analysisHeight], 'Color', [1 1 1]);
-
+colorOrder = get(groot,'defaultAxesColorOrder');
+partialColor = {'r',colorOrder(2,:); 'b',colorOrder(1,:);,'g',colorOrder(5,:)};
 if ~compactCurrents
     ax = axes('Parent', h, 'Position', [0.075, 0.08, 0.8, 0.85]);
 else
@@ -399,20 +495,30 @@ if Analysis==1 && ~isempty(in(1).fftPlot)
 elseif Analysis==2 && ~isempty(in(1).fftPlot)
     h2=figure;
     h6 = figure('Visible', 'on', 'Name', ['MULTIPLOT-Analysis: ' in(1).legend], 'Position',...
-    [5, 1, figureWidth-300, analysisHeight], 'Color', [1 1 1]);
+    [5, 1, figureWidth-450, analysisHeight], 'Color', [1 1 1]);
     ax6 = axes('Parent',h6,'Position',[0.15,.08,.8,.25]); hold on; grid on;box on;
     ax7 = axes('Parent',h6,'Position',[0.15,.38,.8,.25]); hold on; grid on;box on;
     ax8 = axes('Parent',h6,'Position',[0.15,.68,.8,.25]); hold on; grid on;box on;
     %txt=text(10,550,['Analysis: ' in(1).legend],'fontweight','bold','fontsize',13);
     mBox=uicontrol('Style','Text');% Make the title
     set(mBox,'String',in(1).AnalysisTitle); set(mBox,'fontweight','bold'); set(mBox,'fontsize',13);
-    set(mBox,'Position', [ 100,960,400,20]);set(mBox,'BackgroundColor',[1 1 1]);
+    set(mBox,'Position', [ 30,960,400,20]);set(mBox,'BackgroundColor',[1 1 1]);
     title(ax8,'Phase');
     title(ax7,'Toroidal Flow');
     title(ax6,'Average Displacement');
     h7 = figure('Visible', 'on', 'Name', ['MULTIPLOT-FFT Spectrum: ' num2str(in(1).line)], 'Position',...
         [5, 35, figureWidth, 0.35 * analysisHeight], 'Color', [1 1 1]);
     ax9 = axes('Parent', h7, 'Position', [0.075, 0.15, 0.85, 0.75]); hold on; grid on;box on;
+    h10=figure('Visible', 'on', 'Name', ['Phase: Sanity Check ' in(1).legend], 'Position',...
+    [5, 1, figureWidth-300, analysisHeight], 'Color', [1 1 1]);
+    ax10 = axes('Parent',h10,'Position',[0.15,.08,.8,.25]); hold on; grid on;box on;
+    ax11 = axes('Parent',h10,'Position',[0.15,.38,.8,.25]); hold on; grid on;box on;
+    ax12 = axes('Parent',h10,'Position',[0.15,.68,.8,.25]); hold on; grid on;box on;
+    h11=figure('Visible', 'on', 'Name', ['Phase: Reconstruction ' in(1).legend], 'Position',...
+    [5, 1, figureWidth-300, analysisHeight], 'Color', [1 1 1]);
+    ax13 = axes('Parent',h11,'Position',[0.15,.08,.8,.25]); hold on; grid on;box on;
+    ax14 = axes('Parent',h11,'Position',[0.15,.38,.8,.25]); hold on; grid on;box on;
+    ax15 = axes('Parent',h11,'Position',[0.15,.68,.8,.25]); hold on; grid on;box on;
 %     h3=figure;
 %     h4=figure;
 %     h5=figure;
@@ -427,23 +533,31 @@ for n = 1:length(in)
     addpath('T:\IDS\Data Repository');
     
     if ~(exist('dat','var') && strcmp(dat(1).title,['Shot ' num2str(in(n).shot)])) % speed up runtime if data is already loaded
-        load(['dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
+        input=load(['dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
+        dat = trimRange(input.dat, chan_range, 0,timebound.*(1/in(n).timeScale),[]); % for some reason, this wont save to workspace
+        assignin('base','dat',dat);
+        size(dat(1).vel)
+        display('[TEST')
     end
-
-    dat = trimRange(dat, chan_range, 0,timebound.*(1/in(n).timeScale),[]);
+    temp = dat(1).vel;
+    
     Itor(:,n) = dat(1).Itor;
     
-    switch plotType
-        case 1
+    %switch plotType
+        if plotType==1 || plotType==4
             if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
                 %data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,in(n).doubleplot(1,:));
                 %data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
                 %    dat(in(n).line).vel(:,in(n).doubleplot(2,:));
-                data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,1:(length(dat(1).impacts))/2);
+                if plotType ==1
+                data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,1:(length(dat(1).impacts))/2)+in(n).velShift;
                 data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-                   dat(in(n).line).vel(:,(length(dat(1).impacts)/2)+1:end);
+                   dat(in(n).line).vel(:,(length(dat(1).impacts)/2)+1:end)+in(n).velShift;
+                elseif plotType==4
+                    data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,1:(length(dat(1).impacts))/2);
+                end
             elseif ~isempty(in(1).fftPlot)
-                dat(in(n).line).vel = averageNans(dat(in(n).line).vel); % remove nans
+                dat(in(n).line).vel = averageNans(dat(in(n).line).vel)+in(n).velShift; % remove nans
                 
                
                 if ~isempty(in(n).doubleplot)
@@ -464,7 +578,7 @@ for n = 1:length(in)
                  end
                 display('Computing FFT');
                 pRel = zeros(length(doubleplot),2);
-                for i = 1:length(doubleplot)
+                for i = 1:length(doubleplot) % Loop through impacts ( fits both arrays)
                     % using fftf method
 %                    offset = mean(dat(in(n).line).vel(:,in(n).doubleplot(1,i)));
 %                    [data(1:length(dat(1).time),i), f, y, y2] = ...
@@ -486,12 +600,17 @@ for n = 1:length(in)
 %                    pause(1);
                     % using SineFit method
                     %try
-                        signal = dat(in(n).line).vel(:,doubleplot(1,i))+in(n).velShift;
+                    
+                    %%%%%% Upper Array %%%%%%%%%%%
+                    % Calculate sine fit for uppe array
+                    size(dat(in(n).line).vel)
+                        signal = dat(in(n).line).vel(:,doubleplot(1,i));
                         Fsamp = 1/(mean(diff(dat(1).time.*(in(n).timeScale.*1e-3))));
                         offset = nanmean(signal);
                         amp = max(signal)-offset;
                         freq = 14500;
                         phase = pi/2;
+                        guess(i,:,n,1) = [offset,amp,phase,freq];
                         [param(i,2:5,n),data(1:length(dat(1).time),i)] = sine_fit( ...
                             dat(1).time'.*(in(n).timeScale.*1e-3),signal',[nan,nan,nan,freq], ...
                             [offset,amp,phase,freq],0);
@@ -511,10 +630,14 @@ for n = 1:length(in)
                         try data(1:length(dat(1).time),i.*(pRel(i,1)<CutPow))=signal;end
                         
                         %pause(1);
+                        
+                        %%%%%% Lower Array %%%%%%%%%%%%%%%
                         if in(n).doubleplot
-                            signal = dat(in(n).line).vel(:,doubleplot(2,i))+in(n).velShift;
+                            % Fit Sine
+                            signal = dat(in(n).line).vel(:,doubleplot(2,i));
                             offset = mean(signal);
                             amp = max(signal)-offset;
+                            guess(i,:,n,2) = [offset,amp,phase,freq];
                             [param(i,7:10,n),data(length(dat(1).time)+1:2*length(dat(1).time),i)] = ...
                                 sine_fit(dat(1).time'.*(in(n).timeScale.*1e-3),signal',[nan,nan,nan,freq], ...
                                 [offset,amp,phase,freq],0);
@@ -533,13 +656,62 @@ for n = 1:length(in)
                             try data(length(dat(1).time)+1:2*length(dat(1).time)...
                                     ,i.*(pRel(i,2)<CutPow))=signal;end
                         end
+
                     
                     %catch
                     %    display(['halted at ' num2str(i)]);
                     %end
                 end
+                %%%%%%%% Find Phase of X/A Injector
+                if n==1
+                clear signal
+                if in(1).shot <129500
+                    [Y,I1]=min( (dat(1).iinjxTime - timebound(1) ).^2 );
+                    [Y,I2]=min( (dat(1).iinjxTime - timebound(2) ).^2 );
+                    signal(:,1) = dat(1).iinjx(I1:I2);
+                    signal(:,2) = dat(1).iinjy(I1:I2);
+                    for i = 1:2
+                        offset = mean(signal(:,i));
+                        amp = max(signal(:,i))-offset;
+                        [injParam(i,:),~] = ...
+                            sine_fit(double(dat(1).iinjxTime(I1:I2))'.*1e-3,double(signal(:,i))',[nan,nan,nan,freq], ...
+                            [offset,amp,0,freq],0);
+                    end
+                else
+                    [Y,I1]=min( (dat(1).iinjaTime - timebound(1) ).^2 );
+                    [Y,I2]=min( (dat(1).iinjaTime - timebound(2) ).^2 );
+                    signal(:,1) = dat(1).iinja(I1:I2);
+                    signal(:,2) = dat(1).iinjb(I1:I2);
+                    signal(:,3) = dat(1).iinjc(I1:I2);
+                    offset = mean(signal);
+                    amp = max(signal)-offset;
+                    for i = 1:3
+                        offset = mean(signal(:,i));
+                        amp = max(signal(:,i))-offset;
+                        [injParam(i,:),~] = ...
+                            sine_fit(double(dat(1).iinjaTime(I1:I2))'.*1e-3,double(signal(:,i))',[nan,nan,nan,freq], ...
+                            [offset,amp,0,freq],0);
+                    end
+                end
+                for i = 1:size(injParam,1)
+                    if injParam(i,2)<0 % 180degree phase
+                        injParam(i,2)=-injParam(i,2);
+                        injParam(i,3)=injParam(i,3)+pi;
+                        disp(['WARNING: INJECTOR ' num2str(i) ' NEGATIVE AMPLITUDE']);
+                    end
+                end
+                
+                end
+                
             else
-                data = dat(in(n).line).vel + in(n).velShift;
+                if plotType==1
+                    data = dat(in(n).line).vel;
+                elseif plotType==4
+                    for i = 1:size(dat(1).vel,2)
+                    data(:,i) = cumtrapz(dat(1).time',dat(in(n).line).vel(:,i)-...
+                        mean(dat(in(n).line).vel(:,i))).*100;
+                    end
+                end
             end
             titles = 'Velocities';
             offset = velSpace;
@@ -549,7 +721,7 @@ for n = 1:length(in)
                 errorL = dat(in(n).line).velL;
                 errorU = dat(in(n).line).velU;
             end
-        case 2
+        elseif plotType==2
             % Check Double Plotting
              if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
                 doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
@@ -569,7 +741,7 @@ for n = 1:length(in)
                 errorL = dat(in(n).line).tempL;
                 errorU = dat(in(n).line).tempU;
             end
-        case 3
+        elseif plotType==3
             data = in(n).intScale * dat(in(n).line).int;
             titles = 'Intensities';
             sidebar = ['Arb.'];
@@ -579,7 +751,8 @@ for n = 1:length(in)
                 errorL = dat(in(n).line).intL;
                 errorU = dat(in(n).line).intU;
             end
-    end
+        end
+%     size(data)
     
     
     
@@ -632,14 +805,80 @@ for n = 1:length(in)
                     dataAvg(:,i) = param(:,2+5*(i-1),n);
                     dataStd(:,i) = param(:,3+5*(i-1),n);
                     
-                    % Phase
-                    %dataPhase(:,i) = param(:,4+5*(i-1),n);
+                    %% Phase Modification Stuff
+                    dataPhase(:,i) = param(:,4+5*(i-1),n);
+ 
+                      % mod the phase
+                    % Sanity check
+                    if plotSanityPhase==1;eval(['plot(ax' num2str(9+n) ',dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,''color'',partialColor{n,i},''linewidth'',lnwdth)']);end
+                    dataPhase(:,i) = mod(dataPhase(:,i),2*pi);
+                    if plotSanityPhase==1;eval(['plot(ax' num2str(9+n) ',dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,''color'',partialColor{n,i},''linewidth'',lnwdth,''linestyle'','':'')']);end
                     % test automatic phase finding
                     for j = 1: size(param,1) % for all impacts
                         dataPhase(j,i) = find_Phase(param(j,1+(5*(i-1)): 5 + 5*(i-1),n));
                     end
+                    if plotSanityPhase==1;eval(['plot(ax' num2str(9+n) ',dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,''color'',partialColor{n,i},''linewidth'',lnwdth,''linestyle'',''--'')']);end
+                   % shift lines if a periodicity jump occurs
+                    for j = 2:size(data, 2)
+                        if (dataPhase(j,i) - dataPhase(j-1,i))>(pi)
+                            dataPhase(j,i) = dataPhase(j,i)-(2*pi);
+                            disp(['JUMP: -2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
+                        elseif (dataPhase(j,i) - dataPhase(j-1,i))<(-pi)
+                           disp(['JUMP: +2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
+                            dataPhase(j,i) = dataPhase(j,i)+(2*pi);
+                        end
+                    end
+                    if plotSanityPhase==1;eval(['plot(ax' num2str(9+n) ',dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,''color'',partialColor{n,i},''linewidth'',lnwdth,''linestyle'',''-.'')']);end
+                    if plotSanityPhase==1;
+                    legend(ax10,{'Raw Phase';'Mod 2\pi Phase';'Find\_Phase';'Jump Corrected';},'location','SouthWest');
+                    set(ax11,'xticklabel',[]);
+                    set(ax12,'xticklabel',[]);
+                    eval(['ylabel(ax' num2str(9+n) ','' Phase [deg]'')']);
+                    xlabel(ax10,'Impacts [cm]');
+                   mBox1=uicontrol(h10,'Style','Text');% Make the title
+                    set(mBox1,'String',['Phase Calculation Methods']); 
+                    set(mBox1,'fontweight','bold'); set(mBox1,'fontsize',13);
+                    set(mBox1,'Position', [ 80,960,450,20]);set(mBox1,'BackgroundColor',[1 1 1]);
+                    eval(['title(ax' num2str(9+n) ', ''Shot: ' num2str(in(n).shot) ''')']);
+                    end
+                    dataPhase(:,i) = mod(param(:,4+5*(i-1),n),2*pi); % 2Pi Periodicity
                     
-                    %dataPhase(:,i) = mod(dataPhase(:,i),2*pi); % 2Pi Periodicity
+                    % Plot Reconstruction
+                    if plotSanityPhase==1;
+                    if in(1).shot >129500
+                        %if i==2 % only plot the second time around
+                            plotChan=9;
+                            eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,dat(in(n).line).vel(:,plotChan),''color'',partialColor{n,1},''linewidth'',lnwdth)']);
+                            eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,dat(in(n).line).vel(:,plotChan+(length(dat(1).impacts))/2),''color'',partialColor{n,2},''linewidth'',lnwdth,''linestyle'',''-'')']);
+                            eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,param(plotChan,2+5*(i-1),n)+param(plotChan,3+5*(i-1),n)*sin(2*pi*dat(1).time.*1e-3.*in(n).timeScale.*14500 + dataPhase(plotChan,i)),''color'',partialColor{n,i},''linewidth'',lnwdth,''linestyle'',''--'')']);
+                            %eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,param(plotChan,7,n)+param(plotChan,8,n)*sin(2*pi*dat(1).time.*1e-3.*in(n).timeScale.*14500 + dataPhase(plotChan,2)),''color'',partialColor{n,2},''linewidth'',lnwdth,''linestyle'',''--'')']);
+                            eval(['title(ax' num2str(12+n) ', ''Shot: ' num2str(in(n).shot) ''')']);
+                            set(ax15,'xticklabel',[]);
+                            set(ax14,'xticklabel',[]);
+                            eval(['ylabel(ax' num2str(12+n) ','' Velocity [km/s]'')']);
+                            xlabel(ax13,'Time [ms]');
+                            mBox2=uicontrol(h11,'Style','Text');% Make the title
+                            set(mBox2,'String',['Raw Data and Reconstruction, Impact: ' num2str(dat(1).impacts(plotChan)) '[cm]']); 
+                            set(mBox2,'fontweight','bold'); set(mBox2,'fontsize',13);
+                            set(mBox2,'Position', [ 80,960,450,20]);set(mBox2,'BackgroundColor',[1 1 1]);
+                        %end
+                    else
+                        plotChan=14;
+                        eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,dat(in(n).line).vel(:,plotChan),''color'',partialColor{n,1},''linewidth'',lnwdth)']);
+                        eval(['plot(ax' num2str(12+n) ',dat(1).time.*in(n).timeScale,param(plotChan,2,n)+param(plotChan,3,n)*sin(2*pi*dat(1).time.*1e-3.*in(n).timeScale.*14500 + dataPhase(plotChan)),''color'',partialColor{n,1},''linewidth'',lnwdth,''linestyle'',''--'')']);
+                        set(ax15,'xticklabel',[]);
+                        set(ax14,'xticklabel',[]);
+                        eval(['title(ax' num2str(12+n) ', ''Shot: ' num2str(in(n).shot) ''')']);
+                        eval(['ylabel(ax' num2str(12+n) ','' Velocity [km/s]'')']);
+                        xlabel(ax13,'Time [ms]');
+                        mBox2=uicontrol(h11,'Style','Text');% Make the title
+                        set(mBox2,'String',['Raw Data and Reconstruction, Impact: ' num2str(dat(1).impacts(plotChan)) '[cm]']); 
+                        set(mBox2,'fontweight','bold'); set(mBox2,'fontsize',13);
+                        set(mBox2,'Position', [ 80,960,450,20]);set(mBox2,'BackgroundColor',[1 1 1]);
+                    end
+                    linkaxes([ax10,ax11,ax12],'x');
+                    linkaxes([ax13,ax14,ax15],'x');
+                    end
                     
                     %% HARDCODED DATA
                     if in(n).line==1 && strcmp(dat(1).title,'Shot 151217026'); % FOR 151217026 LINE 1
@@ -663,17 +902,7 @@ for n = 1:length(in)
                     end
                     %dataPhase(:,i) = mod(dataPhase(:,i),5.43); % Minimum resolution, 151217026
                     
-                    % shift lines if a periodicity jump occurs
-                    for j = 2:size(data, 2)
-                        if (dataPhase(j,i) - dataPhase(j-1,i))>(pi)
-                            dataPhase(j,i) = dataPhase(j,i)-(2*pi);
-                            disp(['JUMP: -2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
-                        elseif (dataPhase(j,i) - dataPhase(j-1,i))<(-pi)
-                           disp(['JUMP: +2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
-                            dataPhase(j,i) = dataPhase(j,i)+(2*pi);
-                        end
-                    end
-                    
+                  
                     
                     % half of integral of one half period is radius of motion
                     dataDispl(:,i) = 2*param(:,3+5*(i-1),n).*(1./param(:,5+5*(i-1),n))./(2*pi)./2 .*1e5;
@@ -720,7 +949,7 @@ for n = 1:length(in)
                 end
             end
             
-            %%%%%%%%%%%%%% Plotting %%%%%%%%%%%%%%%%%%%%%%%%
+            %%%%%%%%%%%%%% Plotting Analysis %%%%%%%%%%%%%%%%%%%%%%%%
             if in(n).fftPlot & in(n).doubleplot==1 % This one is usually executed
                 for i = 1:size(data, 2)
                     cycle1 = (param(i,3,n)*sin(param(i,4,n)+(2*pi).*(0:(1/100):1))+param(i,2,n));
@@ -729,7 +958,7 @@ for n = 1:length(in)
                     minDispl(i) = min(cycle1-cycle2);
                 end
                 
-                L=-(dataAvg(:,1)-dataAvg(:,2))+minDispl';
+                L=-(dataAvg(:,1)-dataAvg(:,2))+minDispl'; % This may be wrong. We might just want max/min Displ
                 U=-(dataAvg(:,1)-dataAvg(:,2))-maxDispl';
                 if Analysis==1
                     figure(h5)
@@ -766,6 +995,22 @@ for n = 1:length(in)
                 if (n==3) && in(1).shot==160728011
                         dataPhase(:,1) = dataPhase(:,1)+2*pi;
                 end
+                if in(n).shot == 160728011 && in(n).line==2
+                    dataPhase(10:16,1) = dataPhase(10:16,1)+2*pi;
+                   %dataPhase(2,1) = dataPhase(2,1)2*pi;
+                end
+                
+                if in(n).shot == 160728011 && in(n).line==1
+                    dataPhase(12:16,1) = dataPhase(12:16,1)+2*pi;
+                end
+                if in(n).shot == 160728013 && in(n).line==2
+                    dataPhase(1:10,1) = dataPhase(1:10,1)-2*pi;
+                    dataPhase(1,1) = dataPhase(1,1)+2*pi;
+                end
+                 if in(n).shot == 160728013 && in(n).line==1
+                    dataPhase(1:8,1) = dataPhase(1:8,1)-2*pi;
+                    dataPhase(12,1) = dataPhase(12,1)-2*pi;
+                end
                 if in(n).shot == 160728021 && in(n).line==1
                     dataPhase = dataPhase+pi;
                     dataPhase(:,1) = dataPhase(:,1)-2*pi;
@@ -774,18 +1019,41 @@ for n = 1:length(in)
                     dataPhase = dataPhase-pi;
 
                 end
+                if in(n).shot == 160728024 && in(n).line==2
+                    dataPhase(:,2) = dataPhase(:,2)-2*pi;
+
+                end
+                if in(n).shot == 160728024 && in(n).line==2
+                    dataPhase = dataPhase+2*pi;
+                end
                 if in(n).shot == 160728012 && in(n).line==2
                     %dataPhase(:,2) = dataPhase(:,2)+2*pi;
                 end
+                if in(n).shot == 8160609010
+                    dataPhase(1:6,2) = dataPhase(1:6,2)-2*pi;
+                    dataPhase(24:33,2) = dataPhase(24:33,2)-2*pi;
+                    dataPhase(24:36,1) = dataPhase(24:36,1)-2*pi;
+                end
+                if any([in.shot] == 160728021)
+                    injParam(3)=injParam(3)-2*pi;
+                end
+                
+                dataPhase = dataPhase +in(n).phaseShift;
+                
                 for i=1:size(doubleplot,1)
                     if Analysis==1
                         plot(dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
                         ylabel('Phase [deg]');
                     elseif Analysis==2
                         for j=1:length(dataPhase(:,i));try dataPhase(j.*(pRel(j,i)<CutPow),i)=NaN;end;end
-                        phaseH(:,i)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        phaseH(:,i,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         ylabel(ax8,'[deg]');set(ax8,'ylim',[-400,400]);set(ax8,'xticklabel',[]);
                         set(ax8,'xlim',xlim);
+                        if n==1
+                        plot(ax8,[0 60]',[injParam(1,3) injParam(1,3)]'.*180./pi,'--','LineWidth',lnwdth,'color',[0    0.4470    0.7410]);
+                        plot(ax8,[0 60]',[injParam(2,3) injParam(2,3)]'.*180./pi,'--','LineWidth',lnwdth,'color',[0.8500    0.3250    0.0980]);
+                        plot(ax8,[0 60]',[injParam(3,3) injParam(3,3)]'.*180./pi,'--','LineWidth',lnwdth,'color',[0.9290    0.6940    0.1250]);
+                        end
                         
                     end
                 end
@@ -817,15 +1085,21 @@ for n = 1:length(in)
                 for j=1:length(dataPhase(:,1));try dataPhase(j.*(pRel(j,i)<CutPow),1)=NaN;end;end
                 %% HARDCODING
                 if in(1).shot==129499 && n==2 
-                    dataPhase(8:end)=dataPhase(8:end)+2*pi;
+                    %dataPhase(8:end)=dataPhase(8:end)+2*pi;
                 end
                 if in(1).shot==129499 && n==1
                     %dataPhase(9:(end-3))=dataPhase(9:(end-3))+2*pi;
                 end
-                plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                dataPhase = dataPhase + in(n).phaseShift;
+                phaseH(1,1,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 ylabel(ax8,'[deg]');set(ax8,'ylim',[0,400]);set(ax8,'xticklabel',[]);
                 set(ax8,'xlim',xlim);
-               
+                % Plot injector Phase
+                if n == 1
+                plot(ax8,[0 60]',[injParam(1,3) injParam(1,3)]'.*180./pi,'--','LineWidth',lnwdth,'color',[    0    0.4470    0.7410]);
+                plot(ax8,[0 60]',[injParam(2,3) injParam(2,3)]'.*180./pi,'--','LineWidth',lnwdth,'color',[    0.8500    0.3250    0.0980]);
+                end
+                
                  %  Plot Fft Spectrum
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
@@ -843,7 +1117,7 @@ for n = 1:length(in)
             elseif Analysis==2 %& in(n).doubleplot==1
                % plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
                 plot(ax7,xlim,[0,0],'--k'); set(ax7,'xlim',xlim);
-                ylabel(ax7,'[km/s]'); set(ax7,'ylim',[-11,11]);set(ax7,'xticklabel',[]);
+                ylabel(ax7,'[km/s]'); set(ax7,'ylim',[-6,6]);set(ax7,'xticklabel',[]);
                 h2.delete;
                 linkaxes([ax6 ax7 ax8 ],'x');
             end
@@ -890,7 +1164,7 @@ for n = 1:length(in)
 end
 if ~isempty(in(1).fftPlot)
     % Make the Legend
-    [leg,icon] = legend(ax8,{in(1:1:end).legend});
+    [leg,icon] = legend(ax8,phaseH(1,1,:),{in(1:1:end).legend});
     for i = 0: length(in)-1
         set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
         set(icon(length(in)+2+2*i),'Color',in(i+1).color{1});
@@ -901,13 +1175,20 @@ if ~isempty(in(1).fftPlot)
     % Annotation
     figure(h6)
     a=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Array: Solid','Lower Array: Dashed'},'FitBoxToText','on');
-    a.Position=[.175,.84,.175,.075]
+    %a.Position=[.175,.84,.175,.075];
+    a.Position=[.175,.81,.175,.11];
     
-    a1=annotation('textbox',[.2,.6,.3,.3],'String',{'Upper Error Bar: Max Flow','Lower Error Bar: Min Flow'},'FitBoxToText','on');
-    a1.Position=[.175,.54,.2,.075];
+    a1=annotation('textbox',[.2,.6,.3,.3],'String',{'1/2 Difference Between Upper and Lower Arrays'},'FitBoxToText','on');
+    %a1.Position=[.175,.54,.2,.075];
+    a1.Position=[.175,.50,.2,.11];
     
     a2=annotation('textbox',[.2,.6,.3,.3],'String',{'Amplitude of Sine Fit'},'FitBoxToText','on');
-    a2.Position=[.175,.27,.175,.045];
+    %a2.Position=[.175,.27,.175,.045];
+    a2.Position=[.175,.25,.175,.06];
+    
+    a4=annotation('textbox',[.2,.6,.3,.3],'String',{'Temporal Phase Offset for Sine Fit'},'FitBoxToText','on');
+    %a4.Position=[.175,.75,.175,.06];
+    a4.Position=[.175,.72,.175,.08];
 
 end
 
@@ -996,20 +1277,20 @@ if plotCurrents
     end
     if dat(1).shotRef >999999
         plot(ax2, dat(1).iinjaTime.*in(1).injTimeScale, ...
-            dat(1).iinja.*in(1).injScale,'LineWidth', lnwdth); 
+            dat(1).iinja.*in(1).injScale,'LineWidth', lnwdth','color',[0    0.4470    0.7410]); 
         hold on;
         plot(ax2, dat(1).iinjbTime.*in(1).injTimeScale, ...
-            dat(1).iinjb.*in(1).injScale, 'color', 'red', 'LineWidth', lnwdth);
+            dat(1).iinjb.*in(1).injScale, 'color',[0.8500    0.3250    0.0980], 'LineWidth', lnwdth);
         hold on;
         plot(ax2, dat(1).iinjcTime.*in(1).injTimeScale, ...
-            dat(1).iinjc.*in(1).injScale, 'color', 'green', 'LineWidth', lnwdth);
+            dat(1).iinjc.*in(1).injScale, 'color',[0.9290    0.6940    0.1250], 'LineWidth', lnwdth);
         hold on;
     else
          plot(ax2, dat(1).iinjxTime.*in(1).injTimeScale, ...
-            dat(1).iinjx.*in(1).injScale,'LineWidth', lnwdth); 
+            dat(1).iinjx.*in(1).injScale,'LineWidth', lnwdth,'color',[0    0.4470    0.7410]); 
         hold on;
         plot(ax2, dat(1).iinjyTime.*in(1).injTimeScale, ...
-            dat(1).iinjx.*in(1).injScale, 'color', 'blue', 'LineWidth', lnwdth);
+            dat(1).iinjy.*in(1).injScale, 'color',[0.8500    0.3250    0.0980], 'LineWidth', lnwdth);
         hold on
     end
     for i = 1:length(in)
@@ -1024,11 +1305,12 @@ if plotCurrents
     grid on;
     
 end
-if in(1).shot == 151217023 || in(1).shot == 151217024 || in(1).shot == 151217025 || in(1).shot == 151217026
-    cd(['T:\IDS\Analysis Repository\' num2str(in(1).shot) ]);
-else
-    cd(['T:\IDS\Analysis Repository\Alternate Phasings\60D2\']);
-end
+cd(['T:\IDS\Analysis Repository\']);
+% if in(1).shot == 151217023 || in(1).shot == 151217024 || in(1).shot == 151217025 || in(1).shot == 151217026
+%     cd(['T:\IDS\Analysis Repository\' num2str(in(1).shot) ]);
+% else
+%     cd(['T:\IDS\Analysis Repository\Alternate Phasings\60D2\']);
+% end
 %saving
 if saving
     pause(1.5);% necessary to get figure size correct

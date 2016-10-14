@@ -1,6 +1,6 @@
 %% Convert NIMROD postprocessing output to normal IDS form
 
-Nimshot = 160609207;
+Nimshot = 160609202;
 line = [1];
 hitsi3=1;
 useTree=1;
@@ -13,18 +13,18 @@ shot = str2num(nimsave.nimIn.wform_fname(2:10));
 % temp override
 shot = 160622021;
 [dat(1).param, options] = loadParams(shot, line, hitsi3, useTree);
-shot = str2num(nimsave.nimIn.wform_fname(2:10))+1;
+shot = str2num(nimsave.nimIn.wform_fname(2:10));
 impacts=load('T:\RChandra\NewCodes\Geometry\impacts5.mat');
 dat(1).param.impacts=impacts.impacts;
 
 dat(1).param=param;
 %% Injector Stuff
-dat(1).iinja = 1e-3 * nimsave.inj.Ia;
-dat(1).iinjb = 1e-3 * nimsave.inj.Ib;
-dat(1).iinjc = 1e-3 * nimsave.inj.Ic;
-dat(1).iinjaTime = 1e3*nimsave.time;
-dat(1).iinjbTime = 1e3*nimsave.time;
-dat(1).iinjcTime = 1e3*nimsave.time;
+dat(1).iinja = 1e-3 * nimsave.inj.Ia';
+dat(1).iinjb = 1e-3 * nimsave.inj.Ib';
+dat(1).iinjc = 1e-3 * nimsave.inj.Ic';
+dat(1).iinjaTime = 1e3*nimsave.time';
+dat(1).iinjbTime = 1e3*nimsave.time';
+dat(1).iinjcTime = 1e3*nimsave.time';
 Itor=nimsave.Bprob.surf.Itor_spa_avg;
 ItorTime = nimsave.time;
 dat(1).ItorTime = 1e3 * ItorTime;
