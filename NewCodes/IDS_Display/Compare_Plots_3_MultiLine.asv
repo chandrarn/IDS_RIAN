@@ -18,7 +18,7 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129499;
+shot = 8160609011;
 
 plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
@@ -54,7 +54,7 @@ uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
 spa000 = 0; % plot spa045 and spa000 from PDC tree
-treeType = 'analysis';
+treeType = 'analysis3';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
 
@@ -75,7 +75,7 @@ scSNR = 0.45; % upper limit for residual / area
 findTLim = 1; % print indices to the command line which correspond to times
 tLimMS = [.1 2.0]; % time points in ms
 
-hitsi3 = 0; % hitsi3 data, with 3 injectors instead of 2
+hitsi3 = 1; % hitsi3 data, with 3 injectors instead of 2
 
 %% General Settings: %%%%
 
@@ -108,7 +108,7 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
 % chan_ranget = 1:30; % NIMROD mohawk
-chan_ranget = [1:34];
+chan_ranget = [1:36];
 
  chan_rangep = [46:63]; % poloidal
 %chan_rangep = [37:62]; % poloidal
@@ -152,7 +152,7 @@ end
 
 % Trim all Data for channel range
 cd('T:\RChandra\NewCodes\IDS_Display');
-dat = trimRange(dat, chan_range,(plotType>9)*(plotType<14),[],plotType==18);
+%dat = trimRange(dat, chan_range,(plotType>9)*(plotType<14),[],plotType==18);
 %ybreak = [ dat(1).impacts(length(chan_ranget)), dat(1).impacts(end)];
 %dat.time = dat.time + shiftTime;
 %             dat.ItorTime = dat.ItorTime + shiftTime;

@@ -201,32 +201,32 @@ lines = {'O II', 'C III', 'O II','C III'};
 
 % % 129499 
 %note: need to change .*1e-6 to .*1e-3 in sinefit
-in(1).shot = 129499;%150625998;
-in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-in(1).legend = [num2str(in(1).shot) ': +90kA'];
-in(1).color = {'r';'r'};%[225,105,0]./255};
-in(1).style = {'-','--'};
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = 5; % SHIFT VELOCITY
-in(1).intScale = 1; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = []; % FFT of signal, n frequencies
-in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
-in(1).phaseShift =-pi/2;
-% 129450, 129451
-in(2) = in(1);
-in(2).shot=129450;
-in(2).line=1;
-in(2).legend = [num2str(in(2).shot) ': +89kA'];
-in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(3)=in(1);
-in(3).shot = 129496;
-in(3).color = {'g';'g'};%[182, 244, 66]./255};
-in(3).legend = [num2str(in(3).shot) ': -76kA'];
+% in(1).shot = 129499;%150625998;
+% in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ': +90kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = 5; % SHIFT VELOCITY
+% in(1).intScale = 1; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
+% in(1).phaseShift =-pi/2;
+% % 129450, 129451
+% in(2) = in(1);
+% in(2).shot=129450;
+% in(2).line=1;
+% in(2).legend = [num2str(in(2).shot) ': +89kA'];
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(3)=in(1);
+% in(3).shot = 129496;
+% in(3).color = {'g';'g'};%[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
 
 % in(2).shot = 151217026;%150625998;
@@ -298,36 +298,36 @@ in(3).legend = [num2str(in(3).shot) ': -76kA'];
 % in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 
 %% 160609010 NIMROD
-% in(1).shot = 8160609009;150625998;
-% in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-% in(1).legend = [num2str(in(1).shot) ': +67.4kA'];
-% in(1).color = {'r';'r'};%[225,105,0]./255};
-% in(1).style = {'-','--'};
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = -5; % SHIFT VELOCITY
-% in(1).intScale = 2; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% in(1).AnalysisTitle=[ 'NIMROD: 0-120-240 Phasing, D, Iso-Visc.'];
-% in(1).phaseShift = 2*pi-pi/2;
-% % 160728
-% in(2)=in(1);
-% in(2).shot = 8160609009;
-% in(2).line=1;
-% in(2).color = {'b';'b'};%[66, 188, 244]./255};
-% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-% in(2).phaseShift = -pi/2;
+in(1).shot = 8160609009;150625998;
+in(1).line =1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+in(1).legend = [num2str(in(1).shot) ': +67.4kA'];
+in(1).color = {'r';'r'};%[225,105,0]./255};
+in(1).style = {'-','--'};
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = -5; % SHIFT VELOCITY
+in(1).intScale = 2; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle=[ 'NIMROD: 0-120-240 Phasing, D, Iso-Visc.'];
+in(1).phaseShift = 2*pi-pi/2;
+% 160728
+in(2)=in(1);
+in(2).shot = 8160609009;
+in(2).line=1;
+in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+in(2).phaseShift = -pi/2;
 
 %% 129499 NIMROD 
 % in(1).shot = 8129499;%150625998;
 % in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ': +90kA'];
-% in(1).color = {'r';[225,105,0]./255};
+% in(1).color = {'r';'r'};%[225,105,0]./255};
 % in(1).style = {'-','--'};
 % in(1).error = 0; % 1 / 0 for errorbars
 % in(1).velShift = 5; % SHIFT VELOCITY
@@ -528,7 +528,7 @@ elseif in(1).shot == 129499
     chan_rangep = []; % we dont want the axial port
     timebound = [1.6 2.0];
 elseif in(1).shot ==8129499
-    timebound = [0.3,0.66];
+    timebound = [0.4,0.66];
     chan_ranget = [1:36];
     chan_rangep = [37:72];
     xlim=[-20,60]

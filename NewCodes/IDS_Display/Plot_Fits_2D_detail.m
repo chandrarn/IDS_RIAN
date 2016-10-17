@@ -15,15 +15,15 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 16062202110;
+shot = 12949910;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
-chans1 = chan_sets(2, :);
+chans1 = chan_sets(1, :);
 deadCh = [4]; % dead channel for displaying time instead of data
 line = 2; % line INDEX, ie: dat(#).vel
 
 % Make Movie --------------------------------------------------------------
 % timeLim = 30:48;
-timeLim = [150:266];
+timeLim = [200:300];
 saveMOVIE = 0;
 fileMOVIE = ['/home/aaron/IDS/Display/Images/fits' num2str(shot)];
 
