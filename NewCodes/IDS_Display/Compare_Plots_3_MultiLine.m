@@ -2,7 +2,7 @@
 %
 % Updated November 1st, 2013 to display only one plot with time
 % horizontally and space vertically.
-
+(pi/ (magnetic constant)) * ((4/3)((magnetic constant) * 8.05E22A*m^2 /(4*pi))^2 ( (1/ (1.172E8 m))^3 - (1/radius of earth)^3 ) + (2*(10 nanotesla)^2 /3)( (1.172E8 m)^3 - (radius of earth)^3 ))
 %clear all; 
 %close all; clc;
 try 
@@ -18,9 +18,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129499;
+shot = 8160609011;
 
-plotType =3; % 3 = IDS velocity
+plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -64,7 +64,7 @@ saveFigure = 0; % save figure to file
 fileName = '/home/aaron/Dropbox/Thesis/Latex/Images/'; % file name for .png image
 
 timeInMs = 1; % displays time in ms, otherwise time point number
-useImpacts = 0; % plot the x scale in terms of impact parameter, else channel
+useImpacts = 1; % plot the x scale in terms of impact parameter, else channel
 
 screenArea = 0; % run velocity and temperature through a filter to discard points with low area
 scArea = 100; % lower limit for Area
@@ -151,7 +151,7 @@ else
 end
 
 % Trim all Data for channel range
-cd('T:\RChandra\NewCodes\IDS_Display');
+%cd('T:\RChandra\NewCodes\IDS_Display');
 dat = trimRange(dat, chan_range,(plotType>9)*(plotType<14),[],plotType==18);
 %ybreak = [ dat(1).impacts(length(chan_ranget)), dat(1).impacts(end)];
 %dat.time = dat.time + shiftTime;
