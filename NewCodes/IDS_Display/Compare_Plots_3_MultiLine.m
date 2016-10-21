@@ -2,7 +2,6 @@
 %
 % Updated November 1st, 2013 to display only one plot with time
 % horizontally and space vertically.
-(pi/ (magnetic constant)) * ((4/3)((magnetic constant) * 8.05E22A*m^2 /(4*pi))^2 ( (1/ (1.172E8 m))^3 - (1/radius of earth)^3 ) + (2*(10 nanotesla)^2 /3)( (1.172E8 m)^3 - (radius of earth)^3 ))
 %clear all; 
 %close all; clc;
 try 
