@@ -125,7 +125,7 @@ while cont==1;
     pFirstIm = libpointer('int32Ptr',0);
     PhGetCineInfo(CH, PhFileConst.GCI_FIRSTIMAGENO, pFirstIm);
     firstIm = pFirstIm.Value;
-    %get last frame number
+    %get last frame numberS
     pImCount = libpointer('uint32Ptr',0);
     PhGetCineInfo(CH, PhFileConst.GCI_IMAGECOUNT, pImCount);
     lastIm = int32(double(firstIm) + double(pImCount.Value) - 1);
