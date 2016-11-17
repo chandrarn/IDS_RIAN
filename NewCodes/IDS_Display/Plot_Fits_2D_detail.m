@@ -15,17 +15,17 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 12949910;
+shot = 16072801110;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
-chans1 = chan_sets(1, :);
+chans1 = chan_sets(2, :);
 deadCh = [4]; % dead channel for displaying time instead of data
 line = 2; % line INDEX, ie: dat(#).vel
 
 % Make Movie --------------------------------------------------------------
 % timeLim = 30:48;
-timeLim = [200:300];
-saveMOVIE = 0;
-fileMOVIE = ['/home/aaron/IDS/Display/Images/fits' num2str(shot)];
+timeLim = [50:181];
+saveMOVIE = 1;
+fileMOVIE = ['T:\IDS\Data Repository\Fits ' num2str(shot)];
 
 timePt = 100; % time index
 saveONEFRAME = 0;
@@ -49,7 +49,7 @@ chans = dat(1).peaks(st:ed); % exclude bad channels from channel range
 fntsz = 10;
 S = get(0,'ScreenSize');
 h1 = figure('Visible','on','Name','IDS Fitting','Position',...
-    [0.005*S(3), 0.03*S(4), 0.99*S(3) 0.9*S(4)], 'Color', [1 1 1]);
+    [0.005*S(3), 0.03*S(4), 0.99*S(3) 0.8*S(4)], 'Color', [1 1 1]);
 
 n_chy = 5;
 n_chx = 6;
@@ -196,6 +196,16 @@ end % Time Loop
 
 if saveMOVIE
     % Save Movie
-    movie2avi(F, [fileMOVIE '.avi'], 'fps', 5, 'compression', 'none', 'quality', 75);
+    v=VideoWriter([fileMOVIE '.mj2'],'Motion JPEG 2000');
+    %v.CompressionRatio=2;
+    v.LosslessCompression=true;
+%    v.Quality=100;
+ %   v.VideoFormat='RGB24';
+ v.FrameRate=2;
+    
+    open(v);
+    writeVideo(v,F);
+    close(v);
+    %movie2avi(F, [fileMOVIE '.avi'], 'fps', 2, 'compression', 'none', 'quality', 100);
 end
     

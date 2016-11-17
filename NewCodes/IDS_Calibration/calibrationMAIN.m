@@ -82,8 +82,8 @@ xWing = 1; % real space domain (1 => 3, 2 => 5)
 
 % PHASE 1 -----------------------------------------------------------------
 doPHASE1 = 1;
-shot1 = 13030901; % always use this one
-shot2 = 13030902; % set 'shot2' to zero if only using one fiber
+shot1 = 161017001; % always use this one
+shot2 = 161017002; % set 'shot2' to zero if only using one fiber
 xlim = [5 256]; % pixels for initial plotting, leave empty if unsure
 ylim = [38 49]; % pixels for initial plotting, leave empty if unsure
 

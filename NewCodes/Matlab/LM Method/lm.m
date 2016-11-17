@@ -401,7 +401,8 @@ function [alpha,beta,Chi_sq,y_hat,dydp] = lm_matx(func,t,p,y_dat,weight_sq,dp,c)
 
  y_hat = feval(func,t,p,c);	% evaluate model using parameters 'p'
  func_calls = func_calls + 1;
-
+size(y_dat);
+size(y_hat);
  delta_y = y_dat - y_hat;	% residual error between model and data
 
  dydp = lm_dydp(func,t,p,y_hat,dp,c);

@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 8160609011;
+shot = 160728011;
 
-plotType =4; % 3 = IDS velocity
+plotType =12; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -37,13 +37,13 @@ plotType =4; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 1; % which line to plot, if5 multiple
+line = 2; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
-shiftVel = 0; % km/s velocty shift
+shiftVel = -10; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
-torPlot = 1; % true for toroidal array (fibers 1 to 36)
+torPlot = 2; % true for toroidal array (fibers 1 to 36)
 % false for poloidal array (fibers 37 to 72)
 
 %% Options
@@ -53,7 +53,7 @@ uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
 spa000 = 0; % plot spa045 and spa000 from PDC tree
-treeType = 'analysis';
+treeType = 'analysis3';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
 
@@ -74,7 +74,7 @@ scSNR = 0.45; % upper limit for residual / area
 findTLim = 1; % print indices to the command line which correspond to times
 tLimMS = [.1 2.0]; % time points in ms
 
-hitsi3 = 0; % hitsi3 data, with 3 injectors instead of 2
+hitsi3 = 1; % hitsi3 data, with 3 injectors instead of 2
 
 %% General Settings: %%%%
 
@@ -96,9 +96,9 @@ sigDifLim = [0,20];
 avNan = 0; % average nans
 
 jLim = [-40 70]; % Limit for current plots
-
+breakLim = [-14,9];
 % timeLim = [1.5 2.3];
-timeLim = [0.9 2.4];
+timeLim = [1.0 2.4];
 % timeLim = [1.664, 1.872]; % aligned for IDS and both codes
 % timeLim = [0.64 0.97]; % testing NIMROD
 
@@ -107,14 +107,14 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
 % chan_ranget = 1:30; % NIMROD mohawk
-chan_ranget = [1:34];
+chan_ranget = [11:29];
 
  chan_rangep = [46:63]; % poloidal
 %chan_rangep = [37:62]; % poloidal
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 
-chan_rangep = [37:72];
+chan_rangep = [41:60];
 
 switch line 
     case 1
@@ -474,7 +474,7 @@ else
     caxis(clim);
     %set(cb,'Ytick',[-5:2.5:5])
     set(gca,'xtick',[0:.2:2])
-    set(gca,'ytick',[-40:10:40])
+    set(gca,'ytick',[-50:10:40])
     if ~useImpacts
         set(gca,'ytick',[y(1):5: y(end)]);
     end
@@ -482,10 +482,11 @@ else
 % break
     if useImpacts
         %breakyaxis([-9,9]);
-        %breakyaxis([ ybreak(end)+2, ybreak(1)-2]);
-        %breakyaxis([ ybreak(1)+2, ybreak(end)-2]);
+        breakyaxis(breakLim);
+        breakyaxis([ ybreak(end)+2, ybreak(1)-2]);
+        breakyaxis([ ybreak(1)+2, ybreak(end)-2]);
     end
-    text(timeLim(2)+.25,15,title1,'Rotation',-90,'Fontsize',fntsz);
+    text(timeLim(2)+.20,15,title1,'Rotation',-90,'Fontsize',fntsz);
 
 end
 

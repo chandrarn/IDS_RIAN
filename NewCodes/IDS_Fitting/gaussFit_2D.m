@@ -202,7 +202,7 @@ for n = 1:n_time
 %                 % Find error estimates using modified LM code
 %                 [X2, dPar(n, m, :), stddev(n, m, :), corr, R_sq] = ...
 %                     lm_sigma(f2, fit_par(n, m, :), x, z, dp, c, weight);
-                   fit_par(n, m, 1) = fit_par(n, m, 1) - 3;
+                   fit_par(n, m, 1) = fit_par(n, m, 1) ;%- 3;
                   [p_fit, Chi_sq, dPar(n, m, :), stddev(n, m, :), corr, R2, cvg_hst] = ...
                     lm(@singletGauss2DLM, fit_par(n, m, :), x, z, 0.001, dp);%, p_min,p_max,0)
                     
