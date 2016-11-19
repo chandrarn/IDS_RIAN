@@ -7,7 +7,7 @@ addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
 LoadPhantomLibraries();
 RegisterPhantom(true);
 
-shots = [161017001:161017004];
+shots = [161017002:161017004];
 
 addpath('T:\PhantomMovies\');
 
@@ -18,7 +18,7 @@ for shot = shots
     CineArray = zeros(v.Height,v.Width,v.Duration * v.FrameRate);
     k=1;
     while hasFrame(v)
-        CineArray(:,:,k)=double(readFrame(v));
+        CineArray(:,:,k)=double(rgb2gray(readFrame(v)));
         k=k+1;
     end
     

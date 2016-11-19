@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160728011;
+shot = 160728013;
 
-plotType =12; % 3 = IDS velocity
+plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -96,7 +96,7 @@ sigDifLim = [0,20];
 avNan = 0; % average nans
 
 jLim = [-40 70]; % Limit for current plots
-breakLim = [-14,9];
+breakLim = [];[-14,9];
 % timeLim = [1.5 2.3];
 timeLim = [1.0 2.4];
 % timeLim = [1.664, 1.872]; % aligned for IDS and both codes
@@ -106,15 +106,15 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:28]; % toroidal, mohawk port perp.
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
-% chan_ranget = 1:30; % NIMROD mohawk
-chan_ranget = [11:29];
+ chan_ranget = 1:36; % NIMROD mohawk
+%chan_ranget = [11:29];
 
  chan_rangep = [46:63]; % poloidal
-%chan_rangep = [37:62]; % poloidal
+chan_rangep = [37:62]; % poloidal
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 
-chan_rangep = [41:60];
+%chan_rangep = [41:60];
 
 switch line 
     case 1
@@ -482,9 +482,11 @@ else
 % break
     if useImpacts
         %breakyaxis([-9,9]);
+        if ~isempty(breakLim)
         breakyaxis(breakLim);
         breakyaxis([ ybreak(end)+2, ybreak(1)-2]);
         breakyaxis([ ybreak(1)+2, ybreak(end)-2]);
+        end
     end
     text(timeLim(2)+.20,15,title1,'Rotation',-90,'Fontsize',fntsz);
 

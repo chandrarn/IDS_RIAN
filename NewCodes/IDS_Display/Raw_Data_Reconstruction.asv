@@ -45,7 +45,6 @@ if param(i,3,n)<0 % 180degree phase
     param(i,4,n)=param(i,4,n)+pi;
     disp([' WARNING: NEGATIVE AMPLITUDE @ n=' num2str(n) ', Line 1, Impact: ' num2str(dat(1).impacts(i))]);
 end
-RMS(1) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) ))).^2));
 
 % CALC LOWER FIBER
 
@@ -67,7 +66,6 @@ if param(i,8,n)<0 % 180degree phase
     param(i,9,n)=param(i,9,n)+pi;
     disp([' WARNING: NEGATIVE AMPLITUDE @ n=' num2str(n) ', Line 1, Impact: ' num2str(dat(1).impacts(i))]);
 end
-RMS(2) = sqrt(mean( (signal'-(param(i,7,n)+param(i,8,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,9,n) ))).^2));
 
 
 figure; plot(dat(1).time'.*(timeScale),signal1,dat(1).time'.*(timeScale),signal,'linewidth',2);
@@ -80,8 +78,6 @@ plot([time(1),time(end)],[param(i,2,n),param(i,2,n)],'k--','linewidth',1.5);
 plot([time(1),time(end)],[param(i,7,n),param(i,7,n)],'k--','linewidth',1.5);
 plot([1.901, 1.901],[0,9],'k--','linewidth',1.5);
 plot([1.881, 1.881],[0,9],'k--','linewidth',1.5);
-xlabel('Time [ms]');
-ylabel('Velocity [km/s]');
-title(['Raw Data and Fit, Shot: ' num2str(shot) ', Impact: ' num2str(dat(1).impacts(i)) ' [cm]']);
-legend({['Upper Fiber'],['Lower Fiber']},'location','southwest');
-set(gca,'ylim',[-10,10]);
+ylabel('Time [ms]');
+xlabel('Velocity [km/s]');
+title(['Raw Data and Fit, Shot: ' num2str(shot) ', Impact: ' 

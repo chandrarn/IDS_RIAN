@@ -31,7 +31,6 @@ dat(1).peaks = dat(1).peaks(ind);
 dat(1).impacts = dat(1).impacts(ind);
 
 dat(1).time = dat(1).time(indT);
-
 for n = 1:length(dat)
     dat(n).temp = dat(n).temp(indT, ind);
     dat(n).vel = dat(n).vel(indT, ind);
