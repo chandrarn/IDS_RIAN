@@ -13,20 +13,19 @@ addpath('T:\PhantomMovies');
      time3 = data.TimeVector;
      data = data.CineArray;
      if isempty(trimData)
-         trimData1 = 1:size(data,1);
+         trimData = 1:size(data,3);
      end
 %      Unfortunately, the following all must be within the TRY because the
 %      oldformat is moronic, and put time as the first column.
 % The sizes here sometimes need to be manually changed, IE: avi converter
 % may do the indexing differently. note 'shiftdim'
      [ n_time,n_pix, n_chan,] = size(data);
-     data3 = zeros(length(trimData1), n_pix, n_chan);
-     for i = 1:length(trimData1)
-         data3(i, 1:n_pix, 1:n_chan) = squeeze(data(trimData1(1) + i - 1,:,:));
+     data3 = zeros(length(trimData), n_pix, n_chan);
+     for i = 1:length(trimData)
+         data3(i, 1:n_pix, 1:n_chan) = squeeze(data(trimData(1) + i - 1,:,:));
      end
 %      data3 = shiftdim(data,3);
      data3 = data3(:, end:-1:1, :);%(trimData,:,:);
-     time3=time3(trimData1);
 % catch
 %     
 %     data3 = importdata(['shot' int2str(shot3) '.mat']); % [counts] (time x wavelength space x channel space)
@@ -50,16 +49,15 @@ if shot4 ~= 0 % using both fibers
          time4 = data.TimeVector;
          data = data.CineArray;
          if isempty(trimData)
-             trimData2 = 1:size(data,1);
+             trimData = 1:size(data,3);
          end
 %          Unfortunately, the following all must be within the TRY because the
 %          oldformat is moronic, and put time as the first column.
          [n_time,n_pix, n_chan] = size(data);
-         data4 = zeros(length(trimData2), n_pix, n_chan);
-         for i = 1:length(trimData2)
-             data4(i, 1:n_pix, 1:n_chan) = squeeze(data( trimData2(1) + i - 1,:,:));
+         data4 = zeros(length(trimData), n_pix, n_chan);
+         for i = 1:length(trimData)
+             data4(i, 1:n_pix, 1:n_chan) = squeeze(data( trimData(1) + i - 1,:,:));
          end
-         time4=time4(trimData2);
 %          data4 = shiftdim(data,3);
          data4 = data4(:, end:-1:1, :);%(trimData,:,:);
 %     catch
@@ -340,7 +338,6 @@ for n = 1:n_chan
 %     A(1) = dnm/(centers(n, end) - centers(n, 1));
 %     A(2) = nm(1); % offset estimate
 %     [estimate] = optimize(centers(n, :)', nm, A, max_evals);
-n
     centers(n, :)';
     nm;
     size(centers)

@@ -63,16 +63,17 @@ for n = 1:n_time
 %         y0=round(y0);
         
         xBound = x0 - param.xWing : x0 + param.xWing;
-        if nn == 2
-            yBound = y0 - param.yWing-4 : y0 + param.yWing+1; %ELIMINATE -3 23/2/16
-        elseif nn == 3
-            yBound = y0 - param.yWing-4 : y0 + param.yWing-1;
-        elseif nn == 4
-            yBound = y0 - param.yWing +0: y0 + param.yWing-4;
-        else
-            yBound = y0 - param.yWing -1: y0 + param.yWing+1;
-        end
-        yBound = yBound -1*(m>29); % second set of fibers is slightly lower.
+        yBound = y0 - param.yWing +0: y0 + param.yWing-0;
+%         if nn == 2
+%             yBound = y0 - param.yWing-4 : y0 + param.yWing+1; %ELIMINATE -3 23/2/16
+%         elseif nn == 3
+%             yBound = y0 - param.yWing-4 : y0 + param.yWing-1;
+%         elseif nn == 4
+%             yBound = y0 - param.yWing +0: y0 + param.yWing-4;
+%         else
+%             yBound = y0 - param.yWing -1: y0 + param.yWing+1;
+%         end
+        yBound = yBound -1*(m>30); % second set of fibers is slightly lower.
         if param.calcError
             n_pts = (2 * param.xWing + 1) * (length(yBound));
             blank1 = NaN * ones(1, 6); % overwrite parameters if found to be bad

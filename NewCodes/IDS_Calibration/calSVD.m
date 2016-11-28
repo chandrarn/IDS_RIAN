@@ -90,7 +90,6 @@ if shot2 ~= 0 % load the second shot, if it exists
     end
 
     % Add topos from both shots together
-
     data = topo1 + topo2;
     clear topo1 topo2;
 else

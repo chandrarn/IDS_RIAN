@@ -45,6 +45,8 @@ if ~isempty(remv)
         imax
     end
 end
+assignin('base','xmax',xmax);
+assignin('base','imax',imax);
 if ~isempty(force)
     for n = 1:length(force) % index of 'data' does not start at 1. Make 'force' correspond to index of data
         force(n) = find(force(n) == chanBound);
@@ -56,25 +58,34 @@ end
 % if max(size(imax)) >max(chanNums);
 %     imax=imax(1:max(chanNums));
 % end
+% ReOrder things: keep the strongest peaks, not just the sequential ones
 
-centers = sort(imax); % sort indices in ascending order
+[centers,I] = sort(imax); % sort indices in ascending order
 amps = data(centers); % arrange maxima values to match indices
 centers = chanBound(1) + centers - 1;
 if centers(1) < firstCenter(1) - 1; % catch if it finds a max at the very beginning
     centers = centers(2:end);
     amps = amps(2:end);
+    I=I(2:end);
 end
 if centers(end) > lastCenter(1) + 1; % catch if it finds a max at the very beginning
     centers = centers(1:end-1);
     amps = amps(1:end-1);
+    I=I(1:end-1);
 end
 disp(['Number of extrema found: ' num2str(size(centers, 2))]);
 disp(['Requested: ' num2str(length(chanNums))]);
+% Put the indexies back in order of magnitude, only take the strongest ones
 
+centers(I)=centers;
+amps(I)=amps;
 if length(centers)>length(chanNums)
     centers=centers(1:length(chanNums))';
     amps=amps(1:length(chanNums));
 end
+
+[centers,I] = sort(centers); 
+amps = amps(I);
 
 % Plot summed Data
 

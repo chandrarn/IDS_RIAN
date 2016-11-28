@@ -11,7 +11,7 @@ function[PEAKS, REL_INT, par, fits] = calGauss2D(peaks, data, brightWing, xWing,
 % par(:,6) = offset
 % addpath('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\lsqcurvefit');
 
-plotFits = 1;
+plotFits = 0;
 
 if plotFits
     S = get(0,'ScreenSize');
@@ -138,6 +138,7 @@ for n = 1:size(peaks, 1) % loop through channels
         
         ax(3) = axes('Parent', h1, 'Position', [.68 .55 .27 .35], 'FontSize', fntsz);
         h5 = plot(yBound, Z(:, ceil(size(Z, 2)/2)), 'or');
+        %h5 = plot(yBound, mean(Z,2), 'or');
         set(h5, 'MarkerFaceColor', 'r');
         hold on;
         h6 = plot(yBoundf, Zf(:, ceil(size(Zf, 2)/2)), '-b');
@@ -151,6 +152,7 @@ for n = 1:size(peaks, 1) % loop through channels
         
         ax(4) = axes('Parent', h1, 'Position', [.68 .1 .2 .35], 'FontSize', fntsz);
         h7 = plot(xBound, Z(ceil(size(Z, 1)/2), :), 'or');
+        %h7 = plot(xBound, mean(Z,1), 'or');
         set(h7, 'MarkerFaceColor', 'r');
         hold on;
         h8 = plot(xBoundf, Zf(ceil(size(Zf, 1)/2), :), '-b');

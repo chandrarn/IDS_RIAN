@@ -7,7 +7,7 @@ addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
 LoadPhantomLibraries();
 RegisterPhantom(true);
 
-shots = [161017002:161017004];
+shots = [161017003:161017004];
 
 addpath('T:\PhantomMovies\');
 
@@ -21,7 +21,8 @@ for shot = shots
         CineArray(:,:,k)=double(rgb2gray(readFrame(v)));
         k=k+1;
     end
-    
+    % Need to reorient dimensions
+    CineArray=shiftdim(CineArray,2);
     %% Load the timebase from the .cine
     [HRES, CH] = PhNewCineFromFile(['T:\PhantomMovies\' num2str(shot) '.cine']);
     EndofFrame = libstruct('tagTIME64');

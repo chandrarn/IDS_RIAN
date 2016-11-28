@@ -15,7 +15,7 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 16072801110;
+shot = 16101802210;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
 chans1 = chan_sets(2, :);
 deadCh = [4]; % dead channel for displaying time instead of data

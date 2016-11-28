@@ -54,60 +54,62 @@
 % PHASE 8:
 % Save selected settings to tree.
 %
-%clear all; close all; clc;
-addpath('~/IDS/Matlab/');
-%cd('T:\RChandra\NewCodes\');
-%addAllThePaths;
+clear all; close all; clc;
 
 %% Settings
 
 % SAVING FIGURES --------
 % PHASE 1
 approxFit.save = 0;
-approxFit.file = '/home/aaron/IDS/Calibration/Images/test';
+approxFit.file = 'S:\test';
 
 % PHASE 2
 indivFit.save = 0;
 indivFit.chan = 24;
-indivFit.file = ['/home/aaron/IDS/Calibration/Images/example_cal_fit_' ...
+indivFit.file = ['S:\MC_IDS\Analysis Plots\example_cal_fit_' ...
     num2str(indivFit.chan)];
 
 allFit.save = 0;
-allFit.file = '/home/aaron/IDS/Calibration/Images/test';
+allFit.file = 'S:\test';
 
 % PHASE 3
 dblBinFit.save = 0;
 dblBinFit.file = [];
 
-% PHASE 5B
-calPlasmaFit.save = 0;
-calPlasmaFit.file = '/home/aaron/IDS/Calibration/Images/calPlasma';
-
 %%
 % GENERAL -----------------------------------------------------------------
-xWing = 2; % real space domain (1 => 3, 2 => 5)
+xWing = 1; % real space domain (1 => 3, 2 => 5)
 
 % PHASE 1 -----------------------------------------------------------------
 doPHASE1 = 1;
 shot1 = 161017001; % always use this one
 shot2 = 161017002; % set 'shot2' to zero if only using one fiber
-xlim = [10,320]; % pixels for initial plotting, leave empty if unsure
-ylim = [54,74]; % pixels for initial plotting, leave empty if unsure
+xlim = [10 320]; % pixels for initial plotting, leave empty if unsure
+ylim = [54 74]; % pixels for initial plotting, leave empty if unsure
+
+% ---- 14.5 kHz, May/June 2013
+% shot1 = 13053101; % always use this one - 14.5 kHz, May/June 2013
+% shot2 = 13053102; % set 'shot2' to zero if only using one fiber
+% xlim = [30 352]; % pixels for initial plotting, leave empty if unsure
+% ylim = [50 60]; % pixels for initial plotting, leave empty if unsure
 
 % PHASE 2 -----------------------------------------------------------------
 doPHASE2 = 1;
-% chanNums = [1:4, 6:21, 23:72]; % 5 and 22 are dead
-%chanNums = [1:62]; % 5 dead, 22 weak but including - 5/31/13
-chanNums = [1:4, 6:53, 55:72]; % 
+
+chanNums = [1:4, 6:21, 23:53, 55:71]; % 
 firstCenter = [23, 63]; % Center position of first channel, [real, wavelength]
 lastCenter = [291, 66]; % Center position of last channel, [real, wavelength]
 brightWing = 5; % number of pixels in wavelength space for Gaussian fitting domain
-force = []; % force finding channel(s) at specific x location(s)
-remove = [];
+force = [28]; % force finding channel(s) at specific x location(s)
+remv = []; % Remove Channel 
 
-% PHASE 2B ----------------------------------------------------------------
-doPHASE2B = 1;
-breakindex = 35; % first index of second fiber array
+% ------- 14.5 kHz, May/June 2013
+% % chanNums = [1:4, 6:21, 23:72]; % 5 and 22 are dead
+% chanNums = [1:4, 6:72]; % 5 dead, 22 weak but including - 5/31/13
+% firstCenter = [37, 55]; % Center position of first channel, [real, wavelength]
+% lastCenter = [348, 55]; % Center position of last channel, [real, wavelength]
+% brightWing = 5; % number of pixels in wavelength space for Gaussian fitting domain
+% force = [];
 
 % PHASE 3 -----------------------------------------------------------------
 doPHASE3 = 0;
@@ -120,86 +122,64 @@ doPHASE4 = 0;
 % MUST MANUALLY CORRECT TIME BASE !
 % BOTH MOVIES MUST HAVE SAME TIME INTERVAL !
 doPHASE5 = 0;
-shot3 = 161017004; % Motor Calibration Shot
-shot4 = 161017003; % Optional second motor calibration shot
-motorSpeed = 0.0509; % [nm per second]
-trim5 = [1:375]; % Trim calibration movie
-% 4-16-15
-% "motorSpeed" nominally 1, empirically set by analyzing shots
-% 129499 and 129496 from 1.7 to 2.0 ms. Systematic velocity difference of
-% 2.46 km/s between two C III lines observed. This means PIX_SP needs to
-% decrease by 1.35%, thus the above number.
+shot3 = 13053103; % Motor Calibration Shot
+shot4 = 13053104; % Optional second motor calibration shot
+motorSpeed = 1; % [nm per second]
 
 % PHASE 5 B ---------------------------------------------------------------
 doPHASE5B = 0;
 shotPlas = 129499; % Plasma shot to analyze
-channel = 19; % Channel Number
-timePt = 280; % time point
-% pixelNums = [38 53 63]; % pixel numbers of peaks to within 1 pixel
-% plasmaLams = 1e-9 * [464.913, 465.025, 465.147]; % corresponding line wavelengths
-pixelNums = [38 53 63];
-plasmaLams = 1e-9 * [464.742, 464.913, 465.025];
-lineIDs = {'C III', 'O II', 'C III'};
+channel = 21; % Channel Number
+timePt = 310; % time point
+pixelNums = [39 55 65]; % pixel numbers of peaks to within 1 pixel
+plasmaLams = 1e-9 * [464.742, 465.025, 465.147]; % corresponding line wavelengths
 calLam = 1e-9 * 465.025; % [m]
 yWing = 7; % similar to 'brightWing', but allowing different value for plasma lines
-factor = 1; % estimated correction to motor speed
-
-% PHASE 5 C --------------------------------------------------------------
-doPHASE5C = 0;
-motorCalShot = 161017004;
-binChanMotor = 90;178;
-channel = 55;
-lamMotor = [434.75, 435.84];
+factor = 0.7; % estimated correction to motor speed
 
 % PHASE 6 -----------------------------------------------------------------
 doPHASE6 = 0;
 
 % PHASE 7 -----------------------------------------------------------------
 doPHASE7 = 0;
-discard = [1,2,4,33:36];
+discard = [53];
+
+% ------- 14.5 kHz, May/June 2013
+% discard = [22, 53, 54];
 
 % PHASE 8 -----------------------------------------------------------------
 doPHASE8 = 0; % VERY IMPORTANT
 
-%-------------------------------------------------------------------------
-%saveToShots = [150505022:150505023,150506009:150506011]; % mohawk port, orthogonal to midplane, and axial port. 'impacts4'
-%impactsFile = '/home/aaron/IDS/Geometry/impacts4.mat'; 
-%-------------------------------------------------------------------------
-% saveToShots = [129438:129453, 129460:129480, 129485:129500, 129577:129600, ...
-%     129611:129627, 129642:129661, 129662:129685, 129688:129711, ...
-%     129719:129746, 129747:129759, 129800:129802]; % mohawk port, chords in midplane, axial port, 'impacts2'
-% impactsFile = '/home/aaron/IDS/Geometry/impacts2.mat'; 
-%-------------------------------------------------------------------------
+% saveToShots = [129510:129534, 129544:129571]; % mohawk port, orthogonal to midplane, and axial port. 'impacts4'
+
+saveToShots = [129438:129453, 129460:129480, 129485:129500, 129577:129600, ...
+    129611:129627, 129642:129661, 129662:129685, 129688:129711, ...
+    129719:129746, 129747:129759, 129800:129802]; % mohawk port, chords in midplane, axial port, 'impacts2'
+
 % saveToShots = [129787:129799]; % axial ports facing each other
-% impactsFile = '/home/aaron/IDS/Geometry/impacts3.mat'; 
-%-------------------------------------------------------------------------
+
 % saveToShots = [129807:129824]; % reentrant port at 71 degrees and axial port, 'impacts1'
-% impactsFile = '/home/aaron/IDS/Geometry/impacts1.mat'; 
-%-------------------------------------------------------------------------
 
-saveToShots = [161018009:161018027];
-impactsFile = 'C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\Geometry\impacts5';
-
-
-stt.CAL_LAMBDA = 1;
-stt.LAMBDA = 1;
+stt.CAL_LAMBDA = 0;
+stt.LAMBDA = 0;
 stt.VOLTAGE = 0;
-stt.MASS = 1;
-stt.PEAKS = 1;
-stt.REL_INT = 1;
-stt.PIX_SP = 1;
+stt.MASS = 0;
+stt.PEAKS = 0;
+stt.REL_INT = 0;
+stt.PIX_SP = 0;
 stt.IMPACTS = 1;
 
-hitsi3 = 1;
-CAL_LAMBDA = 1e-9 * 464.913; % [m], should be effective wavelength that matches PEAKS centers
-LAMBDA =  [4.64181027837185e-07;4.64741788164247e-07;4.64913483710916e-07;4.65024612594789e-07]; % [m], plasma lines in descending wavelength
+CAL_LAMBDA = 1e-9 * 465.025; % [m], should be effective wavelength that matches PEAKS centers
+LAMBDA = 1e-9 * [465.147, 465.025 464.742]; % [m], plasma lines in descending wavelength
 VOLTAGE = 0; % image intensifier voltage, '0' if not using
-MASS = [16, 12, 16,12]; % [AMU], corresponding to LAMBDA
-
-% 'impacts1' = long fiber in old reentrant port, toroidal midplane diameter,
+MASS = [12, 12, 12]; % [AMU], corresponding to LAMBDA
+%impactsFile = 'S:\MC_IDS\impacts2.mat'; 
+impactsFile = 'T:\RChandra\NewCodes\Geometry\impacts5.mat';
+% 'impacts' = long fiber in old reentrant port, toroidal midplane diameter,
 % short fiber in axial port at 45 degrees, X side (June 2012 - May 2013)
 % 'impacts2' = long fiber in mohawk reentrant port, fan in midplane, axial fiber 
 % on poloidal section.
+% 'impacts5' upper mohawk #6, lower mohawk #6
 
 %% PHASE 1 - Load Data, SVD, Display
 
@@ -243,14 +223,13 @@ end
 if doPHASE2
 
     % Find approximate center positions of all channels
-    %cd('T:\RChandra\NewCodes\');
-    pwd
-    peaks = fitAllChans(data, chanNums, firstCenter, lastCenter, brightWing, approxFit, force, remove);
-    pwd
+
+    peaks = fitAllChans(data, chanNums, firstCenter, lastCenter, brightWing, approxFit, force,remv);
+
     % Fit each peak to 2D Gaussian individually
-    pwd
+
     [PEAKS, REL_INT, par, fits] = calGauss2D(peaks, data, brightWing, xWing, indivFit);
-    pwd
+
     % Plot Fits ------------------------------------
 
     figure(h1);
@@ -282,16 +261,6 @@ if doPHASE2
 
 end
 
-%% PHASE 2B - Correct for second fiber array offset
-if doPHASE2B
-    
-    out = calSecLine(PEAKS,breakindex);
-    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(4,1); % apply offset
-    out = calSecLine(PEAKS,breakindex); % tends to slightly change the second time
-    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(4,1); % apply offset again
-
-end
-
 %% PHASE 3 - Doublet Calibration - bin in real space to estimate offset of second peak
 
 if doPHASE3
@@ -311,12 +280,12 @@ if doPHASE5
     % Step 1: Find parameters to reestimate center anywhere in wavelength
     % domain of CCD
     
-    % slope = findSlant(PEAKS); % Sidelined for now- assume fibers aligned
+%     slope = findSlant(PEAKS); % Sidelined for now- assume fibers aligned
 %     with CCD
     
     % Step 2: Loop through time and fit every channel
     
-    PIX_SP = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing,trim5);
+    PIX_SP = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing);
     
 end
 
@@ -325,20 +294,8 @@ end
 if doPHASE5B
     
     PIX_SP = calPlasma(shotPlas, PIX_SP, PEAKS, channel, timePt, ...
-        pixelNums, plasmaLams, calLam, xWing, yWing, factor, calPlasmaFit, lineIDs);
+        pixelNums, plasmaLams, calLam, xWing, yWing, factor);
 
-end
-
-%% PHASE 5 C - Correctly Correct Motor Calibration ( Compute Motor Speed )
-
-if doPHASE5C 
-%     try
-%         cd('T:\IDS\Calibration');
-%     catch
-%         cd('/media/alfventemp/IDS/Calibration');
-%     end
-        %TEMP = PIX_SP;
-    PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor, PEAKS, channel, xWing );
 end
 
 %% PHASE 6 - Convert Fitting Parameters, plot FWHM, PIX_SP, and REL_INT
@@ -365,7 +322,7 @@ if doPHASE6
     hold on;
     grid on;
     set(gca, 'XLim', [PEAKS(1, 1) PEAKS(end, 1)]);
-    set(gca, 'XTickLabel', []);
+    set(gca, 'XTickLab', []);
     ylabel('FWHM [m]');
     
     % PIX_SP
@@ -374,7 +331,7 @@ if doPHASE6
     hold on;
     grid on;
     set(gca, 'XLim', [PEAKS(1, 1) PEAKS(end, 1)]);
-    set(gca, 'XTickLabel', []);
+    set(gca, 'XTickLab', []);
     ylabel('PIX SP [m]');
     
 end
@@ -416,15 +373,15 @@ catch % not running the whole code
     stt.PIX_SP = 0;
 end
 
-saveToShots;
-CAL_LAMBDA;
-LAMBDA;
-VOLTAGE;
-MASS;
-PEAKS;
-REL_INT;
-PIX_SP;
-IMPACTS;
+saveToShots
+CAL_LAMBDA
+LAMBDA
+VOLTAGE
+MASS
+PEAKS
+REL_INT
+PIX_SP
+IMPACTS
 
 
 
@@ -432,7 +389,6 @@ IMPACTS;
 
 if doPHASE8
     
-    saveToTree3(saveToShots, stt, CAL_LAMBDA, LAMBDA, VOLTAGE, MASS, PEAKS, ...
-        REL_INT, PIX_SP, IMPACTS, hitsi3);
+    saveToTree2(saveToShots, stt, CAL_LAMBDA, LAMBDA, VOLTAGE, MASS, PEAKS, REL_INT, PIX_SP, IMPACTS);
     
 end

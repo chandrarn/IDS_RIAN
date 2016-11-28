@@ -17,7 +17,7 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129451
+shot = 161018015
 
 plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
@@ -43,7 +43,7 @@ shiftVel = -9; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
-torPlot = 1; % true for toroidal array (fibers 1 to 36)
+torPlot = 2; % true for toroidal array (fibers 1 to 36)
 % false for poloidal array (fibers 37 to 72)
 
 %% Options
@@ -53,7 +53,7 @@ uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
 spa000 = 0; % plot spa045 and spa000 from PDC tree
-treeType = 'analysis';
+treeType = 'analysis3';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
 
@@ -74,7 +74,7 @@ scSNR = 0.45; % upper limit for residual / area
 findTLim = 1; % print indices to the command line which correspond to times
 tLimMS = [.1 2.0]; % time points in ms
 
-hitsi3 = 0; % hitsi3 data, with 3 injectors instead of 2
+hitsi3 = 1; % hitsi3 data, with 3 injectors instead of 2
 
 %% General Settings: %%%%
 

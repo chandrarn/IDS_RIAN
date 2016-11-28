@@ -17,7 +17,6 @@ large = 'large-scale';
 medium = 'medium-scale';
 try
     %cd('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\lsqcurvefit');
-    addpath('C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\Matlab\lsqcurvefit');
 catch
     cd('/media/alfventemp/RChandra/A-A-Ron Code/Matlab Code/Core Fitting Codes/lsqcurvefit');
 end
