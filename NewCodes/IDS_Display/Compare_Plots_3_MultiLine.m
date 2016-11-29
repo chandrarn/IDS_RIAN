@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129451
+shot = 160525017
 
-plotType =3; % 3 = IDS velocity
+plotType =12; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -53,7 +53,7 @@ uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
 spa000 = 0; % plot spa045 and spa000 from PDC tree
-treeType = 'analysis';
+treeType = 'analysis3';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
 

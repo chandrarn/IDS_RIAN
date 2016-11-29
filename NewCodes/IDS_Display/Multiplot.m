@@ -47,7 +47,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(1).shot = 160525017;150625998;
 % in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-% in(1).legend = [num2str(in(1).shot) ': -47.1kA'];
+% in(1).legend = [num2str(in(1).shot) ': -41.9kA'];
 % in(1).color = {'r';'r'};%[225,105,0]./255};
 % in(1).style = {'-','--'};
 % in(1).error = 0; % 1 / 0 for errorbars
@@ -60,19 +60,19 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 % in(1).fftPlot = [1]; % FFT of signal, n frequencies
 % in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, ' lines{in(1).line}];
-% in(1).phaseShift = 2*pi-pi/2;
+% in(1).phaseShift = -pi/2 + pi;
 % % % 160728
 % in(2)=in(1);
 % in(2).shot = 160525018;
 % in(2).line=2;
 % in(2).color = {'b';'b'};%[66, 188, 244]./255};
-% in(2).legend = [num2str(in(2).shot) ': -47.1kA'];
-% in(2).phaseShift = -pi/2;
+% in(2).legend = [num2str(in(2).shot) ': -45.5kA'];
+% in(2).phaseShift = -pi/2+pi;
 % in(3)=in(1);
 % in(3).shot = 160525019;
 % in(3).color = {'g';'g'};%[182, 244, 66]./255};
-% in(3).legend = [num2str(in(3).shot) ': -50.3kA'];
-% in(3).phaseShift = -2*pi-pi/2;
+% in(3).legend = [num2str(in(3).shot) ': -43.4kA'];
+% in(3).phaseShift = -pi/2+pi;
 
 
 % in(1).shot = 160622017;150625998;
@@ -258,9 +258,9 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(3).color = {'g';'g'};%[182, 244, 66]./255};
 % in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
-%% Low Performance HIT-SI
+%% Low Performance HIT-SI / Comparison
 in(1).shot = 129499;%150625998;
-in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 in(1).legend = [num2str(in(1).shot) ': +90kA'];
 in(1).color = {'r';'r'};%[225,105,0]./255};
 in(1).style = {'-','--'};
@@ -278,7 +278,7 @@ in(1).phaseShift =-pi/2;
 % 129450, 129451
 in(2) = in(1);
 in(2).shot=129496;
-in(2).line=1;
+in(2).line=2;
 in(2).legend = [num2str(in(2).shot) ': -76kA'];
 in(2).color = {'b';'b'};%[66, 188, 244]./255};
 in(3)=in(1);
@@ -286,7 +286,7 @@ in(3).shot = 129450;
 in(3).color = {'g';'g'};%[182, 244, 66]./255};
 in(3).legend = [num2str(in(3).shot) ': +78kA'];
 
-%% Low Performance HIT-SI3. 0-120-240
+% Low Performance HIT-SI3. 0-120-240
 % in(1).shot = 151217024;150625998;
 % in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
@@ -303,7 +303,7 @@ in(3).legend = [num2str(in(3).shot) ': +78kA'];
 % in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
 % in(1).fftPlot = [1]; % FFT of signal, n frequencies
 % in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 1.5, ' lines{in(1).line}];
-% in(1).phaseShift = 2*pi -pi/2 + pi;
+% in(1).phaseShift = 2*pi -pi/2 + pi; % Add pi to make compairing neg-pos easier
 % % 160728
 % in(2)=in(1);
 % in(2).shot = 151217025;
@@ -441,131 +441,7 @@ in(3).legend = [num2str(in(3).shot) ': +78kA'];
 % in(3).color = {'g';'g'};%[182, 244, 66]./255};
 % in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
-%% 129530, NIMROD, PSI-TET
-% in(1).shot = 12953010;
-% in(1).line = 2; % line # NB: 1 is O II, 2 is C III !
-% in(1).legend = '129530 C III';
-% in(1).color = 'b';
-% in(1).style = '-';
-% in(1).error = 1; % 1 / 0 for errorbars
-% in(1).velShift = 0; % SHIFT VELOCITY
-% in(1).intScale = 1; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
 
-%% 129499, NIMROD, PSI-TET
-% in(1).shot = 12949910;
-% in(1).line = 2; % line # NB: 1 is O II, 2 is C III !
-% in(1).legend = '129499 C III';
-% in(1).color = 'b';
-% in(1).style = '-';
-% in(1).error = 1; % 1 / 0 for errorbars
-% in(1).velShift = 0; % SHIFT VELOCITY
-% in(1).intScale = 1; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% 
-% in(2).shot = 6129499;
-% in(2).line = 1; % line #
-% in(2).legend = 'NIMROD';
-% in(2).color = 'r';
-% in(2).style = '-';
-% in(2).error = 0; % 1 / 0 for errorbars
-% in(2).velShift = 0; % SHIFT VELOCITY
-% in(2).intScale = 0.35; % scale factor for intensity
-% in(2).timeShift = 0.9377; % ms, shift time base
-% 
-% in(3).shot = 5129499;
-% in(3).line = 1; % line #
-% in(3).legend = 'PSI-TET';
-% in(3).color = [12/255 117/255 0];
-% in(3).style = '-';
-% in(3).error = 0; % 1 / 0 for errorbars
-% in(3).velShift = 0; % SHIFT VELOCITY
-% in(3).intScale = 0.35; % scale factor for intensity
-% in(3).timeShift = 1.335; % ms, shift time base
-
-%% NIMROD temperature details
-% in(1).shot = 6129499;
-% in(1).line = 1; % line #
-% in(1).legend = 'w/ Temp.';
-% in(1).color = 'r';
-% in(1).style = '-';
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = 0; % SHIFT VELOCITY
-% in(1).intScale = 0.35; % scale factor for intensity
-% in(1).timeShift = 0.9377; % ms, shift time base
-% 
-% in(2).shot = 2129499;
-% in(2).line = 1; % line #
-% in(2).legend = 'NO Temp.';
-% in(2).color = 'm';
-% in(2).style = '-';
-% in(2).error = 0; % 1 / 0 for errorbars
-% in(2).velShift = 0; % SHIFT VELOCITY
-% in(2).intScale = 0.35; % scale factor for intensity
-% in(2).timeShift = 0.9377; % ms, shift time base
-% 
-% in(3).shot = 8129499;
-% in(3).line = 1; % line #
-% in(3).legend = 'NO Time Avg.';
-% in(3).color = [0.5 0 0];
-% in(3).style = '--';
-% in(3).error = 0; % 1 / 0 for errorbars
-% in(3).velShift = 0; % SHIFT VELOCITY
-% in(3).intScale = 0.35; % scale factor for intensity
-% in(3).timeShift = 0.9377; % ms, shift time base
-% 
-% in(4).shot = 62129499;
-% in(4).line = 1; % line #
-% in(4).legend = 'Vel. Subtracted';
-% in(4).color = [0.6 0 0.4];
-% in(4).style = '-.';
-% in(4).error = 0; % 1 / 0 for errorbars
-% in(4).velShift = 0; % SHIFT VELOCITY
-% in(4).intScale = 0.35; % scale factor for intensity
-% in(4).timeShift = 0.9377; % ms, shift time base
-
-%% PSI-TET temperature details
-% in(1).shot = 5129499;
-% in(1).line = 1; % line #
-% in(1).legend = 'w/ Temp.';
-% in(1).color = [12/255 117/255 0];
-% in(1).style = '-';
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = 0; % SHIFT VELOCITY
-% in(1).intScale = 0.35; % scale factor for intensity
-% in(1).timeShift = 1.335; % ms, shift time base
-% 
-% in(2).shot = 3129499;
-% in(2).line = 1; % line #
-% in(2).legend = 'NO Temp.';
-% in(2).color = 'g';
-% in(2).style = '-';
-% in(2).error = 0; % 1 / 0 for errorbars
-% in(2).velShift = 0; % SHIFT VELOCITY
-% in(2).intScale = 0.35; % scale factor for intensity
-% in(2).timeShift = 1.335; % ms, shift time base
-% 
-% in(3).shot = 7129499;
-% in(3).line = 1; % line #
-% in(3).legend = 'NO Time Avg.';
-% in(3).color = [6/255 59/255 0];
-% in(3).style = '--';
-% in(3).error = 0; % 1 / 0 for errorbars
-% in(3).velShift = 0; % SHIFT VELOCITY
-% in(3).intScale = 0.35; % scale factor for intensity
-% in(3).timeShift = 1.335; % ms, shift time base
-% 
-% in(4).shot = 53129499;
-% in(4).line = 1; % line #
-% in(4).legend = 'Vel. Broadening Subtracted';
-% in(4).color = [6/255 59/255 0];
-% in(4).style = '-.';
-% in(4).error = 0; % 1 / 0 for errorbars
-% in(4).velShift = 0; % SHIFT VELOCITY
-% in(4).intScale = 0.35; % scale factor for intensity
-% in(4).timeShift = 1.335; % ms, shift time base
-
-%%
 
  plotType = 1; % Velocity
 % plotType = 2; % Temperature
@@ -618,8 +494,8 @@ if in(1).shot == 151217026
     chan_rangep = [49:62];[44:62]; % poloidal
     timebound=[.8,2.0];
 elseif in(1).shot == 151217024
-    chan_ranget = [11:26];
-    chan_rangep = [47:62];
+    chan_ranget = [10:26];
+    chan_rangep = [46:62];
     timebound=[.8,2.0];
 elseif in(1).shot == 151217025
     chan_ranget = [13:26];
@@ -640,6 +516,8 @@ elseif in(1).shot ==8129499
 elseif in(1).shot == 160525016
     timebound = [1.5,2.0];
 elseif in(1).shot == 160525017
+    chan_ranget = [10:26];
+    chan_rangep = [46:62];
     timebound = [1.35,2.0];
 elseif in(1).shot >= 160526030 && in(1).shot <= 160526038
     timebound = [1.35,2.0];
@@ -888,7 +766,10 @@ for n = 1:length(in)
                         elseif plotType == 2
                             signal = dat(in(n).line).temp(:,doubleplot(1,i));
                         end
-                        savSig(1,i,n,:)=signal;
+                        if exist('savSig','var');size(savSig)
+                        end
+                        size(signal)
+                        %savSig(1,i,n,:)=signal;
                         Fsamp = 1/(mean(diff(dat(1).time.*(in(n).timeScale.*1e-3))));
                         offset = nanmean(signal);
                         amp = max(signal)-offset;
@@ -932,7 +813,7 @@ for n = 1:length(in)
                             elseif plotType == 2
                                 signal = dat(in(n).line).temp(:,doubleplot(2,i));
                             end
-                            savSig(2,i,n,:)=signal;
+                            %savSig(2,i,n,:)=signal;
                             offset = mean(signal);
                             amp = max(signal)-offset;
                             guess(i,:,n,2) = [offset,amp,phase,freq];
@@ -1243,7 +1124,7 @@ for n = 1:length(in)
                         selection = data((nTimeLim(1):nTimeLim(2))+(i-1)*size(data,1)/2, m);
                         dataAvg(m,i) = mean(selection(~isnan(selection)));
                         dataStd(m,i) = std(selection(~isnan(selection)));
-                        dataDispl(m,i) = 2*dataStd(m,i).*(1/14500)./(2*pi)./2 .*1e5;
+                        dataDispl(m,i) = dataStd(m,i).*(1/14500)./(2*pi) .*1e5;
 
                     end
                 end
@@ -1388,14 +1269,14 @@ for n = 1:length(in)
                     dataPhase(6:7,1) = dataPhase(6:7,1) -2*pi;
                 end
                 if in(n).shot == 160525017
-                    dataPhase(1:9,1) = dataPhase(1:9,1) -2*pi;
+                    dataPhase(1:6,1) = dataPhase(1:6,1) -2*pi;
                     dataPhase(1:2,2) = dataPhase(1:2,2) -2*pi;
                 end
                 if in(n).shot == 160525018
-                   dataPhase(15:16,2) = dataPhase(15:16,2) -2*pi;
+                   dataPhase([5,6],2) = dataPhase([5,6],2) -2*pi;
                 end
                 if in(n).shot == 160525019
-                   dataPhase(15:16,2) = dataPhase(15:16,2) -2*pi;
+                   dataPhase(5:6,2) = dataPhase(5:6,2) -2*pi;
                 end
                 if any([in.shot] == 160728021)
                     injParam(3)=injParam(3)-2*pi;
@@ -1409,15 +1290,15 @@ for n = 1:length(in)
                 end
                 if in(n).shot==151217024
                     dataPhase = dataPhase-2*pi;
-                    dataPhase(2,2)=dataPhase(2,2)-2*pi;
+                    dataPhase(15,2)=dataPhase(15,2)-2*pi;
                 end
                 if in(n).shot==151217025
-                    dataPhase(1:2,2) = dataPhase(1:2,2)-2*pi;
+                    dataPhase(15:17,2) = dataPhase(15:17,2)-2*pi;
                 end
                 % Low Perf HitSI3
                 if in(n).shot == 151217026
-                    dataPhase(3:11,1)=dataPhase(3:11,1)-2*pi;
-                    dataPhase(1:10,2)=dataPhase(1:10,2)-2*pi;
+                    dataPhase(4:12,1)=dataPhase(4:12,1)-2*pi;
+                    dataPhase(7:17,2)=dataPhase(7:17,2)-2*pi;
                 end
                 
                 %% Flip upper array, look at when toroidal drive happens
@@ -1462,14 +1343,17 @@ for n = 1:length(in)
                         end
 
                     end
+                    
+                    % Plot temperature 
+                    if includeTemp
+                        plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+
+                        ylabel('Temperature [eV]');
+                        set(ax6,'xticklabel',[]);
+                    end
                 end
                 
-                % Plot temperature 
-                if includeTemp
-                    plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(n).temp),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
-                    ylabel('Temperature [eV]');
-                    set(ax6,'xticklabel',[]);
-                end
+                
                 %  Plot Fft Spectrum
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
@@ -1481,11 +1365,12 @@ for n = 1:length(in)
             %%%%%%%%%%%%%%%HITSI%%%%%%%%%%%%%%%%
             
             elseif ~isempty(in(n).fftPlot) && Analysis ==2 
+                display('EXECUTING HITSI DATA')
                 % Plot Displacement Profile
                 %if in(n).shot > 130000
 %                 t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),param(:,3,n),param(:,3,n),'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
 %                     'MarkerFaceColor',[in(n).color{1}]);
-                t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
+                t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,3,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
 %                     'MarkerEdgeColor',[in(n).color{1}]);
                 %end
                 set(ax7,'ylim',[-2,15]);
