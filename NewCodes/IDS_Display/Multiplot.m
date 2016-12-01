@@ -14,34 +14,34 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% IDS DATA
 %% 0-120-240
 % High performance
-% in(1).shot = 160728011;150625998;
-% in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-% in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
-% in(1).color = {'r';'r'};%[225,105,0]./255};
-% in(1).style = {'-','--'};
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = -5; % SHIFT VELOCITY
-% in(1).intScale = 2; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
-% in(1).phaseShift = 2*pi -pi/2;
-% % 160728
-% in(2)=in(1);
-% in(2).shot = 160728012;
-% in(2).line=2;
-% in(2).color = {'b';'b'};%[66, 188, 244]./255};
-% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-% in(2).phaseShift = -pi/2+pi;
-% in(3)=in(1);
-% in(3).shot = 160728013;
-% in(3).color = {'g';'g'};%[182, 244, 66]./255};
-% in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
+in(1).shot = 160728011;150625998;
+in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
+in(1).color = {'r';'r'};%[225,105,0]./255};
+in(1).style = {'-','--'};
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = -5; % SHIFT VELOCITY
+in(1).intScale = 2; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+in(1).phaseShift = 2*pi -pi/2;
+% 160728
+in(2)=in(1);
+in(2).shot = 160728012;
+in(2).line=2;
+in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+in(2).phaseShift = -pi/2+pi;
+in(3)=in(1);
+in(3).shot = 160728013;
+in(3).color = {'g';'g'};%[182, 244, 66]./255};
+in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 
 % Low Performance
 % in(1).shot = 160525017;150625998;
@@ -259,32 +259,32 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
 %% Low Performance HIT-SI / Comparison
-in(1).shot = 129499;%150625998;
-in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-in(1).legend = [num2str(in(1).shot) ': +90kA'];
-in(1).color = {'r';'r'};%[225,105,0]./255};
-in(1).style = {'-','--'};
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = 5; % SHIFT VELOCITY
-in(1).intScale = 1; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
-in(1).phaseShift =-pi/2;
-% 129450, 129451
-in(2) = in(1);
-in(2).shot=129496;
-in(2).line=2;
-in(2).legend = [num2str(in(2).shot) ': -76kA'];
-in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(3)=in(1);
-in(3).shot = 129450;
-in(3).color = {'g';'g'};%[182, 244, 66]./255};
-in(3).legend = [num2str(in(3).shot) ': +78kA'];
+% in(1).shot = 129499;%150625998;
+% in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ': +90kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = 5; % SHIFT VELOCITY
+% in(1).intScale = 1; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
+% in(1).phaseShift =-pi/2;
+% % 129450, 129451
+% in(2) = in(1);
+% in(2).shot=129496;
+% in(2).line=2;
+% in(2).legend = [num2str(in(2).shot) ': -76kA'];
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(3)=in(1);
+% in(3).shot = 129450;
+% in(3).color = {'g';'g'};%[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': +78kA'];
 
 % Low Performance HIT-SI3. 0-120-240
 % in(1).shot = 151217024;150625998;
@@ -457,15 +457,16 @@ CutPow  = .4; % FFT Power Cuttoff Percentage.
 saving = 0;
 plotFFT = 1;
 plotCurrents = 1;
-plotSanityPhase = 0;
+plotSanityPhase = 1;
 plotAverages = 0;
 compactCurrents = 1;
 plotTor = 0; % The line plot will show the differenve between fibers
-plotExplainReconst=0;% will plot the data and reconstruction from line n to a seperate plot
+plotExplainReconst=1;% will plot the data and reconstruction from line n to a seperate plot
 driveDirection=1*(plotType==1); % upper fiber dropped by -pi, phase now references "positive toroidal flow magnitude"
-flipLoImpact=0; % correct for lower fiber being rotated 180 about impact 35 
+flipLoImpact=1; % correct for lower fiber being rotated 180 about impact 35 
 % By current construction, this only works if 35 is the center impact,
 % channel wise
+plotError = 1;
 includeTemp = 1; % include temperature in the velocity plot
 
 if isempty(in(1).fftPlot)
@@ -688,7 +689,7 @@ for n = 1:length(in)
     
     if ~(exist('dat','var') && strcmp(dat(1).title,['Shot ' num2str(in(n).shot)])) % speed up runtime if data is already loaded
         input=load(['T:\IDS\Data Repository\dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
-        dat = trimRange(input.dat, chan_range, 0,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
+        dat = trimRange(input.dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
         assignin('base','dat',dat);
     end
     temp = dat(1).vel;
@@ -801,10 +802,17 @@ for n = 1:length(in)
                         %pause(1);
                         
                         % Calculate RMS Error
-                        for rmsPhase = 1:20
-                            %RMS(1,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))).^2));
-                            RMS(1,i,n,rmsPhase) = std( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))) );
-                        end
+                        % Calculate RMS Errorfor rmsPhase = 1:200
+                             for rmsPhase = 1:200
+                                 %RMS(2,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))).^2));
+                                 RMS(1,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/100))) ).^2 ));
+                                 RMS_ideal(1,i,n,rmsPhase)= sqrt(mean( ((param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n)))-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/100)) ) ).^2 ));
+                             end
+%                             [p_fit_dat(n,i,2,:), Chi_sq, dPar_dat(n,i,2,:), ~, corr, R2, cvg_hst] = ...
+%                             lm(@singletGauss1DLM, [-(RMS(2,i,n,1)-RMS(2,i,n,10))*pi,0,1.5,RMS(2,i,n,1)], (-pi +pi*(1:20)/10)', RMS(2,i,n,:), 0.0001, ones(1,4).*.001);%, p_min,p_max,0)
+                             p_fit_dat(n,i,1,:)=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(1,i,n,:))',@singletGauss1D,[-(RMS(1,i,n,1)-RMS(1,i,n,50))*pi,.5,1.5,RMS(1,i,n,1)]);
+                             [Y,I] = min( (squeeze(RMS_ideal(1,i,n,:))- RMS_ideal(1,i,n,1)/2).^2);% Find HWHM
+                             SigDev(n,i,1) = p_fit_dat(n,i,1,3)-abs(-pi +pi*(I)/100);
                         %%%%%% Lower Array %%%%%%%%%%%%%%%
                         if in(n).doubleplot
                             % Fit Sine
@@ -840,11 +848,17 @@ for n = 1:length(in)
                             [p_fit, Chi_sq, dPar(n,i,1,:), ~, corr, R2, cvg_hst] = ...
                             lm(@SineFitLM,  param(i,7:10,n), dat(1).time.*(in(n).timeScale.*1e-3), signal, 0.0001, dp);%, p_min,p_max,0)
                              
-                            % Calculate RMS Errorfor rmsPhase = 1:20
-                             for rmsPhase = 1:20
+                            % Calculate RMS Errorfor rmsPhase = 1:200
+                             for rmsPhase = 1:200
                                  %RMS(2,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))).^2));
-                                 RMS(2,i,n,rmsPhase) = std( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))));
+                                 RMS(2,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,7,n)+param(i,8,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,9,n) + (-pi +pi*rmsPhase/100))) ).^2 ));
+                                 RMS_ideal(2,i,n,rmsPhase)= sqrt(mean( ((param(i,7,n)+param(i,8,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,9,n)))-(param(i,7,n)+param(i,8,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,9,n) + (-pi +pi*rmsPhase/100)) ) ).^2 ));
                              end
+%                             [p_fit_dat(n,i,2,:), Chi_sq, dPar_dat(n,i,2,:), ~, corr, R2, cvg_hst] = ...
+%                             lm(@singletGauss1DLM, [-(RMS(2,i,n,1)-RMS(2,i,n,10))*pi,0,1.5,RMS(2,i,n,1)], (-pi +pi*(1:20)/10)', RMS(2,i,n,:), 0.0001, ones(1,4).*.001);%, p_min,p_max,0)
+                             p_fit_dat(n,i,2,:)=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(2,i,n,:))',@singletGauss1D,[-(RMS(2,i,n,1)-RMS(2,i,n,50))*pi,.5,1.5,RMS(2,i,n,1)]);
+                             [Y,I] = min( (squeeze(RMS_ideal(2,i,n,:))- RMS_ideal(2,i,n,1)/2).^2);% Find HWHM
+                             SigDev(n,i,2) = p_fit_dat(n,i,2,3)-abs(-pi +pi*(I)/100);
                         end
                             
                     
@@ -1058,7 +1072,7 @@ for n = 1:length(in)
                                 plot(ax16,[reconTime(1)-.025,reconTime(end)+.025],ones(1,2).*param(plotChan,2+5*(i-1),n),'k--')
                                 plot(ax16,ones(1,2)*(28/14500 +.25/14500 -dataPhase(plotChan,i)/(2*pi*14500))*1e3,[1,13],'k--')
                                 title(ax16,['Raw Data and Fit, Shot: ' num2str(in(n).shot) ', Impact: ' num2str(dat(1).impacts(plotChan)) ' [cm]']);
-                                legend(ax16,{['Upper Fiber, RMS Error: ' num2str(RMS(1,plotChan,3,10)) ' [km/s]'];['Lower Fiber, RMS Error: ' num2str(RMS(2,plotChan,3)) ' [km/s]']},'Location','SouthWest','fontsize',10)
+                                %legend(ax16,{['Upper Fiber, RMS Error: ' num2str(RMS(1,plotChan,3,10)) ' [km/s]'];['Lower Fiber, RMS Error: ' num2str(RMS(2,plotChan,3)) ' [km/s]']},'Location','SouthWest','fontsize',10)
                                 xlabel(ax16,'Time [ms]');
                             end
                                 
@@ -1148,8 +1162,13 @@ for n = 1:length(in)
                         figure(h2);
                     elseif Analysis==2
                         for j=1:length(dataDispl(:,i));try dataDispl(j.*(pRel(j,i)<CutPow),i)=NaN;end;end
-                         plot(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
-                        ylabel(ax6,'[cm]');set(ax6,'ylim',[0,8]);
+                        if ~plotError
+                            plot(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        else
+                            error = mean(dat(in(n).line).velU(:,doubleplot(i,:)))./(2*pi*14500) .*1e5; % convert error to centemeters displacement
+                            errorbar(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),error,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        end
+                         ylabel(ax6,'[cm]');set(ax6,'ylim',[0,8]);
                         set(ax6,'xlim',xlim);
                         if ~includeTemp
                             xlabel(ax6,'Impacts [cm]');
@@ -1184,8 +1203,14 @@ for n = 1:length(in)
 %                      t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),L,U,'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
 %                           'MarkerEdgeColor',[in(n).color{1}]);
                          if plotType==1
-                             t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
-                         'MarkerEdgeColor',[in(n).color{1}]);
+                             if ~plotError
+                                 t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
+                             'MarkerEdgeColor',[in(n).color{1}]);
+                             else
+                                 error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2);
+                                 t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
+                        	'MarkerEdgeColor',[in(n).color{1}]);
+                             end
                          elseif plotType==2
                              t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),dataAvg(:,1),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
                          'MarkerEdgeColor',[in(n).color{1}]);
@@ -1320,7 +1345,11 @@ for n = 1:length(in)
 %                         elseif plotType==2
 %                             xindex=dat(1).impacts(1*(i==1) +(size(data,2)+1)*(i==2):size(data,2)*(i==1)+(end)*(i==2));
 %                         end
-                        phaseH(:,i,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        if ~plotError
+                            phaseH(:,i,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        else
+                            phaseH(:,i,n)=errorbar(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,SigDev(n,:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        end                            
                         ylabel(ax8,'[deg]');set(ax8,'ylim',[-400,400]);set(ax8,'xticklabel',[]);
                         set(ax8,'xlim',xlim);
                         if n==1
@@ -1346,9 +1375,12 @@ for n = 1:length(in)
                     
                     % Plot temperature 
                     if includeTemp
-                        plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
-
-                        ylabel('Temperature [eV]');
+                        if ~plotError
+                            plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        else
+                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),mean(dat(in(n).line).tempU(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        end
+                        ylabel('[eV]');
                         set(ax6,'xticklabel',[]);
                     end
                 end
@@ -1474,10 +1506,16 @@ if ~isempty(in(1).fftPlot)
     % Make the Legend
     [leg,icon] = legend(ax8,phaseH(1,1,:),{in(1:1:end).legend});
     for i = 0: length(in)-1
-        set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
-        set(icon(length(in)+2+2*i),'Color',in(i+1).color{1});
+        if ~plotError
+            set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
+            set(icon(length(in)+2+2*i),'Color',in(i+1).color{1});
+            set(icon,'LineStyle','-');
+        else
+            set(icon(length(in)+1+i).Children.Children,'Color',in(i+1).color{1});
+            set(icon(i+4).Children.Children,'LineStyle','-');
+        end
     end
-    set(icon,'LineStyle','-');
+    
 
 
 %     % Annotation

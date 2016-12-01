@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160525017
+shot = 160728011
 
-plotType =12; % 3 = IDS velocity
+plotType =10; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
