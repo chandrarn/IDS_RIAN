@@ -14,34 +14,34 @@ lines = {'O II', 'C III', 'O II','C III'};
 %% IDS DATA
 %% 0-120-240
 % High performance
-in(1).shot = 160728011;150625998;
-in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
-in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
-in(1).color = {'r';'r'};%[225,105,0]./255};
-in(1).style = {'-','--'};
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = -5; % SHIFT VELOCITY
-in(1).intScale = 2; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
-in(1).phaseShift = 2*pi -pi/2;
-% 160728
-in(2)=in(1);
-in(2).shot = 160728012;
-in(2).line=2;
-in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-in(2).phaseShift = -pi/2+pi;
-in(3)=in(1);
-in(3).shot = 160728013;
-in(3).color = {'g';'g'};%[182, 244, 66]./255};
-in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
+% in(1).shot = 160728011;150625998;
+% in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];
+% in(1).legend = [num2str(in(1).shot) ': +65.5kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+% in(1).phaseShift = 2*pi -pi/2;
+% % 160728
+% in(2)=in(1);
+% in(2).shot = 160728012;
+% in(2).line=2;
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+% in(2).phaseShift = -pi/2+pi;
+% in(3)=in(1);
+% in(3).shot = 160728013;
+% in(3).color = {'g';'g'};%[182, 244, 66]./255};
+% in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 
 % Low Performance
 % in(1).shot = 160525017;150625998;
@@ -231,32 +231,32 @@ in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 
 % % 129499 
 %note: need to change .*1e-6 to .*1e-3 in sinefit
-% in(1).shot = 129499;%150625998;
-% in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-% in(1).legend = [num2str(in(1).shot) ': +90kA'];
-% in(1).color = {'r';'r'};%[225,105,0]./255};
-% in(1).style = {'-','--'};
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = 5; % SHIFT VELOCITY
-% in(1).intScale = 1; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
-% in(1).phaseShift =-pi/2;
-% % 129450, 129451
-% in(2) = in(1);
-% in(2).shot=129450;
-% in(2).line=1;
-% in(2).legend = [num2str(in(2).shot) ': +79kA'];
-% in(2).color = {'b';'b'};%[66, 188, 244]./255};
-% in(3)=in(1);
-% in(3).shot = 129496;
-% in(3).color = {'g';'g'};%[182, 244, 66]./255};
-% in(3).legend = [num2str(in(3).shot) ': -76kA'];
+in(1).shot = 129499;%150625998;
+in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).legend = [num2str(in(1).shot) ': +90kA'];
+in(1).color = {'r';'r'};%[225,105,0]./255};
+in(1).style = {'-','--'};
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = 5; % SHIFT VELOCITY
+in(1).intScale = 1; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
+in(1).phaseShift =-pi/2;
+% 129450, 129451
+in(2) = in(1);
+in(2).shot=129450;
+in(2).line=1;
+in(2).legend = [num2str(in(2).shot) ': +79kA'];
+in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(3)=in(1);
+in(3).shot = 129496;
+in(3).color = {'g';'g'};%[182, 244, 66]./255};
+in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
 %% Low Performance HIT-SI / Comparison
 % in(1).shot = 129499;%150625998;
@@ -451,7 +451,7 @@ in(3).legend = [num2str(in(3).shot) ': +65.6kA'];
 timebound = [1.1, 2.0]; % [ms]
 % timebound = [1.2 2.3]; % [ms]
 
-CutPow  = .4; % FFT Power Cuttoff Percentage. 
+CutPow  = .5; % FFT Power Cuttoff Percentage. 
 
 
 saving = 0;
@@ -463,7 +463,7 @@ compactCurrents = 1;
 plotTor = 0; % The line plot will show the differenve between fibers
 plotExplainReconst=1;% will plot the data and reconstruction from line n to a seperate plot
 driveDirection=1*(plotType==1); % upper fiber dropped by -pi, phase now references "positive toroidal flow magnitude"
-flipLoImpact=1; % correct for lower fiber being rotated 180 about impact 35 
+flipLoImpact=0; % correct for lower fiber being rotated 180 about impact 35 
 % By current construction, this only works if 35 is the center impact,
 % channel wise
 plotError = 1;
@@ -475,11 +475,6 @@ else
     Analysis = 2; % Analyze torroidal flow, Amplitude, phasing. Replaces "Averages"
 end
 
-
-timebound = [1.1, 2.0]; % [ms]
-% timebound = [1.2 2.3]; % [ms]
-
-CutPow  = .4; % FFT Power Cuttoff Percentage. 
 
 saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 
@@ -810,9 +805,15 @@ for n = 1:length(in)
                              end
 %                             [p_fit_dat(n,i,2,:), Chi_sq, dPar_dat(n,i,2,:), ~, corr, R2, cvg_hst] = ...
 %                             lm(@singletGauss1DLM, [-(RMS(2,i,n,1)-RMS(2,i,n,10))*pi,0,1.5,RMS(2,i,n,1)], (-pi +pi*(1:20)/10)', RMS(2,i,n,:), 0.0001, ones(1,4).*.001);%, p_min,p_max,0)
-                             p_fit_dat(n,i,1,:)=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(1,i,n,:))',@singletGauss1D,[-(RMS(1,i,n,1)-RMS(1,i,n,50))*pi,.5,1.5,RMS(1,i,n,1)]);
-                             [Y,I] = min( (squeeze(RMS_ideal(1,i,n,:))- RMS_ideal(1,i,n,1)/2).^2);% Find HWHM
-                             SigDev(n,i,1) = p_fit_dat(n,i,1,3)-abs(-pi +pi*(I)/100);
+%                              p_fit_dat(n,i,1,:)=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(1,i,n,:))',@singletGauss1D,[-(RMS(1,i,n,1)-RMS(1,i,n,50))*pi,.5,1.5,RMS(1,i,n,1)]);
+%                              [Y,I] = min( (squeeze(RMS_ideal(1,i,n,:))- RMS_ideal(1,i,n,1)/2).^2);% Find HWHM
+%                              SigDev(n,i,1) = p_fit_dat(n,i,1,3)-abs(-pi +pi*(I)/100);
+                             [p_fit_dat(n,i,1,:),R(n,i,1,:),J,COVB(n,i,1,:,:),MSE(n,i,1),ERRORMODELINFO(n,i,1)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(1,i,n,:))',@singletGauss1D,[-(RMS(1,i,n,1)-RMS(1,i,n,100))*pi,.5,1.5,RMS(1,i,n,1)]);
+                             [p_fit_dat_ideal(n,i,1,:),R_ideal(n,i,1,:),J,COVB_ideal(n,i,1,:,:),MSE_ideal(n,i,1),ERRORMODELINFO_ideal(n,i,1)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS_ideal(1,i,n,:))',@singletGauss1D,[-(RMS_ideal(1,i,n,1)-RMS_ideal(1,i,n,100))*pi,.5,1.5,RMS_ideal(1,i,n,1)]);
+                             
+%                              [Y,I] = min( (squeeze(RMS_ideal(2,i,n,:))- RMS_ideal(2,i,n,1)/2).^2);% Find HWHM
+%                              SigDev(n,i,2) = p_fit_dat(n,i,2,3)-abs(-pi +pi*(I)/100);
+                                SigDev(n,i,1) = abs(p_fit_dat(n,i,1,3)-p_fit_dat_ideal(n,i,1,3)); % Delta sigmas is error
                         %%%%%% Lower Array %%%%%%%%%%%%%%%
                         if in(n).doubleplot
                             % Fit Sine
@@ -856,9 +857,12 @@ for n = 1:length(in)
                              end
 %                             [p_fit_dat(n,i,2,:), Chi_sq, dPar_dat(n,i,2,:), ~, corr, R2, cvg_hst] = ...
 %                             lm(@singletGauss1DLM, [-(RMS(2,i,n,1)-RMS(2,i,n,10))*pi,0,1.5,RMS(2,i,n,1)], (-pi +pi*(1:20)/10)', RMS(2,i,n,:), 0.0001, ones(1,4).*.001);%, p_min,p_max,0)
-                             p_fit_dat(n,i,2,:)=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(2,i,n,:))',@singletGauss1D,[-(RMS(2,i,n,1)-RMS(2,i,n,50))*pi,.5,1.5,RMS(2,i,n,1)]);
-                             [Y,I] = min( (squeeze(RMS_ideal(2,i,n,:))- RMS_ideal(2,i,n,1)/2).^2);% Find HWHM
-                             SigDev(n,i,2) = p_fit_dat(n,i,2,3)-abs(-pi +pi*(I)/100);
+                             [p_fit_dat(n,i,2,:),R(n,i,2,:),J,COVB(n,i,2,:,:),MSE(n,i,2),ERRORMODELINFO(n,i,2)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(2,i,n,:))',@singletGauss1D,[-(RMS(2,i,n,1)-RMS(2,i,n,100))*pi,.5,1.5,RMS(2,i,n,1)]);
+                             [p_fit_dat_ideal(n,i,2,:),R_ideal(n,i,2,:),J,COVB_ideal(n,i,2,:,:),MSE_ideal(n,i,2),ERRORMODELINFO_ideal(n,i,2)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS_ideal(2,i,n,:))',@singletGauss1D,[-(RMS_ideal(2,i,n,1)-RMS_ideal(2,i,n,100))*pi,.5,1.5,RMS_ideal(2,i,n,1)]);
+                             
+%                              [Y,I] = min( (squeeze(RMS_ideal(2,i,n,:))- RMS_ideal(2,i,n,1)/2).^2);% Find HWHM
+%                              SigDev(n,i,2) = p_fit_dat(n,i,2,3)-abs(-pi +pi*(I)/100);
+                                SigDev(n,i,2) = abs(p_fit_dat(n,i,2,3)-p_fit_dat_ideal(n,i,2,3)); % Delta sigmas is error
                         end
                             
                     
@@ -1402,8 +1406,12 @@ for n = 1:length(in)
                 %if in(n).shot > 130000
 %                 t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),param(:,3,n),param(:,3,n),'color',['k'],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
 %                     'MarkerFaceColor',[in(n).color{1}]);
-                t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,3,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
-%                     'MarkerEdgeColor',[in(n).color{1}]);
+                if ~plotError
+                     t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,3,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
+                else
+                     t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,3,n),mean(dat(in(n).line).velU),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
+                end
+                    %'MarkerEdgeColor',[in(n).color{1}]);
                 %end
                 set(ax7,'ylim',[-2,15]);
                
@@ -1421,7 +1429,11 @@ for n = 1:length(in)
                     %dataPhase(9:(end-3))=dataPhase(9:(end-3))+2*pi;
                 end
                 dataPhase = dataPhase + in(n).phaseShift;
-                phaseH(1,1,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                if ~plotError
+                    phaseH(1,1,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                else
+                    phaseH(1,1,n)=errorbar(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,squeeze(SigDev(n,:)).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                end
                 ylabel(ax8,'[deg]');set(ax8,'ylim',[0,400]);set(ax8,'xticklabel',[]);
                 set(ax8,'xlim',xlim);
                 % Plot injector Phase
@@ -1431,8 +1443,12 @@ for n = 1:length(in)
                 end
                 % Plot Temperature
                 if includeTemp
-                    plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
-                    ylabel(ax17,'Temperature [eV]');
+                    if ~plotError
+                        plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                    else
+                        errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),mean(dat(in(n).line).tempU),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                    end
+                    ylabel(ax17,'[eV]');
                     set(ax6,'xticklabel',[]);
                 end
                  %  Plot Fft Spectrum
@@ -1506,11 +1522,11 @@ if ~isempty(in(1).fftPlot)
     % Make the Legend
     [leg,icon] = legend(ax8,phaseH(1,1,:),{in(1:1:end).legend});
     for i = 0: length(in)-1
-        if ~plotError
+        try %(~plotError || in(1).shot < 829499)
             set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
             set(icon(length(in)+2+2*i),'Color',in(i+1).color{1});
             set(icon,'LineStyle','-');
-        else
+        catch
             set(icon(length(in)+1+i).Children.Children,'Color',in(i+1).color{1});
             set(icon(i+4).Children.Children,'LineStyle','-');
         end
