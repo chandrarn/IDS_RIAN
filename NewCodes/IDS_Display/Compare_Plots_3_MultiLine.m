@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160728011
+shot = 129499;
 
-plotType =10; % 3 = IDS velocity
+plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -37,9 +37,9 @@ plotType =10; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 2; % which line to plot, if5 multiple
+line = 1; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
-shiftVel = -9; % km/s velocty shift
+shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
@@ -53,9 +53,10 @@ uniformTemp = 20; % [eV]
 skinny = 0; % make much shorter plot for zoomed in time slice
 spa045 = 0; % also plot amperican loop current from 45 degrees
 spa000 = 0; % plot spa045 and spa000 from PDC tree
-treeType = 'analysis3';
+treeType = 'analysis';
 square = 0;
 doublePlot = 0; % plot both arrays simultaniously, overrides torPlot
+flipLoImpact=1; % Account for impact reversal on hitsi3
 
 
 
@@ -83,7 +84,7 @@ velLim = [-15 15];
 distLim = [-15 15];
 resLim = [0 150];
 ampLim = [0 900];
-intLim = [0 100];
+intLim = [0 10];
 snrLim = [0 0.5];
 deltaRLim = [0 60];
 tempErrLim = [0 10];
@@ -108,11 +109,11 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:24]; % toroidal, axial port
  chan_ranget = 1:29; % NIMROD mohawk
 %chan_ranget = [11:29];
-chan_ranget = 9:29;
+chan_ranget = [6:26]%[9:29];
 
  chan_rangep = [46:63]; % poloidal
 chan_rangep = [37:62]; % poloidal
-chan_rangep = [44:65];
+chan_rangep = [42:62];[44:65];
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 
@@ -437,7 +438,6 @@ if doublePlot
     %set(ax(1),'xtick',[]);
     set(gca,'xtick',[0:.1:2])
 else
-    
     h2 = surf(ax(1),X,Y,data'); %colormap(parula);
     if find(plotType == [ 0, 10:13]) % need to tighten bounds for error plots to show up
         set(ax(1),'Zlim',[0,20]);
