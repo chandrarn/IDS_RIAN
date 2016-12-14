@@ -19,7 +19,7 @@ end
 format long g
 shot = 129499;
 
-plotType =3; % 3 = IDS velocity
+plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -37,7 +37,7 @@ plotType =3; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 1; % which line to plot, if5 multiple
+line = 3; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
 shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
@@ -107,13 +107,13 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:28]; % toroidal, mohawk port perp.
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
- chan_ranget = 1:29; % NIMROD mohawk
+ chan_ranget = 5:29; % NIMROD mohawk
 %chan_ranget = [11:29];
-chan_ranget = [6:26]%[9:29];
+%chan_ranget = [6:26]%[9:29];
 
  chan_rangep = [46:63]; % poloidal
 chan_rangep = [37:62]; % poloidal
-chan_rangep = [42:62];[44:65];
+%chan_rangep = [42:62];[44:65];
 %151217026 Presentation chords
 %chan_ranget = [12:26];
 %chan_rangep = [48:62]; 
