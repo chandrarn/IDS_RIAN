@@ -1,0 +1,101 @@
+\documentclass[10pt]{article}
+\usepackage{capt-of}
+\usepackage{setspace}
+
+
+%\usepackage[sc]{mathpazo}
+%\usepackage{microtype}
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage{multicol}
+\usepackage{gensymb}
+\usepackage{graphicx}
+%\usepackage{graphics}
+%\usepackage{float}
+\usepackage{abstract}
+\usepackage{lettrine}
+\usepackage{paralist}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\epstopdfsetup{update}
+\usepackage{textcase}
+\usepackage{textpos}
+\usepackage{bm} % bold vector arrrow aboce
+\usepackage{amssymb} %approx-geq
+\usepackage{verbatim} % for block comment
+\usepackage{caption}
+\usepackage{esvect}
+\usepackage{authblk}
+
+\newcommand\textlcsc[1]{\textsc{\MakeTextLowercase{#1}}}
+
+\newcommand{\uline}{\rule[0pt]{5.5cm}{0.4pt}}%Make an underline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\vspace{-15mm}\fontsize{24pt}{10pt}
+\selectfont\textbf{Improvements to an Ion Doppler Spectrometer for a more complete and precise measurement of impurity ion dynamics}}
+
+\author[1]{Aaron Hossack}
+\author[1]{Rian Chandra}
+\author[1]{Tom Jarboe}
+\affil[1]{University of Washington, Seattle, WA, USA}
+\vspace{-5mm}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+	The Ion Doppler Spectrometer (IDS) on the Helicity Injected Torus-Steady-Inductive (HIT-SI) experiment employs several innovative improvements to collect improved data on ion dynamics. Specifically, Singular Value Decomposition filtering, Sine wave and Gaussian fitting, and Levenberg-Marquardt error analysis techniques allow the collection of ion velocity, temperature, displacement, and temporal phase. From this, profiles with the following errors can be found: Velocity: <1km/s, Temperature <5eV, Displacement <2.5cm, Phase <30degrees. The IDS hardware consists of two fiber-optic bundles of 36 individual channels each can be independently placed into multiple view ports, recently allowing the reconstruction of the complete poloidal and toroidal midplane. The spectrometer itself is one meter focal length, in Czerny-Turner configuration, coupled to a Phantom V710 CCD camera, running with XX or 6.8uS exposure. Data is currently extracted for multiple lines: the C-IV and O-III impurities, at the XXX carbon doublet, and the XXX oxygen line. Sine wave fitting is applied to the periodic velocity data to extract the amplitude and temporal phase. Analysis so far has focused on the effects of toroidal current flipping, and has found coherent, in-phase motion locked to the applied perturbations, although ions launched from the perturbation follows the plasma current ( with 5cm displacement ). Furthermore, peaked velocity profiles at the magnetic axis are found for some experimental configurations (3km/s), and do not change direction with plasma current flip. Temperature gradients from the wall to the inner separatrix, which in some configurations depend in magnitude on current direction, peak at 35eV.
+\end{abstract}
+\section{Introduction}
+\subsection{The HIT-SI Experiment}
+\begin{itemize}
+	\item What are HIT-SI? Brief overview of helicity injection/sustainment.
+	\item Explain HIT-SI, HIT-SI3, include CAD drawings
+	\item Brief overview of figures of merit (including plots?) Note Density, Itor, the existance of Thompson?
+\end{itemize}
+\subsection{The IDS Instrument}
+\begin{itemize}
+	\item Brief overview of the mathematics of IDS, for velocity and temperature, and maybe Displacement, and phase?
+	\item Hardware overview: Czerny-Turner (include figure, calculate etendu?), Phantom camera (note maximum framerate)
+	\item CHORDS. Midplane hitsi, hitsi3 slice, Fiber speifications (lens, light cone terminal radius, chord separation, etc)
+	\item Data: Include picture of CCD showing spectral lines. Note: CIV is common, but most use shorter wavelength line.
+	\item: Calibration: Note mercury spectral lamp for position, instrument temperature (note instrument temperature), note motor calibration and correction. Note backlighting?
+\end{itemize}
+\section{Data Analysis}
+\subsection{BD Filtering}
+\begin{itemize}
+	\item CRIB FROM AARONS THESIS, PG 43-47
+\end{itemize}
+\subsection{Sine Fitting}
+\begin{itemize}
+	\item Include plot of raw data
+	\item include the analysis plot (showing offset, phase, amplitude, etc)
+	\item Explain how and when we FFT, why sine fitting gets phase.
+\end{itemize}
+\section{Error Analysis}
+\begin{itemize}
+	\item Overview of the math behind LM
+	\item RMS, quadrature addition for Displacement
+	\item overview of Phase error, explain why we use a non-zero knowledge model
+\end{itemize}
+\section{Results}
+\begin{itemize}
+	\item Multiple Atomic Species?
+	\item Plot from IAEA paper
+	\item Rotating/locked modes explaination
+	\item note velocity, temperature profiles
+	\item Note turbulent temperature: source of error, but displacement profile doesnt match temperature profiles
+	\item Note connection with magnetic structure, rotating n=1?
+\end{itemize}
+\section{Discussion and Future Work}
+\begin{itemize}
+	\item Significance of coherent motion
+	\item Significance of multiple ion species
+	\item Note: 2D IDS: coherent bundle attempted
+	\item Higher throughput would increase time resolution further: spectral birefringence accomplishes this.
+\end{itemize}
+	
+	
+	
+	
+	
+\end{document}
