@@ -7,7 +7,7 @@ function [data, time] = BDfilter(shot, nBDmodes, timeBound, param, s)
 % so the channel numbers match.
 
 plotFits = 0;
-BDwing = param.yWing + 5 ; % number of points to either side of center in wavelength space to include in BD domain
+BDwing = param.yWing ;%+ 5  % number of points to either side of center in wavelength space to include in BD domain
 
 modes = 1:nBDmodes; % array of mode numbers to recombine and add together
 
@@ -20,7 +20,8 @@ last = param.peaks(end, 2);
 chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
-lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
+%lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
+lam_bound = round(param.Center(1, 2))-BDwing -28  : round(param.Center(1, 2))+BDwing - 28 ;
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
@@ -47,7 +48,7 @@ catch
         data = data(:, end:-1:1, end:-1:1); % removed x and y flip
         newCineType=0;
 end
-
+assignin('base','time',time)
 %cd('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\BDfilter');
 [n_time_o, n_pix_o, n_chan_o] = size(data);
 
@@ -174,12 +175,15 @@ for m = 1:2
     %% Save Data for Recombining
     if m == 1
         Ak_t = Ak(modes); % save weights
+        figure; plot(Ak_t,'-*','linewidth',2);title('Toroidal BD modes')
         V_t = V(:, modes); % save chronos
         topos_t = topos(modes, :, :); % save topos
+        assignin('base','Ak_t',Ak);
     else
         Ak_p = Ak(modes); % save weights
         V_p = V(:, modes); % save chronos
         topos_p = topos(modes, :, :); % save topos
+        assignin('base','Ak_p',Ak);
     end
     clear Ak V topos
     
@@ -200,8 +204,9 @@ for n = 1:length(modes)
     data = data + data2;
 end
 
-toc
-clear data2 Ak_t V_t topos_t Ak_p V_tp topos_p;
+%toc
+%clear data2 Ak_t V_t topos_t Ak_p V_tp topos_p;
+%assignin('base','Ak_t',Ak_t);assignin('base','Ak_p',Ak_p);
 figure; 
 surf(squeeze(sum(data, 1)./size(data,1))); 
 shading interp;

@@ -37,7 +37,7 @@ plotType =4; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 3; % which line to plot, if5 multiple
+line = 1; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
 shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820

@@ -47,7 +47,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 % in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).fftPlot = []; % FFT of signal, n frequencies
 % in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
 % in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
 % in(2)=in(1);
@@ -268,9 +268,10 @@ in(1).timeScale = 1;1e-3; % scale timebase to put into ms
 in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).fftPlot = []; % FFT of signal, n frequencies
 in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
 in(1).phaseShift =-pi/2;
+in(1).error=0;
 % 129450, 129451
 % in(2) = in(1);
 % in(2).shot=129450;
@@ -727,12 +728,22 @@ for n = 1:length(in)
                     dat(in(n).line).vel(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
                 dat(in(n).line).temp(:,breakInd:end) = [dat(in(n).line).temp(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
                     dat(in(n).line).temp(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+                 dat(in(n).line).velU(:,breakInd:end) = [dat(in(n).line).velU(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact))...
+                    dat(in(n).line).velU(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+                dat(in(n).line).tempU(:,breakInd:end) = [dat(in(n).line).tempU(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
+                    dat(in(n).line).tempU(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+                dat(in(n).line).velL(:,breakInd:end) = [dat(in(n).line).velL(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact))...
+                    dat(in(n).line).velL(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+                dat(in(n).line).tempL(:,breakInd:end) = [dat(in(n).line).tempL(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
+                    dat(in(n).line).tempL(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
                 dat(1).impacts(breakInd:end) = [dat(1).impacts(end-2*(length(dat(1).impacts)-flipLoImpact):end);...
                     impacts(63:62+(-length(dat(1).impacts)+2*flipLoImpact-breakInd))];
          end
 
         dat = trimRange(dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
         assignin('base','dat',dat);
+        %try;saveDat(n).VelError = dat(in(n).line).velU;end
+        %try;saveDat(n).TempError = dat(in(n).line).tempU;end
     end
     temp = dat(1).vel;
     
@@ -1642,22 +1653,34 @@ for n = 1:length(in)
     end
 
     %% Plot Data
-    if in(n).error
-        time = ndgrid(dat(1).time, 1:size(data, 2));
-        t(n, :) = errorbar(ax, time, data, errorL, errorU, 'color', in(n).color, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
-%         for m = 1:size(t, 2)
-%             errorbar_tick(t(n, m), errWdth); % adjust errorbar width
-%         end
-    else
+%     if in(n).error
+%         time = ndgrid(dat(1).time, 1:size(data, 2));
+%         t(n, :) = errorbar(ax, time, data, errorL, errorU, 'color', in(n).color, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
+% %         for m = 1:size(t, 2)
+% %             errorbar_tick(t(n, m), errWdth); % adjust errorbar width
+% %         end
+%     else
         if ~isempty(in(n).doubleplot) && ~plotTor % plot both fibers
             saveDat(n).UpperFiberData = data(1:length(dat(1).time),:);
             saveDat(n).LowerFiberData = data(length(dat(1).time)+1:end,:);
             saveDat(n).Impacts = dat(1).impacts(1:size(data,2));
             saveDat(n).Time =time(1:length(dat(1).time));
-            t(n, :) = plot(ax, time(1:length(dat(1).time)), data(1:length(dat(1).time),:), ...
-                'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
-            t(n, :) = plot(ax, time(length(dat(1).time)+1:end)', data(length(dat(1).time)+1:end,:), ...
-                'color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
+                if ~in(n).error
+                t(n, :) = plot(ax, time(1:length(dat(1).time)), data(1:length(dat(1).time),:), ...
+                    'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                t(n, :) = plot(ax, time(length(dat(1).time)+1:end)', data(length(dat(1).time)+1:end,:), ...
+                    'color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
+            
+            else
+                 t(n, :) = errorbar(ax, time(1:length(dat(1).time)), data(1:length(dat(1).time),:),...
+                     dat(in(n).line).velU(:,doubleplot(1,:)),dat(in(n).line).velL(:,doubleplot(1,:)),...
+                    'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+                t(n, :) = errorbar(ax, time(length(dat(1).time)+1:end)', data(length(dat(1).time)+1:end,:), ...
+                    dat(in(n).line).velU(:,doubleplot(1,:)),dat(in(n).line).velL(:,doubleplot(1,:)),...
+                    'color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
+            end 
+            plot(ax, [time(1),time(length(dat(1).time))], zeroline([1,size(data,1)./2],:), ...
+                '--k', 'LineWidth', .5, 'LineStyle', in(n).style{1});
         elseif  ~isempty(in(n).doubleplot) && plotTor % plot the toroidal flow
             t(n, :) = plot(ax, time(1:length(dat(1).time)), data(length(dat(1).time)+1:end,:)-data(1:length(dat(1).time),:) +zeroline, ...
                 'color', 'k', 'LineWidth', lnwdth, 'LineStyle', in(n).style);
@@ -1667,11 +1690,19 @@ for n = 1:length(in)
              saveDat(n).UpperFiberData = data(1:length(dat(1).time),:);
              saveDat(n).Impacts = dat(1).impacts(1:size(data,2));
             saveDat(n).Time =time(1:length(dat(1).time));
-            t(n, :) = plot(ax, time, data, 'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+            if ~in(n).error
+                t(n, :) = plot(ax, time, data, 'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+            else
+                size(data)
+                size(dat(in(n).line).velU)
+                size(dat(in(n).line).velL)
+                t(n, :) = errorbar(ax, time, data,dat(in(n).line).velU,dat(in(n).line).velL,...
+                'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+            end
         end
     end
     
-end
+% end
 if ~isempty(in(1).fftPlot)
     % Make the Legend
     [leg,icon] = legend(ax8,phaseH(1,1,:),{in(1:1:end).legend});
