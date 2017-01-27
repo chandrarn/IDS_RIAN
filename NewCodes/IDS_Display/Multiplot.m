@@ -487,9 +487,9 @@ CutPow  = .1; % FFT Power Cuttoff Percentage.
 
 
 saving = 0;
-plotFFT = 1;
+plotFFT = 0;
 plotCurrents = 1;
-plotSanityPhase = 1;
+plotSanityPhase = 0;
 plotAverages = 0;
 compactCurrents = 1;
 plotTor = 0; % The line plot will show the differenve between fibers
@@ -1274,7 +1274,7 @@ for n = 1:length(in)
                             saveDat(n).Displacement(:,i) = dataDispl(:,i);
                             plot(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         else
-                            error = sqrt( (nanmean(dat(in(n).line).velU(:,doubleplot(i,:)))./(2*pi*14500) .*1e5).^2 + squeeze(RMS(i,:,n,100)).^2) ; % convert error to centemeters displacement
+                            error = sqrt( (nanmean(dat(in(n).line).velU(:,doubleplot(i,:)))./(2*pi*14500) .*1e5).^2 + squeeze(RMS(i,:,n,100)).^2)/sqrt(length(dat(in(n).line).time)) ; % convert error to centemeters displacement
                             if any(dispSupress(n,:,i))
                                 dataDispl(dispSupress(n,:,i),i)=NaN;
                             end
@@ -1326,7 +1326,7 @@ for n = 1:length(in)
                                  t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
                              'MarkerEdgeColor',[in(n).color{1}]);
                              else
-                                 error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2);
+                                 error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2)/sqrt(length(dat(1).time));
                                  saveDat(n).Flow = -(dataAvg(:,1)-dataAvg(:,2))./2;
                                  saveDat(n).FlowError = error;
                                  t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
@@ -1519,7 +1519,7 @@ for n = 1:length(in)
                         else
                             saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
                             saveDat(n).TempError(:,i) = mean(dat(in(n).line).tempU(:,doubleplot(i,:)));
-                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),mean(dat(in(n).line).tempU(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),mean(dat(in(n).line).tempU(:,doubleplot(i,:)))/sqrt(length(dat(1).time)),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         end
                         ylabel('[eV]');
                         set(ax6,'xticklabel',[]);
@@ -1528,11 +1528,13 @@ for n = 1:length(in)
                 
                 
                 %  Plot Fft Spectrum
+                if plotFFT
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
                  ylabel(ax9,'[%]');set(ax9,'ylim',[0,100]);
                  set(ax9,'xlim',xlim); title(ax9,'Inj. Mode % of Reconstruction');
                 plot(ax9,xlim,[CutPow,CutPow].*100,'--k');
+                end
                 if n==1;figure(h2);end
                 
             %%%%%%%%%%%%%%%HITSI%%%%%%%%%%%%%%%%
@@ -1553,7 +1555,7 @@ for n = 1:length(in)
                 else
                     saveDat(n).Flow = param(:,2,n);
                      saveDat(n).FlowError = nanmean(dat(in(n).line).velU);
-                     t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),nanmean(dat(in(n).line).velU),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
+                     t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),nanmean(dat(in(n).line).velU)/sqrt(length(dat(1).time)),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
                 end
                     %'MarkerEdgeColor',[in(n).color{1}]);
                 %end
@@ -1603,17 +1605,20 @@ for n = 1:length(in)
                     else
                         saveDat(n).Temp = nanmean(dat(in(n).line).temp);
                         saveDat(n).TempError = nanmean(dat(in(n).line).tempU);
-                        errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),nanmean(dat(in(n).line).tempU),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                        display(['TEST: ' num2str(size(dat(in(n).line).tempU)) ' + ' num2str(length(dat(1).time))])
+                        errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),nanmean(dat(in(n).line).tempU)/sqrt(length(dat(1).time)),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                     end
                     ylabel(ax17,'[eV]');
                     set(ax6,'xticklabel',[]);
                 end
                  %  Plot Fft Spectrum
+                 if plotFFT
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
                  ylabel(ax9,'[%]');set(ax9,'ylim',[0,100]);
                  set(ax9,'xlim',xlim); title(ax9,'Inj. Mode % of Reconstruction');
                 plot(ax9,xlim,[CutPow,CutPow].*100,'--k');
+                 end
                 if n == 1;figure(h2);end
             end
             % Plot Flow Profile
