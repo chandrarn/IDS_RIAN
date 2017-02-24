@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 % Multiplot
+=======
+l% Multiplot
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
 % Note: need to manually save the figure as .eps, otherwise it saves in
 % black and white. You know, because fuck all.
 %close all; 
@@ -47,7 +51,11 @@ lines = {'O II', 'C III', 'O II','C III'};
 % in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 % in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+<<<<<<< HEAD
 % in(1).fftPlot = [1]; % FFT of signal, n frequencies
+=======
+% in(1).fftPlot = []; % FFT of signal, n frequencies
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
 % in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
 % in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
 % in(2)=in(1);
@@ -255,6 +263,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 
 % % 129499 
 % % note: need to change .*1e-6 to .*1e-3 in sinefit
+<<<<<<< HEAD
 % in(1).shot = 129499;%150625998;
 % in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
 % in(1).legend = [num2str(in(1).shot) ': +90kA'];
@@ -288,6 +297,41 @@ lines = {'O II', 'C III', 'O II','C III'};
 % flowSupress(2,:)=22;
 % dispSupress(1:2,:)=22;
 % tempSupress(1:2,:)=[21,22;21,22];
+=======
+in(1).shot = 129499;%150625998;
+in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).legend = [num2str(in(1).shot) ': +90kA'];
+in(1).color = {'r';'r'};%[225,105,0]./255};
+in(1).style = {'-','--'};
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = 0; % SHIFT VELOCITY
+in(1).intScale = 1; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = []; % FFT of signal, n frequencies
+in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
+in(1).phaseShift =-pi/2;
+in(1).error=0;
+% 129450, 129451
+% in(2) = in(1);
+% in(2).shot=129450;
+% in(2).line=1;
+% in(2).legend = [num2str(in(2).shot) ': +79kA'];
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(2)=in(1);
+in(2).line=2
+in(2).shot = 129496;
+in(2).color = {'b';'b'};%[182, 244, 66]./255};
+in(2).legend = [num2str(in(2).shot) ': -76kA'];
+% Supression of Dissenting data:
+phaseSupress(1:2,:)=22;
+flowSupress(2,:)=22;
+dispSupress(1:2,:)=22;
+tempSupress(1:2,:)=[21,22;21,22];
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
 
 
 %% Low Performance HIT-SI / Comparison
@@ -487,9 +531,15 @@ CutPow  = .1; % FFT Power Cuttoff Percentage.
 
 
 saving = 0;
+<<<<<<< HEAD
 plotFFT = 0;
 plotCurrents = 1;
 plotSanityPhase = 0;
+=======
+plotFFT = 1;
+plotCurrents = 1;
+plotSanityPhase = 1;
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
 plotAverages = 0;
 compactCurrents = 1;
 plotTor = 0; % The line plot will show the differenve between fibers
@@ -738,8 +788,13 @@ for n = 1:length(in)
                     dat(in(n).line).tempL(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
                 dat(1).impacts(breakInd:end) = [dat(1).impacts(end-2*(length(dat(1).impacts)-flipLoImpact):end);...
                     impacts(63:62+(-length(dat(1).impacts)+2*flipLoImpact-breakInd))];
+<<<<<<< HEAD
         end
         break
+=======
+         end
+
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
         dat = trimRange(dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
         assignin('base','dat',dat);
         %try;saveDat(n).VelError = dat(in(n).line).velU;end
@@ -1274,7 +1329,11 @@ for n = 1:length(in)
                             saveDat(n).Displacement(:,i) = dataDispl(:,i);
                             plot(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         else
+<<<<<<< HEAD
                             error = sqrt( ( sqrt(nansum(dat(in(n).line).velU(:,doubleplot(i,:))))./(2*pi*14500 * length(dat(1).time)) .*1e5).^2 + squeeze(RMS(i,:,n,100)).^2)/length(dat(1).time) ; % convert error to centemeters displacement
+=======
+                            error = sqrt( (nanmean(dat(in(n).line).velU(:,doubleplot(i,:)))./(2*pi*14500) .*1e5).^2 + squeeze(RMS(i,:,n,100)).^2) ; % convert error to centemeters displacement
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
                             if any(dispSupress(n,:,i))
                                 dataDispl(dispSupress(n,:,i),i)=NaN;
                             end
@@ -1326,8 +1385,12 @@ for n = 1:length(in)
                                  t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
                              'MarkerEdgeColor',[in(n).color{1}]);
                              else
+<<<<<<< HEAD
                                  %error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2);
                                  error = sqrt( sum(dat(in(n).line).velU(:,doubleplot(1,:)).^2) + sum(dat(in(n).line).velU(:,doubleplot(2,:)).^2))/(2*length(dat(1).time));
+=======
+                                 error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2);
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
                                  saveDat(n).Flow = -(dataAvg(:,1)-dataAvg(:,2))./2;
                                  saveDat(n).FlowError = error;
                                  t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
@@ -1519,9 +1582,14 @@ for n = 1:length(in)
                             plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         else
                             saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
+<<<<<<< HEAD
                             %saveDat(n).TempError(:,i) = mean(dat(in(n).line).tempU(:,doubleplot(i,:)));
                             saveDat(n).TempError(:,i) = sqrt(sum(dat(in(n).line).tempU(:,doubleplot(i,:)).^2))/length(dat(1).time);
                             errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),sqrt(sum(dat(in(n).line).tempU(:,doubleplot(i,:)).^2))/length(dat(1).time),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+=======
+                            saveDat(n).TempError(:,i) = mean(dat(in(n).line).tempU(:,doubleplot(i,:)));
+                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),mean(dat(in(n).line).tempU(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
                         end
                         ylabel('[eV]');
                         set(ax6,'xticklabel',[]);
@@ -1530,14 +1598,20 @@ for n = 1:length(in)
                 
                 
                 %  Plot Fft Spectrum
+<<<<<<< HEAD
                 if plotFFT
+=======
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
                  ylabel(ax9,'[%]');set(ax9,'ylim',[0,100]);
                  set(ax9,'xlim',xlim); title(ax9,'Inj. Mode % of Reconstruction');
                 plot(ax9,xlim,[CutPow,CutPow].*100,'--k');
                 if n==1;figure(h2);end
+<<<<<<< HEAD
                 end
+=======
+>>>>>>> 6163f3da831ebbac3cd7bdab5d84ac7b1186255c
                 
             %%%%%%%%%%%%%%%HITSI%%%%%%%%%%%%%%%%
             
