@@ -2,10 +2,11 @@
 % Jan 17th 2012
 %
 % Updated June 2013
-clear all; close all; clc;
+%clear all; 
+close all; clc;
 addpath('~/IDS/Matlab/');
 %addAllThePaths;
-cd('T:\RChandra\NewCodes\Geometry');
+%cd('T:\RChandra\NewCodes\Geometry');
 %
 % This code takes calibration data from backlighting the new IDS fibers
 % onto a screen to determine the angle, volume, and impact parameters of
@@ -23,7 +24,7 @@ save1 = 0; % save 'impacts' as 'impacts1.mat'.  This configuration has the
            % toward the the small cones (inboard) and channel 72 is looking
            % toward the ring (outboard).
            
-saveNim1 = 0; % save 'IDScoords.mat' with 'origin' and 'IDSchords' variables
+saveNim1 = 1; % save 'IDScoords.mat' with 'origin' and 'IDSchords' variables
            
 save2 = 0; % save 'impacts' as 'impacts2.mat'.  This configuration has the 
            % 'Upper/Long' fiber in the upper mohawk port #6 with the fiber
@@ -49,7 +50,7 @@ save4 = 0; % save 'impacts' as 'impacts4.mat'.  This has the long fiber in
 save5 = 0; % save 'impacts' as 'impacts5'. Upper mowhawk #6, lower mowhawk 
            % #6.
 
-save6 = 1; % save 'impacts' as 'impacts6', Upper mohawk #1-#10, with secant
+save6 = 0; % save 'impacts' as 'impacts6', Upper mohawk #1-#10, with secant
            % and nimrod coordinates
 
 % raw = [247.5, 250.5, 253.5, 256.5, 259.5, 263.0,... % real unaltered data
