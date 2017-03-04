@@ -27,6 +27,7 @@ n = 1;
 shot(n).title = ['HIT-SI, \Delta' '\phi = 90^{\circ}'];
 shot(n).tLimWide = [0.4, 2.7];
 shot(n).hfdenShot = []; % MAIN SHOT HAS DENSITY
+shot(n).exp = 'analysis';
  
 n = 2;
 % FIG 1
@@ -34,6 +35,7 @@ shot(n).title = ['HIT-SI3, \Delta' '\phi = 60^{\circ}'];
 shot(n).tLimWide = [0.5, 2.8];
 shot(n).hfdenShot = 150317025; % alternate shot number for density
 shot(n).lfdenShot = []; % MAIN SHOT HAS DENSITY
+shot(n).exp = 'analysis3';
  
 n = 3;
 % FIG 1
@@ -41,6 +43,7 @@ shot(n).title = ['HIT-SI3, \Delta' '\phi = 120^{\circ}'];
 shot(n).tLimWide = [0.5, 2.8];
 shot(n).hfdenShot = 150401017; % alternate shot number for density
 shot(n).lfdenShot = 160803026; % alternate shot number for density
+shot(n).exp = 'analysis3';
  
 n = 4;
 % FIG 1
@@ -48,9 +51,10 @@ shot(n).title = ['HIT-SI3, \Delta' '\phi = 0^{\circ}'];
 shot(n).tLimWide = [0.3, 3.6];
 shot(n).hfdenShot = 150331026; % NEGATIVE TOR CURRENT - FIND BETTER SHOT IF POSSIBLE
 shot(n).lfdenShot = []; % MAIN SHOT HAS DENSITY
+shot(n).exp = 'analysis3';
  
 for n = 1:length(hfshots)
-    shot(n).exp = whatTree(hfshots(n));
+    %shot(n).exp = whatTree(hfshots(n));
     shot(n).xTick = [0.5 1 1.5 2 2.5 3 3.5];
     shot(n).currentsLim = [-10, 95];
     shot(n).pLim = [0, 16];
@@ -94,32 +98,35 @@ H.fig(1) = figure('Color', [1 1 1], 'Position', [0.1 * S(3), 0.1 * S(4), 0.35 * 
 for n = 1:length(hfshots)
     %% HF data in
     HitConn = Connection('landau.hit');
-    HitConn.openTree(whatTree(hfshots(n)), hfshots(n));
+    HitConn.openTree(shot(n).exp, hfshots(n));
      
 %     sihi_freq = data_in(HitConn, '\SIHI_FREQ');
      
     % Bring in Currents
-    hfitor = data_in(HitConn, '\i_tor_spaavg');
+    % Aaron does this:
+    % hfitor = data_in(HitConn, '\i_tor_spaavg');
+    % Which makes zero goddamn sense
+    hfitor = HitConn.get('\i_tor_spaavg').getDoubleArray;
     hfitor.t = 1e3 * hfitor.t;
     hfitor.y = 1e-3 * hfitor.y;
-    hfitor_sm = data_in(HitConn, 'sihi_smooth(\i_tor_spaavg)');
+    hfitor_sm = HitConn.get('sihi_smooth(\i_tor_spaavg)');
     hfitor_sm.t = 1e3 * hfitor_sm.t;
     hfitor_sm.y = 1e-3 * hfitor_sm.y;
      
-    hfpinj = data_in(HitConn, '\P_INJ');
+    hfpinj = HitConn.get('\P_INJ');
     hfpinj.t = 1e3 * hfpinj.t;
     hfpinj.y = 1e-6 * hfpinj.y; % W to MW
-    hfpinj_sm = data_in(HitConn, 'sihi_smooth(\P_INJ)');
+    hfpinj_sm = HitConn.get('sihi_smooth(\P_INJ)');
     hfpinj_sm.t = 1e3 * hfpinj_sm.t;
     hfpinj_sm.y = 1e-6 * hfpinj_sm.y; % W to MW
      
-    hfkdot = data_in(HitConn, '\KDOT_INJ');
+    hfkdot = HitConn.get('\KDOT_INJ');
     hfkdot.t = 1e3 * hfkdot.t;
-    hfkdot_sm = data_in(HitConn, 'sihi_smooth(\KDOT_INJ)');
+    hfkdot_sm = HitConn.get('sihi_smooth(\KDOT_INJ)');
     hfkdot_sm.t = 1e3 * hfkdot_sm.t;
      
     if isempty(shot(n).hfdenShot) % main shot has density
-        hfn = data_in(HitConn, '\N_AVG_S1');
+        hfn = HitConn.get('\N_AVG_S1');
         hfn.t = 1e3 * hfn.t;
         hfn.y = 1e-19 * hfn.y; % take out factor of e19
 %         hfn_sm = data_in(HitConn, 'sihi_smooth(\N_AVG_S1)');
@@ -146,23 +153,23 @@ for n = 1:length(hfshots)
 %     sihi_freq = data_in(HitConn, '\SIHI_FREQ');
      
     % Bring in Currents
-    lfitor = data_in(HitConn, '\i_tor_spaavg');
+    lfitor = HitConn.get( '\i_tor_spaavg');
     lfitor.t = 1e3 * lfitor.t;
     lfitor.y = 1e-3 * lfitor.y;
-    lfitor_sm = data_in(HitConn, 'sihi_smooth(\i_tor_spaavg)');
+    lfitor_sm = HitConn.get('sihi_smooth(\i_tor_spaavg)');
     lfitor_sm.t = 1e3 * lfitor_sm.t;
     lfitor_sm.y = 1e-3 * lfitor_sm.y;
      
-    lfpinj = data_in(HitConn, '\P_INJ');
+    lfpinj = HitConn.get('\P_INJ');
     lfpinj.t = 1e3 * lfpinj.t;
     lfpinj.y = 1e-6 * lfpinj.y; % W to MW
-    lfpinj_sm = data_in(HitConn, 'sihi_smooth(\P_INJ)');
+    lfpinj_sm = HitConn.get('sihi_smooth(\P_INJ)');
     lfpinj_sm.t = 1e3 * lfpinj_sm.t;
     lfpinj_sm.y = 1e-6 * lfpinj_sm.y; % W to MW
      
-    lfkdot = data_in(HitConn, '\KDOT_INJ');
+    lfkdot = HitConn.get('\KDOT_INJ');
     lfkdot.t = 1e3 * lfkdot.t;
-    lfkdot_sm = data_in(HitConn, 'sihi_smooth(\KDOT_INJ)');
+    lfkdot_sm = HitConn.get('sihi_smooth(\KDOT_INJ)');
     lfkdot_sm.t = 1e3 * lfkdot_sm.t;
      
     if n == 1 % 129499 - no density at all
