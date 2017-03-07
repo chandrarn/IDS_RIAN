@@ -6,12 +6,14 @@ clear all;% clc;
 addpath('~/IDS/Matlab/');
 addpath('T:\RChandra\Sine_fit\');
 addpath('T:\IDS\General Matlab\');
+addpath(genpath('C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\'));
 %addAllThePaths;
 lines = {'O II', 'C III', 'O II','C III'};
 
 %% Input Settings
 
 %% IDS DATA
+NIMROD=0;
 %% 0-120-240
 % High performance
 % % in(1).shot = 160728011;150625998;
@@ -33,38 +35,38 @@ lines = {'O II', 'C III', 'O II','C III'};
 % % in(1).phaseShift = 2*pi -pi/2;
 % % 160728
 % %in(2)=in(1);
-in(1).shot = 160728013;
-in(1).line=2;
-in(1).color = {'r';'r'};%[66, 188, 244]./255};
-in(1).style = {'-','--'};
-in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
-in(1).phaseShift = -pi/2;
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = -5; % SHIFT VELOCITY
-in(1).intScale = 2; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
-in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
-in(2)=in(1);
-in(2).phaseShift = 2*pi -pi/2-pi;
-in(2).shot = 160728012;
-in(2).color = {'b';'b'};%[182, 244, 66]./255};
-in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-%Supression of Dissenting data:
-phaseSupress(1,:,1)=1;
-phaseSupress(1:2,:,2)=0;
-flowSupress(1,:)=[1:3];
-flowSupress(2,:)=[1:3];
-dispSupress(1,:,2)=[1:5];
-dispSupress(2,:,2)=[1:4,4];
-tempSupress(1,:,1)=[2,2,2];
-tempSupress(1,:,2)=[1:2,5];
-tempSupress(2,:,2)=[1,3,5];
+% in(1).shot = 160728013;
+% in(1).line=2;
+% in(1).color = {'r';'r'};%[66, 188, 244]./255};
+% in(1).style = {'-','--'};
+% in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
+% in(1).phaseShift = -pi/2;
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+% in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
+% in(2)=in(1);
+% in(2).phaseShift = 2*pi -pi/2-pi;
+% in(2).shot = 160728012;
+% in(2).color = {'b';'b'};%[182, 244, 66]./255};
+% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+% %Supression of Dissenting data:
+% phaseSupress(1,:,1)=1;
+% phaseSupress(1:2,:,2)=0;
+% flowSupress(1,:)=[1:3];
+% flowSupress(2,:)=[1:3];
+% dispSupress(1,:,2)=[1:5];
+% dispSupress(2,:,2)=[1:4,4];
+% tempSupress(1,:,1)=[2,2,2];
+% tempSupress(1,:,2)=[1:2,5];
+% tempSupress(2,:,2)=[1,3,5];
 
 
 % Low Performance
@@ -255,39 +257,39 @@ tempSupress(2,:,2)=[1,3,5];
 
 % % 129499 
 % % note: need to change .*1e-6 to .*1e-3 in sinefit
-% in(1).shot = 129499;%150625998;
-% in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-% in(1).legend = [num2str(in(1).shot) ': +90kA'];
-% in(1).color = {'r';'r'};%[225,105,0]./255};
-% in(1).style = {'-','--'};
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = 0; % SHIFT VELOCITY
-% in(1).intScale = 1; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = []; % FFT of signal, n frequencies
-% in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
-% in(1).phaseShift =-pi/2;
-% in(1).error=0;
-% % 129450, 129451
-% % in(2) = in(1);
-% % in(2).shot=129450;
-% % in(2).line=1;
-% % in(2).legend = [num2str(in(2).shot) ': +79kA'];
-% % in(2).color = {'b';'b'};%[66, 188, 244]./255};
-% in(2)=in(1);
-% in(2).line=2
-% in(2).shot = 129496;
-% in(2).color = {'b';'b'};%[182, 244, 66]./255};
-% in(2).legend = [num2str(in(2).shot) ': -76kA'];
-% % Supression of Dissenting data:
-% phaseSupress(1:2,:)=22;
-% flowSupress(2,:)=22;
-% dispSupress(1:2,:)=22;
-% tempSupress(1:2,:)=[21,22;21,22];
+in(1).shot = 129499;%150625998;
+in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+in(1).legend = [num2str(in(1).shot) ': +90kA'];
+in(1).color = {'r';'r'};%[225,105,0]./255};
+in(1).style = {'-','--'};
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = 0; % SHIFT VELOCITY
+in(1).intScale = 1; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
+in(1).phaseShift =-pi/2;
+in(1).error=0;
+% 129450, 129451
+% in(2) = in(1);
+% in(2).shot=129450;
+% in(2).line=1;
+% in(2).legend = [num2str(in(2).shot) ': +79kA'];
+% in(2).color = {'b';'b'};%[66, 188, 244]./255};
+in(2)=in(1);
+in(2).line=2
+in(2).shot = 129496;
+in(2).color = {'b';'b'};%[182, 244, 66]./255};
+in(2).legend = [num2str(in(2).shot) ': -76kA'];
+% Supression of Dissenting data:
+phaseSupress(1:2,:)=22;
+flowSupress(2,:)=22;
+dispSupress(1:2,:)=22;
+tempSupress(1:2,:)=[21,22;21,22];
 
 
 %% Low Performance HIT-SI / Comparison
@@ -474,6 +476,41 @@ tempSupress(2,:,2)=[1,3,5];
 % in(3).legend = [num2str(in(3).shot) ': -76kA'];
 
 
+%% NIMROD
+% NIMROD = 1;
+% in(1).shot = 160609202;
+% in(1).line=1;
+% in(1).color = {'r';'r'};%[66, 188, 244]./255};
+% in(1).style = {'-','--'};
+% in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
+% in(1).phaseShift = -pi/2;
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = -5; % SHIFT VELOCITY
+% in(1).intScale = 2; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = []; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+% in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
+% in(2)=in(1);
+% in(2).phaseShift = 2*pi -pi/2-pi;
+% in(2).shot = 160609211;
+% in(2).color = {'b';'b'};%[182, 244, 66]./255};
+% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+% %Supression of Dissenting data:
+% phaseSupress(1,:,1)=1;
+% phaseSupress(1:2,:,2)=0;
+% flowSupress(1,:)=[1:3];
+% flowSupress(2,:)=[1:3];
+% dispSupress(1,:,2)=[1:5];
+% dispSupress(2,:,2)=[1:4,4];
+% tempSupress(1,:,1)=[2,2,2];
+% tempSupress(1,:,2)=[1:2,5];
+% tempSupress(2,:,2)=[1,3,5];
+
 
  plotType = 1; % Velocity
 % plotType = 2; % Temperature
@@ -507,8 +544,12 @@ else
     Analysis = 2; % Analyze torroidal flow, Amplitude, phasing. Replaces "Averages"
 end
 
-
-saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
+if NIMROD ==0
+    saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
+else
+    saveFile = ['T:\IDS\Analysis Repository\NIMROD\' num2str(in(1).shot)];
+    addpath('T:\IDS\Analysis Repository\NIMROD\');
+end
 
 % Set these: ( add :2: if you only want every other line
 % chan_range = 50:58;
@@ -593,6 +634,12 @@ elseif in(1).shot >= 161018010 && in(1).shot <= 161018023
     chan_ranget = [7:17,19:29];
     chan_rangep = [43:65];
     xlim=[-20,60];
+elseif in(1).shot >= 160609200 in(1).shot <= 160610000 % NIMROD Data
+    timebound = [1.6,1.8];
+   chan_ranget = [10:32];
+    chan_rangep = [37:59];
+    xlim=[-20,60];
+    
 end
 chan_range = [chan_ranget, chan_rangep];
 %chan_range = chan_ranget;
@@ -719,7 +766,11 @@ for n = 1:length(in)
     %addpath('T:\IDS\Data Repository');
     
     if ~(exist('dat','var') && strcmp(dat(1).title,['Shot ' num2str(in(n).shot)])) % speed up runtime if data is already loaded
+        if  NIMROD == 0 
         input=load(['T:\IDS\Data Repository\dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
+        else
+        input=load(['T:\IDS\Data Repository\NIMROD\dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
+        end
         dat=input.dat;
         if flipLoImpact ~=0 % flip the lower array about its centeral impact.
                breakInd = 30; % Assume that the fiber break occurs at index thirty
@@ -739,9 +790,11 @@ for n = 1:length(in)
                 dat(1).impacts(breakInd:end) = [dat(1).impacts(end-2*(length(dat(1).impacts)-flipLoImpact):end);...
                     impacts(63:62+(-length(dat(1).impacts)+2*flipLoImpact-breakInd))];
         end
-        error('ABORT\n')
+        %error('ABORT\n')
+        display(['Pre-Trim Data Length: ' num2str(length(dat(1).impacts))]);
         dat = trimRange(dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
-        assignin('base','dat',dat);
+        display(['Post-Trim Data Length: ' num2str(length(dat(1).impacts))]);
+        assignin('base','datTrim',dat);
         %try;saveDat(n).VelError = dat(in(n).line).velU;end
         %try;saveDat(n).TempError = dat(in(n).line).tempU;end
     end
@@ -1274,7 +1327,8 @@ for n = 1:length(in)
                             saveDat(n).Displacement(:,i) = dataDispl(:,i);
                             plot(ax6,dat(1).impacts(1:size(data,2)),dataDispl(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         else
-                            error = sqrt( ( sqrt(nansum(dat(in(n).line).velU(:,doubleplot(i,:))))./(2*pi*14500 * length(dat(1).time)) .*1e5).^2 + squeeze(RMS(i,:,n,100)).^2)/length(dat(1).time) ; % convert error to centemeters displacement
+                            error = sqrt( ( sqrt( ( nansum(dat(in(n).line).velU(:,doubleplot(i,:))))./(2*pi*14500 * length(dat(1).time)) .*1e5).^2 + (squeeze(RMS(i,:,n,100))/(2*pi*14500 *length(dat(1).time)).*1e5) .^2)...
+                                + 0 )  ; % convert error to centemeters displacement
                             if any(dispSupress(n,:,i))
                                 dataDispl(dispSupress(n,:,i),i)=NaN;
                             end
@@ -1327,7 +1381,9 @@ for n = 1:length(in)
                              'MarkerEdgeColor',[in(n).color{1}]);
                              else
                                  %error = sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:))).^2 + mean(dat(in(n).line).velU(:,doubleplot(2,:))).^2);
-                                 error = sqrt( sum(dat(in(n).line).velU(:,doubleplot(1,:)).^2) + sum(dat(in(n).line).velU(:,doubleplot(2,:)).^2))/(2*length(dat(1).time));
+                                 error = sqrt( ( (sum(dat(in(n).line).velU(:,doubleplot(1,:)).^2) + sum(dat(in(n).line).velU(:,doubleplot(2,:)).^2) )/(2*length(dat(1).time).^2 )... 
+                                +( (squeeze(RMS(1,:,n,100))).^2 +(squeeze(RMS(2,:,n,100))).^2)/4 ));
+                                % + std(dat(in(n).line).vel(:,doubleplot(2,:))/2 ).^2 ) ) ;
                                  saveDat(n).Flow = -(dataAvg(:,1)-dataAvg(:,2))./2;
                                  saveDat(n).FlowError = error;
                                  t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1},...
@@ -1519,9 +1575,11 @@ for n = 1:length(in)
                             plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                         else
                             saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
-                            %saveDat(n).TempError(:,i) = mean(dat(in(n).line).tempU(:,doubleplot(i,:)));
-                            saveDat(n).TempError(:,i) = sqrt(sum(dat(in(n).line).tempU(:,doubleplot(i,:)).^2))/length(dat(1).time);
-                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),sqrt(sum(dat(in(n).line).tempU(:,doubleplot(i,:)).^2))/length(dat(1).time),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                            %saveDat(n).TempError(:,i) = mean(dat(in(n).line).tempU(:,doubleplot(i,:)));                          
+                            error=sqrt(sum(dat(in(n).line).tempU(:,doubleplot(i,:)).^2)/length(dat(1).time).^2 +std(dat(in(n).line).temp(:,doubleplot(i,:))).^2 ) ;
+                            errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),error,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                            saveDat(n).TempError(:,i) =  error;
+                            
                         end
                         ylabel('[eV]');
                         set(ax6,'xticklabel',[]);
@@ -1556,8 +1614,10 @@ for n = 1:length(in)
                      t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
                 else
                     saveDat(n).Flow = param(:,2,n);
-                     saveDat(n).FlowError = nanmean(dat(in(n).line).velU);
-                     t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),nanmean(dat(in(n).line).velU),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
+                     %saveDat(n).FlowError = nanmean(dat(in(n).line).velU);
+                      error = sqrt( ( (sum(dat(in(n).line).velU.^2) )/(length(dat(1).time).^2 ) + (squeeze(RMS(1,:,n,100))).^2 ) ) ;
+                     saveDat(n).FlowError =error;
+                     t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
                 end
                     %'MarkerEdgeColor',[in(n).color{1}]);
                 %end
@@ -1606,19 +1666,23 @@ for n = 1:length(in)
                         plot(ax17,dat(1).impacts(1:size(data,2)),nanmean(dat(in(n).line).temp),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
                     else
                         saveDat(n).Temp = nanmean(dat(in(n).line).temp);
-                        saveDat(n).TempError = nanmean(dat(in(n).line).tempU);
-                        errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),nanmean(dat(in(n).line).tempU),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+%                         saveDat(n).TempError = nanmean(dat(in(n).line).tempU);
+                        error=sqrt(sum(dat(in(n).line).tempU.^2)/length(dat(1).time).^2 +std(dat(in(n).line).temp).^2 ) ;
+                        errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),error,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                       saveDat(n).TempError = error;
                     end
                     ylabel(ax17,'[eV]');
                     set(ax6,'xticklabel',[]);
                 end
                  %  Plot Fft Spectrum
+                 if plotFFT
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,1),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 plot(ax9,dat(1).impacts(1:size(data,2)),100*pRel(:,2),'-*','color', in(n).color{2}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{2});
                  ylabel(ax9,'[%]');set(ax9,'ylim',[0,100]);
                  set(ax9,'xlim',xlim); title(ax9,'Inj. Mode % of Reconstruction');
                 plot(ax9,xlim,[CutPow,CutPow].*100,'--k');
                 if n == 1;figure(h2);end
+                 end
             end
             % Plot Flow Profile
             %plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'k','LineWidth', lnwdth, 'LineStyle', in(n).style);
@@ -1824,7 +1888,11 @@ if plotCurrents
         ax2 = axes('Parent', h, 'Position', [.075, .08, .8, .15], 'FontSize', fntsz+1);
     end
     if length(in) > 1
+        if NIMROD==0
         load(['dat' num2str(in(1).shot) '10.mat']);
+        else
+        load(['T:\IDS\Data Repository\NIMROD\dat' num2str(in(1).shot) '10.mat']);
+        end
     end
     if dat(1).shotRef >999999
         plot(ax2, dat(1).iinjaTime.*in(1).injTimeScale, ...
