@@ -30,9 +30,7 @@ if postHoc==0 || postHoc == 3
     param.impacts = double((Conn.get('\IDS_IMPACTS')));
     param.CalLam = double((Conn.get('\CAL_LAMBDA')));
     else
-        load(['dat' num2str(refShot) '10.mat']);
-        param = dat(1).param;
-    end
+        
     %[param,options] = loadParams(refShot,[1],1,1);
     param.IonMass;
     stt.CAL_LAMBDA = 1;
