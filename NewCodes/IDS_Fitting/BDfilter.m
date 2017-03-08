@@ -21,7 +21,7 @@ chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
 %lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
-lam_bound = round(param.Center(1, 2))-BDwing -28  : round(param.Center(1, 2))+BDwing - 28 ;
+lam_bound = round(param.Center(1, 2))-BDwing -28  : round(param.Center(1, 2))+BDwing + 28 ;
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
@@ -175,12 +175,17 @@ for m = 1:2
     %% Save Data for Recombining
     if m == 1
         Ak_t = Ak(modes); % save weights
-        figure; plot(Ak_t,'-*','linewidth',2);title('Toroidal BD modes')
+        figure; semilogy(Ak./max(Ak),'-*','linewidth',2);
+        set(gca,'fontsize',12);set(gca,'fontweight','bold');
+        title('BD Normalized Weights'); grid on;
+        xlabel('Mode #');ylabel('\lambda_n/\lambda_0'); hold on;
         V_t = V(:, modes); % save chronos
         topos_t = topos(modes, :, :); % save topos
         assignin('base','Ak_t',Ak);
     else
         Ak_p = Ak(modes); % save weights
+        semilogy(Ak./max(Ak),'r-*','linewidth',2);
+        legend({'First Array','Second Array'});
         V_p = V(:, modes); % save chronos
         topos_p = topos(modes, :, :); % save topos
         assignin('base','Ak_p',Ak);

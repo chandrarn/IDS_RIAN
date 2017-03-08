@@ -6,7 +6,7 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
     
     lineShift = [-14,0,11]; % attempt to manually fit to the lines;
     %y0 offset, set the cal line to OII
-    y0 = 16;11;8;
+    y0 = 0;11;8;
     x0 = 0;-4; % -2.5;
     if useTree % try using the tree, if that doesnt work, try importing callibration from file
         import MDSplus.*;
