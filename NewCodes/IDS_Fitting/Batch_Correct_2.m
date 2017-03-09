@@ -1,7 +1,7 @@
 % Plot Data, mostly used now to process IDS data for later viewing by
 % NIMcompare_1 or similar 
 
-
+addpath(genpath('C:\Users\hitsi\Documents\GitHub\IDS_RIAN\NewCodes\'));
 %129810,129819,129817,129820
 %140708018,
 %129810: 14.5
@@ -42,8 +42,8 @@ end
 shots = [160524024:160524025];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 %shots=shots(end:-1:1);
 nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
-timeBound = [30:165]; % time point bounds for BD filtering.  Leave blank to use whole movie
-line = [2:4]; % spectral line number, from longest to shortest wavelength
+timeBound = [60:165]; % time point bounds for BD filtering.  Leave blank to use whole movie
+line = [2:3]; % spectral line number, from longest to shortest wavelength
 useTree = 1; % Use ONLY in cases where caliibration was unable to save to the tree
 %Is the file/tree stucture from HIT-SI, or HIT-SI3?
 % (length(shots(1))>6)
