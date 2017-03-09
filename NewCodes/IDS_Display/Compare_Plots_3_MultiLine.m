@@ -12,12 +12,13 @@ try
     %AddAllThePaths;
     addpath('T:\IDS\Data Repository\');
 end
+addpath(genpath(['C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes']));
 
 %% Plot Settings
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129499;
+shot = 160728013;
 
 plotType =4; % 3 = IDS velocity
               % 4 = IDS temperature 
@@ -37,13 +38,13 @@ plotType =4; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 1; % which line to plot, if5 multiple
+line = 2; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
 shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
-torPlot = 1; % true for toroidal array (fibers 1 to 36)
+torPlot = 2; % true for toroidal array (fibers 1 to 36)
 % false for poloidal array (fibers 37 to 72)
 
 %% Options
@@ -75,7 +76,8 @@ scSNR = 0.45; % upper limit for residual / area
 findTLim = 1; % print indices to the command line which correspond to times
 tLimMS = [.1 2.0]; % time points in ms
 
-hitsi3 = 0; % hitsi3 data, with 3 injectors instead of 2
+hitsi3 = shot>200000; % hitsi3 data, with 3 injectors instead of 2
+flipLoImpact=[47].*(shot>200000);
 
 %% General Settings: %%%%
 
@@ -108,11 +110,13 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
  chan_ranget = 5:29; % NIMROD mohawk
+  chan_ranget = 11:29;
 %chan_ranget = [11:29];
 %chan_ranget = [6:26]%[9:29];
 
- chan_rangep = [46:63]; % poloidal
-chan_rangep = [37:62]; % poloidal
+  chan_rangep = [46:63]; % poloidal
+ chan_rangep = [37:62]; % poloidal
+chan_rangep = [37:56]; % poloidal
 %chan_rangep = [42:62];[44:65];
 %151217026 Presentation chords
 %chan_ranget = [12:26];
@@ -150,6 +154,28 @@ else
     ylabi = dat(1).label1;
 %     ybreak = [ dat(1).impacts(length(chan_ranget)), dat(1).impacts(length(chan_ranget)+1)];
     ybreak = [ dat(1).impacts(length(chan_ranget)), dat(1).impacts(end)];
+end
+
+if flipLoImpact ~=0 % flip the lower array about its centeral impact.
+       breakInd = 30; % Assume that the fiber break occurs at index thirty
+      impacts=importdata('impacts5.mat')';
+        dat(line).vel(:,breakInd:end) = [dat(line).vel(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact))...
+            dat(line).vel(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+        dat(line).temp(:,breakInd:end) = [dat(line).temp(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
+            dat(line).temp(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+       try
+       dat(line).velU(:,breakInd:end) = [dat(line).velU(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact))...
+            dat(line).velU(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+        dat(line).tempU(:,breakInd:end) = [dat(line).tempU(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
+            dat(line).tempU(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+        dat(line).velL(:,breakInd:end) = [dat(line).velL(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact))...
+            dat(line).velL(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+        dat(line).tempL(:,breakInd:end) = [dat(line).tempL(:,end:-1:end-2*(length(dat(1).impacts)-flipLoImpact)) ...
+            dat(line).tempL(:,length(dat(1).impacts)-flipLoImpact+breakInd:-1:breakInd) ];
+        end
+        dat(1).impacts(breakInd:end) = [dat(1).impacts(end-2*(length(dat(1).impacts)-flipLoImpact):end);...
+            impacts(63:62+(-length(dat(1).impacts)+2*flipLoImpact-breakInd))];
+       
 end
 
 % Trim all Data for channel range
@@ -382,7 +408,7 @@ n_skip = 3; % number of points to skip over
 S = get(0, 'ScreenSize');
 
 if (~skinny & ~square & ~doublePlot)
-    h1 = figure('Visible','on','Name',[TitleL title1],'Position',[5 35 S(3)-600 S(4)-110],...
+    h1 = figure('Visible','on','Name',[TitleL title1],'Position',[5 65 S(3)-600 S(4)-90],...
         'Color', [1 1 1]);
     ax(1) = axes('Parent', h1, 'Position', [.1 .3 .82 .63], 'FontSize', fntsz);
 elseif square
@@ -513,7 +539,7 @@ end
 
 %% Plot Currents
 if ~square
-    ax(2) = axes('Parent', h1, 'Position', [.1 .08 (S(3)-1042)./1000 .19], 'FontSize', fntsz);
+    ax(2) = axes('Parent', h1, 'Position', [.1 .10 (S(3)-1042)./1000 .17], 'FontSize', fntsz);
 
     plt1 = '-k';
     plt2 = '-r';

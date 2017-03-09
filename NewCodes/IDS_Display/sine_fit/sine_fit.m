@@ -132,6 +132,5 @@ if plot_flag==1
     figure;plot(x,y,'-*k',x_vector,f(BETA,x_vector),'r-')
     xlim(minmax(x_vector))
 end
-
 % take multiples of 2pi off of phase
 %param(3) = mod(param(3),2*pi);

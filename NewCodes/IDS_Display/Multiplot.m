@@ -35,39 +35,42 @@ NIMROD=0;
 % % in(1).phaseShift = 2*pi -pi/2;
 % % 160728
 % %in(2)=in(1);
-% in(1).shot = 160728013;
-% in(1).line=2;
-% in(1).color = {'r';'r'};%[66, 188, 244]./255};
-% in(1).style = {'-','--'};
-% in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
-% in(1).phaseShift = -pi/2;
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = -5; % SHIFT VELOCITY
-% in(1).intScale = 2; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
-% in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
-% in(2)=in(1);
-% in(2).phaseShift = 2*pi -pi/2-pi;
-% in(2).shot = 160728012;
-% in(2).color = {'b';'b'};%[182, 244, 66]./255};
-% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-% %Supression of Dissenting data:
-% phaseSupress(1,:,1)=1;
-% phaseSupress(1:2,:,2)=0;
-% flowSupress(1,:)=[1:3];
-% flowSupress(2,:)=[1:3];
-% dispSupress(1,:,2)=[1:5];
-% dispSupress(2,:,2)=[1:4,4];
-% tempSupress(1,:,1)=[2,2,2];
-% tempSupress(1,:,2)=[1:2,5];
-% tempSupress(2,:,2)=[1,3,5];
-
+in(1).shot = 160728013;
+in(1).line=1;
+in(1).color = {'r';'r'};%[66, 188, 244]./255};
+in(1).style = {'-','--'};
+in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
+in(1).phaseShift = -pi/2;
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = -5; % SHIFT VELOCITY
+in(1).intScale = 2; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
+in(2)=in(1);
+in(2).phaseShift = 2*pi -pi/2-pi;
+in(2).shot = 160728012;
+in(2).color = {'b';'b'};%[182, 244, 66]./255};
+in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+%Supression of Dissenting data:
+phaseSupress(1,:,1)=1;
+phaseSupress(1:2,:,2)=0;
+flowSupress(1,:)=[1:3];
+flowSupress(2,:)=[1:3];
+dispSupress(1,:,2)=[1:5];
+dispSupress(2,:,2)=[1:4,4];
+dispSupress(2,:,1)=[1,1,1,1,1];
+tempSupress(1,:,1)=[2,2,2,2];
+%tempSupress(1,:,2)=[1:2,5];
+tempSupress(1,:,2)=[1:2,3,3];
+%tempSupress(2,:,2)=[1,3,5];
+tempSupress(2,:,2)=[1,2,5,3];
+tempSupress(2,:,1)=[1,3,19,3];
 
 % Low Performance
 % in(1).shot = 160525017;150625998;
@@ -257,39 +260,39 @@ NIMROD=0;
 
 % % 129499 
 % % note: need to change .*1e-6 to .*1e-3 in sinefit
-in(1).shot = 129499;%150625998;
-in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-in(1).legend = [num2str(in(1).shot) ': +90kA'];
-in(1).color = {'r';'r'};%[225,105,0]./255};
-in(1).style = {'-','--'};
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = 0; % SHIFT VELOCITY
-in(1).intScale = 1; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
-in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
-in(1).phaseShift =-pi/2;
-in(1).error=0;
-% 129450, 129451
-% in(2) = in(1);
-% in(2).shot=129450;
-% in(2).line=1;
-% in(2).legend = [num2str(in(2).shot) ': +79kA'];
-% in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(2)=in(1);
-in(2).line=2
-in(2).shot = 129496;
-in(2).color = {'b';'b'};%[182, 244, 66]./255};
-in(2).legend = [num2str(in(2).shot) ': -76kA'];
-% Supression of Dissenting data:
-phaseSupress(1:2,:)=22;
-flowSupress(2,:)=22;
-dispSupress(1:2,:)=22;
-tempSupress(1:2,:)=[21,22;21,22];
+% in(1).shot = 129499;%150625998;
+% in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ': +90kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = 0; % SHIFT VELOCITY
+% in(1).intScale = 1; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = []; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
+% in(1).phaseShift =-pi/2;
+% in(1).error=0;
+% % 129450, 129451
+% % in(2) = in(1);
+% % in(2).shot=129450;
+% % in(2).line=1;
+% % in(2).legend = [num2str(in(2).shot) ': +79kA'];
+% % in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2)=in(1);
+% in(2).line=2
+% in(2).shot = 129496;
+% in(2).color = {'b';'b'};%[182, 244, 66]./255};
+% in(2).legend = [num2str(in(2).shot) ': -76kA'];
+% % Supression of Dissenting data:
+% phaseSupress(1:2,:)=22;
+% flowSupress(2,:)=22;
+% dispSupress(1:2,:)=22;
+% tempSupress(1:2,:)=[21,22;21,22];
 
 
 %% Low Performance HIT-SI / Comparison
@@ -758,6 +761,7 @@ figure(h); % make first figure current
 
 %% Load and Plot Data
 clear param
+
 for n = 1:length(in)
     n
     saveDat(n).title= in(n).AnalysisTitle;
@@ -790,7 +794,7 @@ for n = 1:length(in)
                 dat(1).impacts(breakInd:end) = [dat(1).impacts(end-2*(length(dat(1).impacts)-flipLoImpact):end);...
                     impacts(63:62+(-length(dat(1).impacts)+2*flipLoImpact-breakInd))];
         end
-        %error('ABORT\n')
+%        error('ABORT\n')
         display(['Pre-Trim Data Length: ' num2str(length(dat(1).impacts))]);
         dat = trimRange(dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
         display(['Post-Trim Data Length: ' num2str(length(dat(1).impacts))]);
@@ -922,17 +926,22 @@ for n = 1:length(in)
                         %harm5 = bandpower(signal-offset,Fsamp,[70,75].*1e3);
                         ptot =  bandpower(signal-offset,Fsamp,[0,Fsamp*(length(signal)-2)/(2*length(signal)) ]); % Nyquist
                         pRel(i,1) = (harm1+harm2+harm3+harm4)/ptot;
+                        saveDat(n).FFT(i,1)=pRel(i,1);
                         % calculate sine fit from FFT (again)
                         
                         % if the fit isnt valid, dont plot it
                         try data(1:length(dat(1).time),i.*(pRel(i,1)<CutPow))=signal;end
                         
                         % attempt lm error analysis
-%                         dp = [0.001, 0.001, 0.001, 0.001]; % fractional increment of 'p' for numerical derivatives
-%                         [p_fit, Chi_sq, dPar(n,i,1,:), ~, corr, R2, cvg_hst] = ...
-%                         lm(@SineFitLM, param(i,2:5,n), dat(1).time.*(in(n).timeScale.*1e-3), signal', 0.001, dp);%, p_min,p_max,0)
+                         dp = [0.001, 0.001, 0.001, 0.001]; % fractional increment of 'p' for numerical derivatives
+                        [p_fit, Chi_sq, dPar(n,i,1,:), ~, corr, R2, cvg_hst] = ...
+                         lm(@SineFitLM, param(i,2:5,n), dat(1).time.*(in(n).timeScale.*1e-3), signal', 0.001, dp);%, p_min,p_max,0)
                         %pause(1);
-                        
+%                         [BETA,R,J,COVB,MSE] = nlinfit(dat(1).time'.*(in(n).timeScale.*1e-3),signal',@SineFitNLN,param(i,2:5,n));
+%                         parErrNLN(n,i,:)=sqrt(diag(sqrt(mean(R.^2))*pinv(J'*J)));
+%                         SigDev(n,i,1)=parErrNLN(n,i,3);
+%                         clear BETA R K COVB MSE
+                        %error('HALTING');
                         % Calculate RMS Error
                         % Calculate RMS Errorfor rmsPhase = 1:200
                              for rmsPhase = 1:200
@@ -948,8 +957,8 @@ for n = 1:length(in)
                              [p_fit_dat(n,i,1,:),R(n,i,1,:),J,COVB(n,i,1,:,:),MSE(n,i,1),ERRORMODELINFO(n,i,1)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS(1,i,n,:))',@singletGauss1D,[-(RMS(1,i,n,1)-RMS(1,i,n,100))*pi,.5,1.5,RMS(1,i,n,1)]);
                              [p_fit_dat_ideal(n,i,1,:),R_ideal(n,i,1,:),J,COVB_ideal(n,i,1,:,:),MSE_ideal(n,i,1),ERRORMODELINFO_ideal(n,i,1)]=nlinfit((-pi +pi*(1:200)/100),squeeze(RMS_ideal(1,i,n,:))',@singletGauss1D,[-(RMS_ideal(1,i,n,1)-RMS_ideal(1,i,n,100))*pi,.5,1.5,RMS_ideal(1,i,n,1)]);
                              
-%                              [Y,I] = min( (squeeze(RMS_ideal(2,i,n,:))- RMS_ideal(2,i,n,1)/2).^2);% Find HWHM
-%                              SigDev(n,i,2) = p_fit_dat(n,i,2,3)-abs(-pi +pi*(I)/100);
+%                               [Y,I] = min( (squeeze(RMS_ideal(1,i,n,:))- RMS_ideal(1,i,n,1)/2).^2);% Find HWHM
+%                               SigDev(n,i,1) = p_fit_dat(n,i,1,3)-abs(-pi +pi*(I)/100);
                                 SigDev(n,i,1) = abs(p_fit_dat(n,i,1,3)-p_fit_dat_ideal(n,i,1,3)); % Delta sigmas is error
                         %%%%%% Lower Array %%%%%%%%%%%%%%%
                         if in(n).doubleplot
@@ -1000,12 +1009,17 @@ for n = 1:length(in)
                             % if the fit isnt valid, dont plot it
                             try data(length(dat(1).time)+1:2*length(dat(1).time)...
                                     ,i.*(pRel(i,2)<CutPow))=signal;end
+                            saveDat(n).FFT(i,2)=pRel(i,2);
                             
                             % attempt lm error analysis
 %                             dp = [0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001]; % fractional increment of 'p' for numerical derivatives
 %                             [p_fit, Chi_sq, dPar(n,i,1,:), ~, corr, R2, cvg_hst] = ...
 %                             lm(@SineFitLM,  param(i,7:10,n), dat(1).time.*(in(n).timeScale.*1e-3), signal, 0.0001, dp);%, p_min,p_max,0)
-%                              
+%                              [BETA,R,J,COVB,MSE] = nlinfit(dat(1).time'.*(in(n).timeScale.*1e-3),signal',@SineFitNLN,param(i,7:10,n));
+%                             parErrNLN(n,i,:)=sqrt(diag(sqrt(mean(R.^2))*pinv(J'*J)));
+%                             SigDev(n,i,2)=parErrNLN(n,i,3);
+%                             clear BETA R K COVB MSE
+                        
                             % Calculate RMS Errorfor rmsPhase = 1:200
                              for rmsPhase = 1:200
                                  %RMS(2,i,n,rmsPhase) = sqrt(mean( (signal'-(param(i,2,n)+param(i,3,n)*sin(2*pi*dat(1).time'.*(in(n).timeScale).*1e-3.*14500 + param(i,4,n) + (-pi +pi*rmsPhase/10)))).^2));
