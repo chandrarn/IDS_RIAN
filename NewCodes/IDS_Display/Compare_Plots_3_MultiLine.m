@@ -17,9 +17,9 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 129499;
+shot = 160524025;
 
-plotType =4; % 3 = IDS velocity
+plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
               % 5 = IDS residual
               % 6 = IDS amplitude
@@ -37,13 +37,13 @@ plotType =4; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 1; % which line to plot, if5 multiple
+line = 2; % which line to plot, if5 multiple
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
 shiftVel = 0; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
-torPlot = 1; % true for toroidal array (fibers 1 to 36)
+torPlot = 2; % true for toroidal array (fibers 1 to 36)
 % false for poloidal array (fibers 37 to 72)
 
 %% Options
@@ -75,7 +75,7 @@ scSNR = 0.45; % upper limit for residual / area
 findTLim = 1; % print indices to the command line which correspond to times
 tLimMS = [.1 2.0]; % time points in ms
 
-hitsi3 = 0; % hitsi3 data, with 3 injectors instead of 2
+hitsi3 = 1; % hitsi3 data, with 3 injectors instead of 2
 
 %% General Settings: %%%%
 

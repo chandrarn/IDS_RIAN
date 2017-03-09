@@ -15,7 +15,7 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 16101802210;
+shot = 16052402510;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
 chans1 = chan_sets(2, :);
 deadCh = [4]; % dead channel for displaying time instead of data
@@ -23,7 +23,7 @@ line = 2; % line INDEX, ie: dat(#).vel
 
 % Make Movie --------------------------------------------------------------
 % timeLim = 30:48;
-timeLim = [50:181];
+timeLim = [50:130];
 saveMOVIE = 1;
 fileMOVIE = ['T:\IDS\Data Repository\Fits ' num2str(shot)];
 
