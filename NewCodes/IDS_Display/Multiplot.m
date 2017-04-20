@@ -33,7 +33,7 @@ lines = {'O II', 'C III', 'O II','C III'};
 % % in(1).phaseShift = 2*pi -pi/2;
 % % 160728
 % %in(2)=in(1);
-
+% 
 % in(1).shot = 160728013;
 % in(1).line=1;
 % in(1).color = {'r';'r'};%[66, 188, 244]./255};
@@ -308,7 +308,7 @@ in(1).timeScale = 1;1e-3; % scale timebase to put into ms
 in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
 in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
 in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).fftPlot = []; % FFT of signal, n frequencies
 in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
 in(1).phaseShift =-pi/2;
 in(1).error=0;
@@ -1649,9 +1649,10 @@ for n = 1:length(in)
                      t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
                 else
                     saveDat(n).Flow = param(:,2,n);
-                     saveDat(n).FlowError = nanmean(dat(in(n).line).velU);
+                     %saveDat(n).FlowError = nanmean(dat(in(n).line).velU);
                      %error=sqrt(nanmean(dat(in(n).line).velU.^2)/length(dat(1).time));
-                     error=sqrt( mean(dat(in(n).line).velU(:,doubleplot(1,:)).^2) + (squeeze(RMS(1,i,n,100))).^2 )/sqrt(length(dat(1).time));
+                     error=sqrt( nanmean(dat(in(n).line).velU(:,doubleplot(1,:)).^2) + (squeeze(RMS(1,i,n,100))).^2 )/sqrt(length(dat(1).time));
+                     saveDat(n).FlowError =error;
                      t3(n)=errorbar(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),error,'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
                 end
                     %'MarkerEdgeColor',[in(n).color{1}]);
@@ -1946,10 +1947,17 @@ if plotCurrents
         plot(ax2, dat(1).iinjyTime.*in(1).injTimeScale, ...
             dat(1).iinjy.*in(1).injScale, 'color',[0.8500    0.3250    0.0980], 'LineWidth', lnwdth);
         hold on
+        
     end
     for i = 1:length(in)
         plot(ax2, dat(1).ItorTime.*in(1).injTimeScale, ...
             Itor(:,i).*in(1).injScale, 'color', in(i).color{1}, 'LineWidth', lnwdth);
+    end
+    if dat(1).shotRef >999999
+        
+    else
+        shotName = strsplit(num2str([in(:).shot]));
+        legend(ax2,{'I_{x}','I_{y}',['I_{torr} ' shotName{1}],['I_{torr} ' shotName{2}]});
     end
     set(gca, 'LineWidth', lnwdth);
     xlabel('Time [ms]');
