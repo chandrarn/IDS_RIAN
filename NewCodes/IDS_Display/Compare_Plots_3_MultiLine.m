@@ -193,7 +193,7 @@ if timeInMs
     dat(1).time = dat(1).time + shiftTime;
     x = dat(1).time(1:length(dat(1).vel)); % TEMP MULTIPLY, SOME SHOTS IN S NOT mS
     %x = 1:size(dat.vel,1);
-    xlab = {'time [ms]'};
+    xlab = {'Time [ms]'};
 else 
     %x = 1:length(dat.time);
     x = 1:size(dat(1).vel,1);
@@ -400,17 +400,17 @@ end
 
 
 %% Plotting
-fntsz = 24; % Font Size
-lnwdth = 1;
+fntsz = 19; % Font Size
+lnwdth = 1.5;
 
 n_skip = 3; % number of points to skip over
 
 S = get(0, 'ScreenSize');
 
 if (~skinny & ~square & ~doublePlot)
-    h1 = figure('Visible','on','Name',[TitleL title1],'Position',[5 65 S(3)-600 S(4)-90],...
+    h1 = figure('Visible','on','Name',[TitleL title1],'Position',[5 35 (S(3)-12)/2.25 S(4)-1],...
         'Color', [1 1 1]);
-    ax(1) = axes('Parent', h1, 'Position', [.1 .3 .82 .63], 'FontSize', fntsz);
+    ax(1) = axes('Parent', h1, 'Position', [.1 .28 .82 .65], 'FontSize', fntsz);
 elseif square
     h1 = figure('Visible','on','Name','Data Comparison','Position', [.15*S(3) 0.1*S(4) .25*S(3) .7*S(4)],...
         'Color', [1 1 1]);
@@ -449,7 +449,7 @@ if doublePlot
     box(ax(3),'on');
     cb = colorbar('peer',ax(1),'FontSize', fntsz);
     cb1 = colorbar('peer',ax(3),'FontSize', fntsz);
-    ylabel(ylab);
+    ylab1=ylabel(ylab);
     caxis(ax(1),clim);
     caxis(ax(3),clim);
     set(ax(1), 'YLim', [5,40], 'LineWidth', lnwdth);
@@ -478,7 +478,7 @@ else
     end
 
     if ~skinny
-        ylabel(ylab);
+        ylab1=ylabel(ylab);
     end
     if square
         set(cb, 'Position', [0.9, 0.1, 0.03, 0.8]);
@@ -498,7 +498,7 @@ else
 
     %title([title1 ',' title2 title3]);
     %title(['O II, 465 nm' ',' title2 title3]);
-    title([TitleL num2str(dat(1).param.LineLam(line)*1e9) title2 ', shot ' num2str(shot)]);
+    datatl=title([TitleL num2str(dat(1).param.LineLam(line)*1e9) title2 ', Shot ' num2str(shot)],'fontsize',22);
     caxis(clim);
     %set(cb,'Ytick',[-5:2.5:5])
     set(gca,'xtick',[0:.2:2])
@@ -516,7 +516,7 @@ else
         breakyaxis([ ybreak(1)+2, ybreak(end)-2]);
         end
     end
-    text(timeLim(2)+.20,15,title1,'Rotation',-90,'Fontsize',fntsz);
+    vertTxt=text(timeLim(2)+.225,15,title1,'Rotation',-90,'Fontsize',fntsz);
 
 end
 
@@ -539,7 +539,8 @@ end
 
 %% Plot Currents
 if ~square
-    ax(2) = axes('Parent', h1, 'Position', [.1 .10 (S(3)-1042)./1000 .17], 'FontSize', fntsz);
+    mainPos = get(ax(1),'Position');
+    ax(2) = axes('Parent', h1, 'Position', [.1 .08 (S(3)-1045)./1000 .15], 'FontSize', fntsz);
 
     plt1 = '-k';
     plt2 = '-r';
@@ -600,7 +601,7 @@ if ~square
             if ~hitsi3
                 h_legend=legend('I_{TOR}', 'I_{INJ, X}', 'I_{INJ, Y}', 'Location', 'EastOutside');
             else
-                h_legend=legend('I_{TOR}', 'I_{INJ, A}', 'I_{INJ, B}', 'I_{INJ, C}', 'Location', 'EastOutside');
+                h_legend=legend( 'I_{INJ, A}', 'I_{INJ, B}', 'I_{INJ, C}', 'I_{TOR}', 'Location', 'EastOutside');
             end
         elseif spa000
             h_legend=legend( 'I_{INJ, A}',  'I_{\phi = 0^o}', 'I_{\phi = 45^o}', 'Location', 'EastOutside');
@@ -609,9 +610,9 @@ if ~square
 
         end
     end
-    ylabel('[kA]');
+    ylab2=ylabel('I [kA]');
     xlabel(xlab);
-    set(h_legend,'FontSize',14);
+    set(h_legend,'FontSize',12);
     set(gca, 'XLim', timeLim, 'LineWidth', lnwdth,'FontSize',fntsz);
     linkaxes(ax, 'x');
     %set(gca,'xtick',[0:.1:2])

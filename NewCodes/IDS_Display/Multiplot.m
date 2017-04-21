@@ -681,7 +681,7 @@ intSpace = 20; % arb.u.
 tempSpace = 20; % eV
 
 %% set up figure
-fntsz = 14;
+fntsz = 19;
 lnwdth = 1.5;
 errWdth = 500; % errorbar width setting
 
@@ -698,7 +698,7 @@ partialColor = {'r',colorOrder(2,:); 'b',colorOrder(1,:);,'g',colorOrder(5,:)};
 if ~compactCurrents
     ax = axes('Parent', h, 'Position', [0.075, 0.08, 0.8, 0.85]);
 else
-    ax = axes('Parent', h, 'Position', [0.075, 0.28, 0.8, 0.65]);
+    ax = axes('Parent', h, 'Position', [0.075+(.0585)/2, 0.28, 0.8-.0585, 0.65]);
 end
 
 hold on;
@@ -1874,7 +1874,7 @@ else
 end
 ylabel(sidebar, 'fontsize', fntsz);
 
-title([in(1).AnalysisTitle  ':' titles], 'fontsize', fntsz);
+datatl=title([in(1).AnalysisTitle  ':' titles], 'fontsize', fntsz);
 %set(ax, 'XLim', timebound);
 set(gca, 'LineWidth', lnwdth);
 set(gca, 'fontsize', fntsz);
@@ -1890,7 +1890,7 @@ end
 set(gca, 'YLim', [yLowerLim, yUpperLim]);
 set(gca, 'YTick', []);
 
-nt = text(timebound(end) + 0.125 * (timebound(end) - timebound(1)), (offset * size(data, 2))/2, 'R  [cm]', 'fontsize', fntsz);
+nt = text(timebound(end) + 0.125 * (timebound(end) - timebound(1)), (offset * size(data, 2))/2, 'Impact Parameter  [cm]', 'fontsize', fntsz);
 set(nt, 'rotation', -90)
 
 %% Figure Properties for Averages
@@ -1923,9 +1923,10 @@ if plotCurrents
     if ~compactCurrents
         j = figure('Visible', 'on', 'Name', 'MULTIPLOT-Currents', 'Position',...
             [5, 35, figureWidth, analysisHeight], 'Color', [1 1 1]);
-        ax2 = axes('Parent', j, 'Position', [0.15, 0.08, 0.8, 0.15], 'FontSize', fntsz+1); % currents
+        ax2 = axes('Parent', j, 'Position', [0.15, 0.08, 0.8, 0.15], 'FontSize', fntsz); % currents
     else
-        ax2 = axes('Parent', h, 'Position', [.075, .08, .8, .15], 'FontSize', fntsz+1);
+        ax2Pos = [.075+(.0585/2), .08, .8-.0585, .15];
+        ax2 = axes('Parent', h, 'Position',ax2Pos , 'FontSize', fntsz);
     end
     if length(in) > 1
         load(['dat' num2str(in(1).shot) '10.mat']);
@@ -1957,11 +1958,16 @@ if plotCurrents
         
     else
         shotName = strsplit(num2str([in(:).shot]));
-        legend(ax2,{'I_{x}','I_{y}',['I_{torr} ' shotName{1}],['I_{torr} ' shotName{2}]});
+        currleg=legend(ax2,{'I_{x}','I_{y}',['I_{torr}'],['I_{torr}']},'location','EastOutside');
     end
     set(gca, 'LineWidth', lnwdth);
-    xlabel('Time [ms]');
-    ylabel('I_{INJ} [kA]');
+    set(gca,'fontsize',fntsz);
+    set(currleg,'fontsize',fntsz-7);
+    set(ax2,'Position',ax2Pos);
+    currxl=xlabel('Time [ms]');
+    curryl=ylabel('I [kA]');
+    currylPos=get(curryl,'Position');
+    set(curryl,'Position',[currylPos(1)+.02,currylPos(2:3)]);
     linkaxes([ax,ax2],'x');
     set(ax2, 'XLim', timebound);
     grid on;
