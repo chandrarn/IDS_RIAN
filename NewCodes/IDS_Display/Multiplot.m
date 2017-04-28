@@ -34,42 +34,59 @@ lines = {'O II', 'C III', 'O II','C III'};
 % % 160728
 % %in(2)=in(1);
 % 
-% in(1).shot = 160728013;
-% in(1).line=1;
-% in(1).color = {'r';'r'};%[66, 188, 244]./255};
-% in(1).style = {'-','--'};
-% in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
-% in(1).phaseShift = -pi/2;
-% in(1).error = 0; % 1 / 0 for errorbars
-% in(1).velShift = -5; % SHIFT VELOCITY
-% in(1).intScale = 2; % scale factor for intensity
-% in(1).timeShift = 0; % ms, shift time base
-% in(1).timeScale = 1e-3; % scale timebase to put into ms
-% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-% in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
-% in(1).fftPlot = [1]; % FFT of signal, n frequencies
-% in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
-% in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
-% in(2)=in(1);
-% in(2).phaseShift = 2*pi -pi/2-pi;
-% in(2).shot = 160728012;
-% in(2).color = {'b';'b'};%[182, 244, 66]./255};
-% in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-% %Supression of Dissenting data:
-% phaseSupress(1,:,1)=1;
-% phaseSupress(1:2,:,2)=0;
-% flowSupress(1,:)=[1:3];
-% flowSupress(2,:)=[1:3];
-% dispSupress(1,:,2)=[1:5];
-% dispSupress(2,:,2)=[1:4,4];
-% dispSupress(2,:,1)=[1,1,1,1,1];
-% tempSupress(1,:,1)=[2,2,2,2];
-% %tempSupress(1,:,2)=[1:2,5];
-% tempSupress(1,:,2)=[1:2,3,3];
-% %tempSupress(2,:,2)=[1,3,5];
-% tempSupress(2,:,2)=[1,2,5,3];
-% tempSupress(2,:,1)=[1,3,19,3];
+in(1).shot = 160728013;
+in(1).line=2;
+in(1).color = {'r';'r'};%[66, 188, 244]./255};
+in(1).style = {'-','--'};
+in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
+in(1).phaseShift = -pi/2;
+in(1).error = 0; % 1 / 0 for errorbars
+in(1).velShift = -5; % SHIFT VELOCITY
+in(1).intScale = 2; % scale factor for intensity
+in(1).timeShift = 0; % ms, shift time base
+in(1).timeScale = 1e-3; % scale timebase to put into ms
+in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+in(1).doubleplot = [1];[1:23; 24,26:47]; % plot coorespoinding impacts
+in(1).fftPlot = [1]; % FFT of signal, n frequencies
+in(1).AnalysisTitle=[ 'HIT-SI3: 0-120-240 Phasing, Gain 2.9, ' lines{in(1).line}];
+in(1).phaseShift = 2*pi -pi/2 ;% The +pi is to overlay with the positive shot
+in(2)=in(1);
+in(2).phaseShift = 2*pi -pi/2-pi;
+in(2).shot = 160728012;
+in(2).color = {'b';'b'};%[182, 244, 66]./255};
+in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+%Supression of Dissenting data:
+% For C III
+if in(1).line==2
+phaseSupress(1,:,1)=1;
+phaseSupress(1:2,:,2)=0;
+flowSupress(1,:)=[1];
+flowSupress(2,:)=[1];
+dispSupress(1,:,2)=[1,1,1,1,1];
+dispSupress(2,:,2)=[1,1,1,1,4];
+dispSupress(2,:,1)=[1,1,1,1,1];
+tempSupress(1,:,1)=[2,2,2,2];
+%tempSupress(1,:,2)=[1:2,5];
+tempSupress(1,:,2)=[1,2,2,2];
+%tempSupress(2,:,2)=[1,3,5];
+tempSupress(2,:,2)=[1,1,1,1];
+tempSupress(2,:,1)=[1,1,19,1];
+else
+phaseSupress(1,:,1)=[18,19];
+phaseSupress(2,:,2)=[0,0];
+flowSupress(1,:)=[1,2];
+flowSupress(2,:)=[1,1];
+dispSupress(1,:,2)=[1,1,1,2,3];
+dispSupress(2,:,2)=[1,1,3,2,4];
+dispSupress(2,:,1)=[1,1,1,1,1];
+tempSupress(1,:,1)=[2,3,4,5];
+%tempSupress(1,:,2)=[1:2,5];
+tempSupress(1,:,2)=[1,2,2,3];
+%tempSupress(2,:,2)=[1,3,5];
+tempSupress(2,:,2)=[1,2,1,3];
+tempSupress(2,:,1)=[1,1,19,3];
+end
 
 % in(1).shot = 160728013;
 % in(1).line=2;
@@ -294,40 +311,41 @@ lines = {'O II', 'C III', 'O II','C III'};
 
 % % 129499 
 % % note: need to change .*1e-6 to .*1e-3 in sinefit
-
-in(1).shot = 129499;%150625998;
-in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-in(1).legend = [num2str(in(1).shot) ': +90kA'];
-in(1).color = {'r';'r'};%[225,105,0]./255};
-in(1).style = {'-','--'};
-in(1).error = 0; % 1 / 0 for errorbars
-in(1).velShift = 0; % SHIFT VELOCITY
-in(1).intScale = 1; % scale factor for intensity
-in(1).timeShift = 0; % ms, shift time base
-in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-in(1).fftPlot = []; % FFT of signal, n frequencies
-in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
-in(1).phaseShift =-pi/2;
-in(1).error=0;
-% 129450, 129451
-% in(2) = in(1);
-% in(2).shot=129450;
-% in(2).line=1;
-% in(2).legend = [num2str(in(2).shot) ': +79kA'];
-% in(2).color = {'b';'b'};%[66, 188, 244]./255};
-in(2)=in(1);
-in(2).line=2;%1 is OII 2 is CIII
-in(2).shot = 129496;
-in(2).color = {'b';'b'};%[182, 244, 66]./255};
-in(2).legend = [num2str(in(2).shot) ': -76kA'];
-% Supression of Dissenting data:
-phaseSupress(1:2,:)=22;
-flowSupress(2,:)=22;
-dispSupress(1:2,:)=22;
-tempSupress(1:2,:)=[21,22;21,22];
+% 
+% in(1).shot = 129499;%150625998;
+% in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+% in(1).legend = [num2str(in(1).shot) ': +90kA'];
+% in(1).color = {'r';'r'};%[225,105,0]./255};
+% in(1).style = {'-','--'};
+% in(1).error = 0; % 1 / 0 for errorbars
+% in(1).velShift = 0; % SHIFT VELOCITY
+% in(1).intScale = 1; % scale factor for intensity
+% in(1).timeShift = 0; % ms, shift time base
+% in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+% in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+% in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+% in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+% in(1).fftPlot = [1]; % FFT of signal, n frequencies
+% in(1).AnalysisTitle=['HIT-SI: 0-90 Phasing, ' lines{in(1).line+1}]; 
+% in(1).phaseShift =-pi/2;
+% in(1).error=0;
+% % 129450, 129451
+% % in(2) = in(1);
+% % in(2).shot=129450;
+% % in(2).line=1;
+% % in(2).legend = [num2str(in(2).shot) ': +79kA'];
+% % in(2).color = {'b';'b'};%[66, 188, 244]./255};
+% in(2)=in(1);
+% in(2).line=2;%1 is OII 2 is CIII
+% in(2).shot = 129496;
+% in(2).color = {'b';'b'};%[182, 244, 66]./255};
+% in(2).legend = [num2str(in(2).shot) ': -76kA'];
+% % Supression of Dissenting data:
+% % for O II
+% phaseSupress(1:2,:)=22;
+% flowSupress(1:2,:)=[NaN,NaN;22,22];
+% dispSupress(1:2,:)=22;
+% tempSupress(1:2,:)=[21,22;21,22];
 % 
 % in(1).shot = 129499;%150625998;
 % in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
@@ -833,6 +851,7 @@ for n = 1:length(in)
     
     %switch plotType
         if plotType==1 || plotType==4 || ( plotType ==2 && ~isempty(in(1).fftPlot))
+            % PARAM: [IMPACT, OFFSET, AMP, PHASE, FREQ]
             if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
                 %data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,in(n).doubleplot(1,:));
                 %data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
@@ -1642,7 +1661,7 @@ for n = 1:length(in)
 %                     'MarkerFaceColor',[in(n).color{1}]);
                 % Check data supression
                if any(flowSupress(n,:))
-                    param(flowSupress(n,:),3,n)=NaN;
+                    param(flowSupress(n,:),2,n)=NaN;
                 end
                 if ~plotError
                      saveDat(n).Flow = param(:,2,n);
@@ -1955,7 +1974,7 @@ if plotCurrents
             Itor(:,i).*in(1).injScale, 'color', in(i).color{1}, 'LineWidth', lnwdth);
     end
     if dat(1).shotRef >999999
-        
+        currleg=legend(ax2,{'I_{A}','I_{B}','I_{C}',['I_{torr}'],['I_{torr}']},'location','EastOutside');
     else
         shotName = strsplit(num2str([in(:).shot]));
         currleg=legend(ax2,{'I_{x}','I_{y}',['I_{torr}'],['I_{torr}']},'location','EastOutside');

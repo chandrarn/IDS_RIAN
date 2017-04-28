@@ -362,7 +362,7 @@ for n = 1:length(hfshots)
     end
     text(0.02, 0.88, ['(' figlabs(n, 4) ')'], 'Units', 'normalized', 'FontSize', fntsz);
      
-    xlabel('time [ms]');
+    xlabel('Time [ms]');
      
  
     %%

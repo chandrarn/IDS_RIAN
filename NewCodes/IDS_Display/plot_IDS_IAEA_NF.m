@@ -53,7 +53,7 @@ H.fig(1) = figure('Color', [1 1 1], 'Position', [0.05 * S(3), 0.05 * S(4), 0.6 *
 
 for n = 1:length(shots)
     
-    load(['saveDat' num2str(shots(n)) '_3_O']);
+    load(['saveDat' num2str(shots(n)) '_4']);
     
     if size(saveDat(1).Displacement, 2) == 2 % check for lower fiber data
         lower = 1;
@@ -76,7 +76,8 @@ for n = 1:length(shots)
         H.p(3) = errorbar(saveDat(1).Impacts, saveDat(1).Displacement(:, 2), saveDat(1).DisplacementError(:, 2), '--r');
         H.p(4) = errorbar(saveDat(2).Impacts, saveDat(2).Displacement(:, 2), saveDat(2).DisplacementError(:, 2), '--b');
     end
-    legend(H.p(1:2), ['shot ' num2str(saveDat(1).shot)], ['shot ' num2str(saveDat(2).shot)], 'Location', 'West');
+    legend(H.p(1:2), ['Shot ' num2str(saveDat(1).shot) ' (+)'], ...
+        ['Shot ' num2str(saveDat(2).shot) ' (-)'], 'Location', 'West');
     set(gca, 'XLim', shot(n).xLim, 'XTickLabel', [], 'XTick', shot(n).xTick);
 %     text(0.55, 0.06, ['shot ' num2str(shots(n))], 'Units', 'normalized', 'FontSize', fntsz-2);
     text(0.32, 0.9, 'Max Displacement', 'Units', 'normalized', 'FontSize', fntsz);
@@ -200,7 +201,7 @@ if doFFT
 %     ax1=axes('Parent',gcf);
     legCount=1;
     for n = 1:length(shots)
-        load(['saveDat' num2str(shots(n)) '_3_O']);
+        load(['saveDat' num2str(shots(n)) '_4']);
 
         if size(saveDat(1).Displacement, 2) == 2 % check for lower fiber data
             lower = 1;
