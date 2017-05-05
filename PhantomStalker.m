@@ -15,7 +15,7 @@ import MDSplus.*
 addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
 pdc3 =0;
 OldData = 1;
-shots =  [160412018:160412022];[160518015,160518017,160518027,160518029];% must be in ascending order
+shots =  [170504008];% must be in ascending order
 SavePath = 'T:\\PhantomMovies\\';
 LoadPhantomLibraries();
 RegisterPhantom(true);
@@ -112,6 +112,10 @@ while cont==1;
         [HRES, CH] = PhNewCineFromCamera(0,1);
     else
         [HRES, CH] = PhNewCineFromFile(['T:\PhantomMovies\' num2str(shotnum) '.cine']);
+        if isempty(CH)
+            display(['Shot: ' num2str(shotnum) ' Not Found']);
+            break
+        end
     end
     
     % Reset Image Processing Parameters
