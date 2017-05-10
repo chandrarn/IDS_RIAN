@@ -88,26 +88,27 @@ calPlasmaFit.file = '/home/aaron/IDS/Calibration/Images/calPlasma';
 xWing = 2; % real space domain (1 => 3, 2 => 5)
 
 % PHASE 1 -----------------------------------------------------------------
-doPHASE1 = 1;
-shot1 = 161017001; % always use this one
-shot2 = 161017002; % set 'shot2' to zero if only using one fiber
-xlim = [10,320]; % pixels for initial plotting, leave empty if unsure
-ylim = [54,74]; % pixels for initial plotting, leave empty if unsure
+doPHASE1 = 0;
+shot1 = 170504007; % always use this one
+shot2 = 170504005; % set 'shot2' to zero if only using one fiber
+xlim = [30,370]; % pixels for initial plotting, leave empty if unsure
+ylim = [45,70]; % pixels for initial plotting, leave empty if unsure
 
 % PHASE 2 -----------------------------------------------------------------
-doPHASE2 = 1;
+doPHASE2 = 0;
 % chanNums = [1:4, 6:21, 23:72]; % 5 and 22 are dead
 %chanNums = [1:62]; % 5 dead, 22 weak but including - 5/31/13
-chanNums = [1:4, 6:53, 55:72]; % 
-firstCenter = [23, 63]; % Center position of first channel, [real, wavelength]
-lastCenter = [291, 66]; % Center position of last channel, [real, wavelength]
+%chanNums = [1:4, 6:53, 55:72]; % 
+chanNums = [1:4, 6:72]; % Nothing wrong with 54, if lens is removed durring calibration
+firstCenter = [48,55]; % Center position of first channel, [real, wavelength]
+lastCenter = [352,58]; % Center position of last channel, [real, wavelength]
 brightWing = 5; % number of pixels in wavelength space for Gaussian fitting domain
 force = []; % force finding channel(s) at specific x location(s)
 remove = [];
 
 % PHASE 2B ----------------------------------------------------------------
-doPHASE2B = 1;
-breakindex = 35; % first index of second fiber array
+doPHASE2B = 0;
+breakindex = 37; % first index of second fiber array
 
 % PHASE 3 -----------------------------------------------------------------
 doPHASE3 = 0;
@@ -119,11 +120,11 @@ doPHASE4 = 0;
 % PHASE 5 -----------------------------------------------------------------
 % MUST MANUALLY CORRECT TIME BASE !
 % BOTH MOVIES MUST HAVE SAME TIME INTERVAL !
-doPHASE5 = 0;
-shot3 = 161017004; % Motor Calibration Shot
-shot4 = 161017003; % Optional second motor calibration shot
+doPHASE5 = 1;
+shot3 = 170504008; % Motor Calibration Shot
+shot4 = 170504006; % Optional second motor calibration shot
 motorSpeed = 0.0509; % [nm per second]
-trim5 = [1:375]; % Trim calibration movie
+trim5 = [300:2:1500]; % Trim calibration movie
 % 4-16-15
 % "motorSpeed" nominally 1, empirically set by analyzing shots
 % 129499 and 129496 from 1.7 to 2.0 ms. Systematic velocity difference of
@@ -145,10 +146,10 @@ yWing = 7; % similar to 'brightWing', but allowing different value for plasma li
 factor = 1; % estimated correction to motor speed
 
 % PHASE 5 C --------------------------------------------------------------
-doPHASE5C = 0;
-motorCalShot = 161017004;
-binChanMotor = 90;178;
-channel = 55;
+doPHASE5C =1;
+motorCalShot = 170504008;
+binChanMotor = 177;178;
+channel = 31;
 lamMotor = [434.75, 435.84];
 
 % PHASE 6 -----------------------------------------------------------------
@@ -285,10 +286,10 @@ end
 %% PHASE 2B - Correct for second fiber array offset
 if doPHASE2B
     
-    out = calSecLine(PEAKS,breakindex);
-    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(4,1); % apply offset
-    out = calSecLine(PEAKS,breakindex); % tends to slightly change the second time
-    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(4,1); % apply offset again
+    out = calSecLine1(PEAKS,breakindex);
+    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(5,1); % apply offset
+    out = calSecLine1(PEAKS,breakindex); % tends to slightly change the second time
+    PEAKS(breakindex:end,3) = PEAKS(breakindex:end,3) -out(5,1); % apply offset again
 
 end
 

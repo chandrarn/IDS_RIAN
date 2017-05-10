@@ -9,7 +9,7 @@ try
     % Both could remove this, but it makes the data match visually with the
     % PCC program
     clear temp;
-    [n_time, n_pix, n_chan] = size(data);
+    [ n_pix, n_chan,n_time] = size(data);
 catch
     data = importdata(['shot' int2str(shot1) '.mat']); % [counts] (time x wavelength space x channel space)
     
@@ -19,11 +19,11 @@ end
 
 % Arrange in vertical columns
 
-[n_time, n_pix, n_chan] = size(data);
+[ n_pix, n_chan, n_time] = size(data);
 BDdat = NaN*zeros(n_chan * n_pix, n_time);
 
 for n = 1:n_time
-    BDdat(:, n) = reshape(squeeze(data(n, :, :)), n_chan * n_pix, 1);
+    BDdat(:, n) = reshape(squeeze(data(:, :, n)), n_chan * n_pix, 1);
 end
 clear data;
 
@@ -63,11 +63,11 @@ if shot2 ~= 0 % load the second shot, if it exists
 
     % Arrange in vertical columns
 
-    [n_time, n_pix, n_chan] = size(data);
+    [ n_pix, n_chan,n_time] = size(data);
     BDdat = NaN*zeros(n_chan * n_pix, n_time);
 
     for n = 1:n_time
-        BDdat(:, n) = reshape(squeeze(data(n, :, :)), n_chan * n_pix, 1);
+        BDdat(:, n) = reshape(squeeze(data(:, :, n)), n_chan * n_pix, 1);
     end
     clear data;
 

@@ -1,40 +1,47 @@
 %%%CINE-TO-MAT CONVERTER PROGRAM
 %%RIAN CHANDRA 2014 & KYLE ROBERTS 2016 & RIAN CHANDRA 2016
-% open cine file from camera
-%         read in cine
-%         make time vector
-%         Save .mat file
-%         Throw to tree
-%         Return Camera to Initial State
- 
+%{
+This code converts and saves movies from .cine to .mat file format.
+It can handle old files, or pull them from the camera as they are taken.
+Sequence of events:
+- (if new shots) Setup camera, get shot number
+- Make CineArray and TimeVector, reset image processing parameters
+- Loop through frames, take the pixel values and time.
+- Save to timestamped folder
+%}
+
 %% The idea is to have some kind of while loop that allows the program to run in the background and wait for a shot.
 clear all;
 %close all;
 %clc;
 import MDSplus.*
 addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
-pdc3 =0;
-OldData = 1;
-shots =  [160412018:160412022];[160518015,160518017,160518027,160518029];% must be in ascending order
+pdc3 =0; % pdc3 flag should be set automatically
+% Correcting old data flag
+OldData = 0;
+shots =  [170504005];% Old data to correct, in ascending order.
 SavePath = 'T:\\PhantomMovies\\';
+% Load phaotm librarie
 LoadPhantomLibraries();
 RegisterPhantom(true);
+
 %% Getting time signatures associated with begining and ending of movie
-if ~OldData
+if ~OldData % Pull the shot length from the tree
     Conn = Connection('landau.hit');
     Conn.openTree('hitsi3',0);
     MovieStop = double(Conn.get('\Shot_Length')) + 0.0005;
-    MovieStop = MovieStop*10^(6);
+    MovieStop = MovieStop*10^(6); % unit conversion
+    % Refresh CCD before shot is taken
     HRES=calllib('phcon', 'PhBlackReferenceCI', 0,[]); % CSR
     if HRES == 132
         disp('Successfully refreshed CCD');
-    elseif HRES == -259
+    elseif HRES == -259 % This may occur if matlab is left on overnight
         error('No Responce From Camera, Restart Matlab');
     end
     PhRecordCine(0); % RNC said to add this 8/2/16 - will pretrigger camera
     
     % Check PDC3 and HITSI3 shot number ( Wont work before baseline shot is
-% taken)
+    % taken)
     try
         Conn.openTree('pdc3',0);
         pdc3Shot = double(Conn.get('$Shot'));
@@ -45,8 +52,11 @@ if ~OldData
     hitsiShot = double(Conn.get('$Shot'));
         
 else
-    MovieStop = 10*10^6;
+    % If correcting old data, assume that it wont be longer than a minute
+    MovieStop = 60*10^6;
 end
+
+%% Make the folder to save in 
  % This creates a new folder for the day, for the cines to be saved in
 t = datestr(now, 'mmddyy'); %the date, with the format in quotes 
 files = dir('E:\\Cines\\'); 
@@ -63,6 +73,8 @@ if t < 1 %if the folder doesn't exist
     mkdir('E:\\Cines\\',W); %makes a new folder in the cines drive
 end
 SaveCinePath = ['E:\\Cines\\' W];
+
+%% Main Loop Over Shots, Old or Current
 cont = 1;shotnum=0;
 emergencycounter = 0;
 
@@ -70,15 +82,19 @@ while cont==1;
     display('Waiting for store to conclude');
     % Wait for the shot to happen
     if ~OldData
-        Conn.openTree('hitsi3',0); % will triger for pdc3 and hitsi3
+        % The tree will send out this flag after a shot in hitsi3 and pdc3
+        Conn.openTree('hitsi3',0); 
         Conn.get('wfevent("END_OF_STORE")');
     end
+    
     if OldData
+            % Get the next shot and start to convert it
             shotnum=shots(find(shots>=(shotnum+1),1,'first'));
             if shotnum==shots(end) % if we've reached the end, stop
                 cont=0;
             end
     else
+        % Try to get the new shot number
         try
             Conn.openTree('pdc3',0);
             pdcNew = double(Conn.get('$Shot'));
@@ -87,39 +103,47 @@ while cont==1;
         end
         Conn.openTree('hitsi3',0);
         hitsiNew = double(Conn.get('$Shot'));
-        if hitsiNew ~= hitsiShot
+        if hitsiNew ~= hitsiShot % check to see if the hitsi3 shot changed
             shotnum = hitsiNew;
-            pdc3=0; % set flag for storing to tree;
-        elseif ~(isnan(pdcNew)) && (pdcNew ~= pdc3Shot) 
+            pdc3=0; % set flag for storing to tree (PDC doesnt store IDS to tree)
+        elseif ~(isnan(pdcNew)) && (pdcNew ~= pdc3Shot)  % Othewise its pdc3
             shotnum = pdcNew;
             pdc3=1;
         else
             disp('Failed to get new shot number, trying again');
             shotnum = hitsiShot + emergencycounter;
-            emergencycounter=emergencycounter+1;
+            emergencycounter=emergencycounter+1; % this can be used if you REALLY
+            % need to get data and it isn't getting the shot number. 
             %continue; % Skip rest of program, wait for next shot
         end
         hitsiShot=hitsiNew; % update the shot number
         pdc3Shot = pdcNew;
     end
     
+    %% Shot happened, begin conversion
     %clearvars -except 'Exposure' 'Shots' 'j' 'ShotNameVector' 'date' ;
     % Figure out how to get the Shot number
     fprintf('Working on Cine #%d...\n', shotnum)
     
     %This creates a new handle for the cine 1, in camera 0. The handle is CH
-    if ~OldData
+    if ~OldData % get pointer to new cine in camera
         [HRES, CH] = PhNewCineFromCamera(0,1);
-    else
+    else % Get pointer to old cine to convert
         [HRES, CH] = PhNewCineFromFile(['T:\PhantomMovies\' num2str(shotnum) '.cine']);
+        if isempty(CH)
+            display(['Shot: ' num2str(shotnum) ' Not Found']);
+            break
+        end
     end
     
-    % Reset Image Processing Parameters
+    % Reset Image Processing Parameters. THIS IS IMPORTANT: if these are
+    % not reset, image processing done in the PCC will propagate through to
+    % the saved .mat file, rendering it unusable. 
     PhSetCineInfo(CH,PhFileConst.GCI_BRIGHT,libpointer('float',0.0));
     PhSetCineInfo(CH,PhFileConst.GCI_CONTRAST,libpointer('float',1.0));
     PhSetCineInfo(CH,PhFileConst.GCI_GAMMA,libpointer('float',1.0));
     
-%%  %% Put Cine into matrix%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Setup CineArray    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Converting Frames');
     %Get first frame number
     pFirstIm = libpointer('int32Ptr',0);
@@ -149,7 +173,7 @@ while cont==1;
     indNum = IH.biSizeImage;
     
     
-%     %Make time vector%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Make time vector    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Creating Timebase');
     %Create variables to select and store the end-of-frame times
     EndofFrame = libstruct('tagTIME64');
@@ -161,6 +185,7 @@ while cont==1;
     %Get total number of frames
     pImCount = libpointer('uint32Ptr',0);
     pExpos = libpointer('uint32Ptr',0);
+    Exposure=double(pExpos.Value/10^9); % Put Exposure in S
     PhGetCineInfo(CH, PhFileConst.GCI_IMAGECOUNT, pImCount);
     PhGetCineInfo(CH, PhFileConst.GCI_EXPOSURENS, pExpos);
     TimeVector=[0;0;0];
@@ -169,27 +194,43 @@ while cont==1;
     %frame one )
     Trigger= libstruct('tagTIME64');
     pTrigger=libpointer('tagTIME64',Trigger);
+    pTrigger = libpointer('uint32',0); % initialize a pointer to zero
+    PhGetCineInfo(CH, PhFileConst.GCI_TRIGTIMESEC, pTrigger);
+    Trigger = pTrigger.Value; % Time in seconds since Epoch
     PhGetCineInfo(CH, PhFileConst.GCI_TRIGTIMEFR, pTrigger);
-    Trigger=pTrigger.Value;   
-    Trigger = double(int64((Trigger.fractions*10.^8)/2.^32)); % preform subtraction
+    Trigger = Trigger + double(int64((pTrigger.Value*10.^8)/2.^32))/10^8;
+    % Fractions of a second stored in TRASH units. 
+    % The *10^8 is necessary to prevent the /2^32 from zeroing everthing
+    % Stores in seconds.
+    
     % Loop through the non-negative frames, convert from 16bit to normal
-    for frame = 0:lastIm
+    % Because sometimes the phantomstalker or PCC doesn't actually trim the
+    % shot to the save range, we start at firstIm.
+    if firstIm<0;firstIm=0;end % This happens sometimes.
+    
+    %% Loop over frames, save time and pixels
+    for frame = firstIm:lastIm
         if mod(frame,100) == 0
             disp(['Frames Index Mod 100: ' num2str(frame) '/' num2str(lastIm)]);
         end
         sFrame.First=frame;
-        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000));
+        % Get frame. The 500xxx is the storage buffer size
+        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000)); 
         % Convert from two eight bit blocks into a single value
         pVec = double(pixels(1:2:indNum-1))+225.*double(pixels(2:2:indNum)); 
-        CineArray(:,:,frame+1) = reshape(pVec,IH.biWidth,IH.biHeight)'+0; %Sometimes there's an offset of 1-3 counts
+        CineArray(:,:,frame-firstIm+1) = reshape(pVec,IH.biWidth,IH.biHeight)'+0; %Sometimes there's an offset of 1-3 counts
         %[CineArray(:, :, frame+1), origIm] = PhGetCineImage(CH, frame+uint32(firstIm), false);
         ImageNumber=frame;
+        
+        % Get time
         [ HRES ] = PhGetCineAuxData( CH, ImageNumber, SelectionCode, DataSize, pEndofFrame);
         
         EndofFrame=pEndofFrame.Value;
-        TimeVector(frame+1)=double(int64((EndofFrame.fractions*10.^8)/2.^32))-Trigger; %the 2^32 is because Phantom is stupid (check the documentation for TIME64)
+        FrameTime = double(int64((EndofFrame.fractions*10.^8)/2.^32))/10^8;
+        FrameTime = FrameTime + EndofFrame.seconds; % Seconds just stored as epoch seconds
+        TimeVector(frame-firstIm+1)=FrameTime-Trigger; %the 2^32 is because Phantom is stupid (check the documentation for TIME64)
         
-        if TimeVector(frame+1)/100 >= MovieStop
+        if TimeVector(frame-firstIm+1)/100 >= MovieStop
             break
         end
             
@@ -230,14 +271,15 @@ while cont==1;
 %     PhGetCineInfo(CH, PhFileConst.GCI_TRIGTIMEFR, pTrigger);
 %     Trigger=pTrigger.Value;   
 %     TimeVector=TimeVector-double(int64((Trigger.fractions*10.^8)/2.^32)); % preform subtraction
+   
+
     %Subtract half the exposure time ( put stamp in the middle of the
     %exposure, not at end )
-    Exposure=double(pExpos.Value/2/1000); % Put Exposure in uS
-    TimeVector=TimeVector-Exposure;
-    TimeVector=TimeVector/100;
-    Exposure = Exposure/50;
+  
+    TimeVector=TimeVector-(Exposure/2);
+    TimeVector=TimeVector*1e6; % Save in uS
     
- %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
     %% Save the Cine Matrix and time vector in new folder
     disp('Saving Movie');
@@ -251,8 +293,19 @@ while cont==1;
      MatFile=sprintf([SavePath 'Shot %d.mat'],shotnum);
 %    SaveFile=sprintf('G:\\Cines\\Shot %s.mat',ShotNameVector{j});
      save(MatFile,'CineArray','TimeVector','-v7.3'); %-v7.3 required if file is real big
-     figure; surf(sum(CineArray,3)./size(CineArray,3)); shading interp; view([ 0 90]); colorbar;
+     
+     fig=figure; 
+     if OldData
+     pos=get(fig,'position');
+     set(fig,'position',[pos(1:2),pos(3)*2,pos(4)])
+     subplot(1,2,2);
+     plot(TimeVector);xlabel('Time Point');ylabel('Time [\mu{s}]');
+     title('Time Vector');
+     subplot(1,2,1);
+     end
+     surf(sum(CineArray,3)./size(CineArray,3)); shading interp; view([ 0 90]); colorbar;
      title(['Shot: ' num2str(shotnum)]);
+     
      drawnow; % pull buffer immediately.
      %% Save Cine
      if ~OldData

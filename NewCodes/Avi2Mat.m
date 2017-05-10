@@ -7,14 +7,14 @@ addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
 LoadPhantomLibraries();
 RegisterPhantom(true);
 
-shots = [161017003:161017004];
+shots = [170502004];
 
 addpath('T:\PhantomMovies\');
 
 for shot = shots
     display(['Shot: ' num2str(shot)]);
     %% Load the frames from the .avi
-    v=VideoReader(['T:\PhantomMovies\' num2str(shot) '.avi']);
+    v=VideoReader(['T:\PhantomMovies\' num2str(shot) 'f.avi']);
     CineArray = zeros(v.Height,v.Width,v.Duration * v.FrameRate);
     k=1;
     while hasFrame(v)
@@ -61,7 +61,7 @@ for shot = shots
      ylabel('Time [{\mu}S]');
      grid on;
      
-     save(['T:\PhantomMovies\Shot ' num2str(shot) '.mat'],'CineArray','TimeVector');
+     save(['T:\PhantomMovies\Shot ' num2str(shot) 'f.mat'],'CineArray','TimeVector');
      
 %         
     

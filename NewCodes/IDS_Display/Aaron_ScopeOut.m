@@ -21,16 +21,17 @@ import MDSplus.*
 %% Parameters for all shots
 %
 %hfshots = [128436, 141120022, 150312013, 150312033];
-hfshots = [129496, 160728013];
+hfshots = [129496, 160728012];
 %lfshots = [129499, 160728024, 160818008, 160616012];
-lfshots = [129499, 160728012];
+lfshots = [129499, 160728013];
  
 n = 1;
 % FIG 1
 shot(n).title = ['HIT-SI, \Delta' '\phi = 90^{\circ}'];
 shot(n).tLimWide = [0.4, 2.7];
 shot(n).hfdenShot = [129449]; % MAIN SHOT HAS DENSITY
-shot(n).lfdenShot = [129596];
+shot(n).lfdenShot = [129448];%[129596];
+shot(n).lfdenTshift = -.486;
 shot(n).exp = 'hitsi';
 shot(n).lf = 14500;
 shot(n).hf = 14500;
@@ -45,7 +46,7 @@ shot(n).lfdenShot = [];[160728010]; % MAIN SHOT HAS DENSITY
 shot(n).exp = 'analysis3';
 shot(n).lf = 14500;
 shot(n).hf = 14500;% Not looking at HF HITSI
-shot(n).lfkdShot = [160728009]; % Kdot Replacement
+shot(n).hfkdShot = [160728009]; % Kdot Replacement
  
 n = 3;
 % FIG 1
@@ -201,20 +202,20 @@ for n = 1:length(hfshots)
         HitConn.closeAllTree();
         HitConn.openTree(shot(n).exp, shot(n).lfdenShot);
         lfn = data_in(HitConn, '\N_AVG_S1',0);
-        lfn.t = 1e3 * lfn.t;
+        lfn.t = shot(n).lfdenTshift + 1e3 * lfn.t;
         lfn.y = 1e-19 * lfn.y; % take out factor of e19
 %         lfn_sm = data_in(HitConn, 'sihi_smooth(\N_AVG_S1)');
 %         lfn_sm.t = 1e3 * lfn_sm.t;
 %         lfn_sm.y = 1e-19 * lfn_sm.y; % take out factor of e19
     end
     
-    if ~isempty(shot(n).lfkdShot) % main shot has density
+    if ~isempty(shot(n).hfkdShot) % main shot has density
          HitConn.closeAllTree();
-        HitConn.openTree(shot(n).exp, shot(n).lfkdShot);
-       lfkdot = data_in(HitConn, '\KDOT_INJ',0);
-        lfkdot.t = 1e3 * lfkdot.t;
-        lfkdot_sm = data_in(HitConn, '(\KDOT_INJ)',shot(n).lf);
-        lfkdot_sm.t = 1e3 * lfkdot_sm.t;
+        HitConn.openTree(shot(n).exp, shot(n).hfkdShot);
+       hfkdot = data_in(HitConn, '\KDOT_INJ',0);
+        hfkdot.t = 1e3 * hfkdot.t;
+        hfkdot_sm = data_in(HitConn, '(\KDOT_INJ)',shot(n).hf);
+        hfkdot_sm.t = 1e3 * hfkdot_sm.t;
 
     end
      
@@ -325,8 +326,8 @@ for n = 1:length(hfshots)
         set(gca, 'YTickLabel', []);
     end
     
-    if n~=1 && ~isempty(shot(n).lfkdShot)
-        legend(lfKD,num2str(shot(n).lfkdShot));
+    if n~=1 && ~isempty(shot(n).hfkdShot)
+        legend(lfKD,num2str(shot(n).hfkdShot));
     end
     text(0.02, 0.88, ['(' figlabs(n, 3) ')'], 'Units', 'normalized', 'FontSize', fntsz);
  
@@ -361,7 +362,7 @@ for n = 1:length(hfshots)
     end
     text(0.02, 0.88, ['(' figlabs(n, 4) ')'], 'Units', 'normalized', 'FontSize', fntsz);
      
-    xlabel('time [ms]');
+    xlabel('Time [ms]');
      
  
     %%

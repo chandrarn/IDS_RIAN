@@ -12,13 +12,19 @@ addpath('T:\PhantomMovies');
      data = importdata(['Shot ' int2str(shot3) '.mat']);
      time3 = data.TimeVector;
      data = data.CineArray;
+     % This is necessary for shitty, shitty back compatibility
+     data = shiftdim(data,2);
+     
      if isempty(trimData)
          trimData1 = 1:size(data,1);
+     else
+         trimData1=trimData;
      end
 %      Unfortunately, the following all must be within the TRY because the
 %      oldformat is moronic, and put time as the first column.
 % The sizes here sometimes need to be manually changed, IE: avi converter
 % may do the indexing differently. note 'shiftdim'
+    
      [ n_time,n_pix, n_chan,] = size(data);
      data3 = zeros(length(trimData1), n_pix, n_chan);
      for i = 1:length(trimData1)
@@ -49,8 +55,11 @@ if shot4 ~= 0 % using both fibers
          data = importdata(['Shot ' int2str(shot4) '.mat']);
          time4 = data.TimeVector;
          data = data.CineArray;
+         data = shiftdim(data,2);
          if isempty(trimData)
              trimData2 = 1:size(data,1);
+         else
+             trimData2=trimData;
          end
 %          Unfortunately, the following all must be within the TRY because the
 %          oldformat is moronic, and put time as the first column.
