@@ -143,7 +143,7 @@ while cont==1;
     PhSetCineInfo(CH,PhFileConst.GCI_CONTRAST,libpointer('float',1.0));
     PhSetCineInfo(CH,PhFileConst.GCI_GAMMA,libpointer('float',1.0));
     
-    %% Setup CineArray    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Put Cine into matrix     %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Converting Frames');
     %Get first frame number
     pFirstIm = libpointer('int32Ptr',0);
@@ -173,7 +173,7 @@ while cont==1;
     indNum = IH.biSizeImage;
     
     
-    %% Make time vector    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Make time vector    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Creating Timebase');
     %Create variables to select and store the end-of-frame times
     EndofFrame = libstruct('tagTIME64');
@@ -207,22 +207,17 @@ while cont==1;
     % Because sometimes the phantomstalker or PCC doesn't actually trim the
     % shot to the save range, we start at firstIm.
     if firstIm<0;firstIm=0;end % This happens sometimes.
-    
-    %% Loop over frames, save time and pixels
     for frame = firstIm:lastIm
         if mod(frame,100) == 0
             disp(['Frames Index Mod 100: ' num2str(frame) '/' num2str(lastIm)]);
         end
         sFrame.First=frame;
-        % Get frame. The 500xxx is the storage buffer size
-        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000)); 
+        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000));
         % Convert from two eight bit blocks into a single value
         pVec = double(pixels(1:2:indNum-1))+225.*double(pixels(2:2:indNum)); 
         CineArray(:,:,frame-firstIm+1) = reshape(pVec,IH.biWidth,IH.biHeight)'+0; %Sometimes there's an offset of 1-3 counts
         %[CineArray(:, :, frame+1), origIm] = PhGetCineImage(CH, frame+uint32(firstIm), false);
         ImageNumber=frame;
-        
-        % Get time
         [ HRES ] = PhGetCineAuxData( CH, ImageNumber, SelectionCode, DataSize, pEndofFrame);
         
         EndofFrame=pEndofFrame.Value;
@@ -275,11 +270,11 @@ while cont==1;
 
     %Subtract half the exposure time ( put stamp in the middle of the
     %exposure, not at end )
-  
+    
     TimeVector=TimeVector-(Exposure/2);
     TimeVector=TimeVector*1e6; % Save in uS
     
-    %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
     %% Save the Cine Matrix and time vector in new folder
     disp('Saving Movie');

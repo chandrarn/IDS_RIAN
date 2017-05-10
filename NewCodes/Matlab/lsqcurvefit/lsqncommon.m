@@ -124,6 +124,7 @@ end
 
 if isequal(caller,'lsqcurvefit')
     if ~isequal(size(fuser), size(YDATA))
+        display(['Function Size: ' num2str(size(fuser)) ', Y Size: ' num2str(size(YDATA))]);
         error('Function value and YDATA sizes are incommensurate.')
     end
     fuser = fuser - YDATA;  % preserve fuser shape until after subtracting YDATA 
