@@ -53,8 +53,6 @@ save5 = 0; % save 'impacts' as 'impacts5'. Upper mowhawk #6, lower mowhawk
 save6 = 0; % save 'impacts' as 'impacts6', Upper mohawk #1-#10, with secant
            % and nimrod coordinates
 
-save7 = 1; % save 'impacts' as 'impacts7'. Upper mowhawk #8, lower mowhawk 
-           % #8.
 % raw = [247.5, 250.5, 253.5, 256.5, 259.5, 263.0,... % real unaltered data
 %     265.5, 268.0, 271.0, 274.0, 277.0,...
 %     280.0, 282.5, 285.0, 287.5, 290.5,...
@@ -338,7 +336,7 @@ save coords06.mat IDSchords origin
 end
 
 
-%% Top Mohawk #8, Bottom Mohawk #8
+%% Top Mohawk #9, Bottom Mohawk #9
 
 % degrees, port axis w.r.t machine radius. Not the angular location of the
 % port. See IDS Logbook for diagram, see vacuum tank schematic for details
