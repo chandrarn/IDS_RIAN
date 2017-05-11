@@ -6,7 +6,7 @@
 %NOTE: previously, was not fitting whole line, just the line connecting the
 %start and endpoints. This is not a terrible model, but still, isnt as
 %robust as it could be.
-function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PEAKS, channel, xWing,trimTime)
+function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PEAKS, channel, xWing)
         
         % if the doublet motor lines are from a known shot, add it here for
         % speed of use.
@@ -19,12 +19,12 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
 %             time = importdata(['t' int2str(motorCalShot) '.mat']); % [ms]
 %             data = cast(data, 'double');
             data = importdata(['Shot ' int2str(motorCalShot) '.mat']);
-            time = data.TimeVector(trimTime).*1e-3;
+            time = data.TimeVector.*1e-3;
             data = data.CineArray;
             data = cast(data, 'double');
             %data = data(:, end:-1:1, end:-1:1);
+            data = data(:, end:-1:1, :);
             data = shiftdim(data,2);
-            data = data(trimTime, end:-1:1, :);         
             [n_time, n_wavelength, n_spatial] = size(data);
             for n = 1:n_time
                  dataB(n, :) = sum(squeeze(data(n, :, binChanMotor-xWing:binChanMotor+xWing)), 2);
@@ -61,10 +61,7 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
             
 % %             % Plot position vs frame to find the location of the two lines
 %             figure('units','normalized','outerposition',[0 0 1 1]); hold on;
-             figure; plot(time*1e-3,motorCenters);hold on;
-             title(['Tracking Channel ' num2str(channel)]);
-             xlabel('Time [s]');ylabel('Pixel'); grid on;
-             
+             figure; plot(motorCenters);hold on;
              assignin('base','motorCenters',motorCenters);
 %             timePoints(1,1) = input('First Frame of first line: ');
 %             timePoints(1,2) = input('Second Frame of first line: ');
@@ -89,12 +86,10 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
             %slopeRange = [20,10]; % for 12nm/min
             %slopeRange = [5,3]; %
             slopeRange = [11,5]; % 
-            slopeRange = [5.5,3];
             saftey = 25; % saftey factor, the first few frames of the line are generaly poor.
             %Note: can change '50' if the lines are really short;
-            chkLen = 150; %length to calculate slope over
-            for i = 1:size(motorCenters,1)-chkLen
-                [P,S] = polyfit(time(1:chkLen)*1e-3,motorCenters(0+i:(chkLen-1)+i),1);
+            for i = 1:size(motorCenters,1)-50
+                [P,S] = polyfit(time(1:50)*1e-3,motorCenters(0+i:49+i),1);
                 Q(i)=P(1);
                 if (P(1) < slopeRange(1) && P(1) > slopeRange(2)) % if we see the line
                     if frame0 == 0 % first time we see it
@@ -104,10 +99,10 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
                     end
                 elseif ~(P(1) < slopeRange(1) && P(1) > slopeRange(2)) % if we loose the line
                     if frame0 ~= 0 && frame1 == 0 && frame2 == 0% we've seen it once
-                        frame1 = i+(chkLen-1)-saftey% then we just lost it
+                        frame1 = i+49-saftey% then we just lost it
                         [P1,S1] = polyfit(time(frame0:frame1)*1e-3,motorCenters(frame0:frame1),1);
                     elseif frame2 ~= 0 && frame3 == 0 % we've seen it twice
-                        frame3 = i+(chkLen-1)-saftey; % then we've just lost it again
+                        frame3 = i+49-saftey; % then we've just lost it again
                         [P2,S2] = polyfit(time(frame2:frame3)*1e-3,motorCenters(frame2:frame3),1);
                     end
                 end
@@ -115,13 +110,12 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
                     
             assignin('base','Q',Q);
             assignin('base','P',[P1;P2]);
-            plot(time(frame0)*1e-3,motorCenters(frame0),'r*',time(frame1)*1e-3,motorCenters(frame1),'r*',...
-                time(frame2)*1e-3,motorCenters(frame2),'g*',time(frame3)*1e-3,motorCenters(frame3),'g*');
+            plot(frame0,motorCenters(frame0),'r*',frame1,motorCenters(frame1),'r*',frame2,motorCenters(frame2),'r*',frame3,motorCenters(frame3),'r*');
             
             % loop over y axis to find average distance x between lines
             % line will be about 100 frames long ( assuming same framerate
             % is used as shot 2222222 ) and we dont like the data at the
-            % very bottom of the screen (hence +50). Solve the two lines
+            % very bottom of the screen ( hense +50 ). Solve the two lines
             % to find the x points, from y = 50 to y = 150.
             for i = 0:100
                 dt(i+1) = ((i+50 -P2(2))/P2(1)) - ((i+50 -P1(2))/P1(1));
