@@ -6,7 +6,7 @@
 %NOTE: previously, was not fitting whole line, just the line connecting the
 %start and endpoints. This is not a terrible model, but still, isnt as
 %robust as it could be.
-function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PEAKS, channel, xWing,trimTime)
+function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PEAKS, channel, xWing,trimTime, slopeRange)
         
         % if the doublet motor lines are from a known shot, add it here for
         % speed of use.
@@ -84,12 +84,7 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
             frame1 = 0; % end of first line
             frame2 = 0;
             frame3 = 0;
-            %slope range only valid for max speed motor
-            %slopeRange = [90,80]; % approximate max and min values that the slope of the line can have
-            %slopeRange = [20,10]; % for 12nm/min
-            %slopeRange = [5,3]; %
-            slopeRange = [11,5]; % 
-            slopeRange = [5.5,3];
+            
             saftey = 25; % saftey factor, the first few frames of the line are generaly poor.
             %Note: can change '50' if the lines are really short;
             chkLen = 150; %length to calculate slope over

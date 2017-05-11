@@ -152,6 +152,10 @@ binChanMotor = 177;178;
 channel = 31;
 lamMotor = [434.75, 435.84];
 trimTime5C = [300:2:2500];
+%slopeRange = [90,80]; % for 60nm/min
+%slopeRange = [20,10]; % for 12nm/min        
+%slopeRange = [11,5]; % for 6nnm/min
+slopeRange = [5.5,3]; % for 3nm/min
 
 % PHASE 6 -----------------------------------------------------------------
 doPHASE6 = 0;
@@ -341,7 +345,7 @@ if doPHASE5C
 %         cd('/media/alfventemp/IDS/Calibration');
 %     end
         %TEMP = PIX_SP;
-    PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor, PEAKS, channel, xWing,trimTime5C );
+    PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor, PEAKS, channel, xWing,trimTime5C, slopeRange );
 end
 
 %% PHASE 6 - Convert Fitting Parameters, plot FWHM, PIX_SP, and REL_INT
