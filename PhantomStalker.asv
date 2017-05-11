@@ -96,9 +96,9 @@ while cont==1;
     else
         % Try to get the new shot number
         try
-            Conn.openTree('pdc3',0);
-            pdcNew = double(Conn.get('$Shot'));
-        catch 
+            Conn.openTree('pdc3',0); % Note: There is a discrepancy between 
+            pdcNew = double(Conn.get('$Shot'));% the pdc3 shotnumber and the 
+        catch                                  % Python script number
             pdcNew = NaN;
         end
         Conn.openTree('hitsi3',0);
@@ -143,7 +143,7 @@ while cont==1;
     PhSetCineInfo(CH,PhFileConst.GCI_CONTRAST,libpointer('float',1.0));
     PhSetCineInfo(CH,PhFileConst.GCI_GAMMA,libpointer('float',1.0));
     
-    %% Put Cine into matrix     %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Setup CineArray    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Converting Frames');
     %Get first frame number
     pFirstIm = libpointer('int32Ptr',0);
@@ -170,10 +170,10 @@ while cont==1;
     sFrame.cnt=1;
     sFrame.First = 0;
     [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000));
-    indNum = IH.biSizeImage;
+    indNum = IH.biSizeImage; % total number of data blocks in image (2x number of pixels)
     
     
-    % Make time vector    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Make time vector    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Creating Timebase');
     %Create variables to select and store the end-of-frame times
     EndofFrame = libstruct('tagTIME64');
@@ -207,17 +207,23 @@ while cont==1;
     % Because sometimes the phantomstalker or PCC doesn't actually trim the
     % shot to the save range, we start at firstIm.
     if firstIm<0;firstIm=0;end % This happens sometimes.
+    
+    %% Loop over frames, save time and pixels
     for frame = firstIm:lastIm
         if mod(frame,100) == 0
             disp(['Frames Index Mod 100: ' num2str(frame) '/' num2str(lastIm)]);
         end
         sFrame.First=frame;
-        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000));
+        % Get frame. The 500xxx is the storage buffer size
+        [HRES, pixels, IH] = PhGetCineImage(CH,sFrame,(50000000)); 
         % Convert from two eight bit blocks into a single value
+        % the second block is the "255'ths" place digit
         pVec = double(pixels(1:2:indNum-1))+225.*double(pixels(2:2:indNum)); 
         CineArray(:,:,frame-firstIm+1) = reshape(pVec,IH.biWidth,IH.biHeight)'+0; %Sometimes there's an offset of 1-3 counts
         %[CineArray(:, :, frame+1), origIm] = PhGetCineImage(CH, frame+uint32(firstIm), false);
         ImageNumber=frame;
+        
+        % Get time
         [ HRES ] = PhGetCineAuxData( CH, ImageNumber, SelectionCode, DataSize, pEndofFrame);
         
         EndofFrame=pEndofFrame.Value;
@@ -230,51 +236,14 @@ while cont==1;
         end
             
     end
-    
- %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     %Make time vector%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     disp('Creating Timebase');
-%     %Create variables to select and store the end-of-frame times
-%     EndofFrame = libstruct('tagTIME64');
-%     pEndofFrame = libpointer('tagTIME64', EndofFrame);
-%     SelectionCode = PhConConst.GAD_TIME;
-% %     ExposureTime = PhConConst.GAD_EXPOSURE;
-%     DataSize = uint32(32);
-%     exposure = uint16(16);
-%     %Get total number of frames
-%     pImCount = libpointer('uint32Ptr',0);
-%     pExpos = libpointer('uint32Ptr',0);
-%     PhGetCineInfo(CH, PhFileConst.GCI_IMAGECOUNT, pImCount);
-%     PhGetCineInfo(CH, PhFileConst.GCI_EXPOSURENS, pExpos);
-%     TimeVector=[0;0;0];
-%     for index = 0:lastIm-1 % pull the end of frame times for each frame
-%         if mod(frame,100) == 0
-%         disp(['TimeBase Index Mod 100: ' num2str(index)]);
-%         end
-%         ImageNumber=index;
-%         [ HRES ] = PhGetCineAuxData( CH, ImageNumber, SelectionCode, DataSize, pEndofFrame);
-%         
-%         EndofFrame=pEndofFrame.Value;
-%         TimeVector(index+1)=double(int64((EndofFrame.fractions*10.^8)/2.^32)); %the 2^32 is because Phantom is stupid (check the documentation for TIME64)
-%    
-%     end
-%    
-%         %Subtract the trigger time ( trigger is time zero, not begining of
-%     %frame one )
-%     Trigger= libstruct('tagTIME64');
-%     pTrigger=libpointer('tagTIME64',Trigger);
-%     PhGetCineInfo(CH, PhFileConst.GCI_TRIGTIMEFR, pTrigger);
-%     Trigger=pTrigger.Value;   
-%     TimeVector=TimeVector-double(int64((Trigger.fractions*10.^8)/2.^32)); % preform subtraction
-   
+  
 
     %Subtract half the exposure time ( put stamp in the middle of the
     %exposure, not at end )
-    
     TimeVector=TimeVector-(Exposure/2);
     TimeVector=TimeVector*1e6; % Save in uS
     
- %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%  SAVING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
     %% Save the Cine Matrix and time vector in new folder
     disp('Saving Movie');
@@ -289,14 +258,15 @@ while cont==1;
 %    SaveFile=sprintf('G:\\Cines\\Shot %s.mat',ShotNameVector{j});
      save(MatFile,'CineArray','TimeVector','-v7.3'); %-v7.3 required if file is real big
      
+     % Plot the time vector if old data, to verify that its working
      fig=figure; 
      if OldData
-     pos=get(fig,'position');
-     set(fig,'position',[pos(1:2),pos(3)*2,pos(4)])
-     subplot(1,2,2);
-     plot(TimeVector);xlabel('Time Point');ylabel('Time [\mu{s}]');
-     title('Time Vector');
-     subplot(1,2,1);
+         pos=get(fig,'position');
+         set(fig,'position',[pos(1:2),pos(3)*2,pos(4)])
+         subplot(1,2,2);
+         plot(TimeVector);xlabel('Time Point');ylabel('Time [\mu{s}]');
+         title('Time Vector');
+         subplot(1,2,1);
      end
      surf(sum(CineArray,3)./size(CineArray,3)); shading interp; view([ 0 90]); colorbar;
      title(['Shot: ' num2str(shotnum)]);
