@@ -120,7 +120,7 @@ doPHASE4 = 0;
 % PHASE 5 -----------------------------------------------------------------
 % MUST MANUALLY CORRECT TIME BASE !
 % BOTH MOVIES MUST HAVE SAME TIME INTERVAL !
-doPHASE5 = 1;
+doPHASE5 = 0;
 shot3 = 170504008; % Motor Calibration Shot
 shot4 = 170504006; % Optional second motor calibration shot
 motorSpeed = 0.0509; % [nm per second]
@@ -146,11 +146,12 @@ yWing = 7; % similar to 'brightWing', but allowing different value for plasma li
 factor = 1; % estimated correction to motor speed
 
 % PHASE 5 C --------------------------------------------------------------
-doPHASE5C =1;
+doPHASE5C =0;
 motorCalShot = 170504008;
 binChanMotor = 177;178;
 channel = 31;
 lamMotor = [434.75, 435.84];
+trimTime5C = [300:2:2500];
 
 % PHASE 6 -----------------------------------------------------------------
 doPHASE6 = 0;
@@ -160,7 +161,7 @@ doPHASE7 = 0;
 discard = [1,2,4,33:36];
 
 % PHASE 8 -----------------------------------------------------------------
-doPHASE8 = 0; % VERY IMPORTANT
+doPHASE8 = 1; % VERY IMPORTANT
 
 %-------------------------------------------------------------------------
 %saveToShots = [150505022:150505023,150506009:150506011]; % mohawk port, orthogonal to midplane, and axial port. 'impacts4'
@@ -178,8 +179,9 @@ doPHASE8 = 0; % VERY IMPORTANT
 % impactsFile = '/home/aaron/IDS/Geometry/impacts1.mat'; 
 %-------------------------------------------------------------------------
 
-saveToShots = [161018009:161018027];
-impactsFile = 'C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\Geometry\impacts5';
+saveToShots = [-1];
+
+impactsFile = 'C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\Geometry\impacts7';
 
 
 stt.CAL_LAMBDA = 1;
@@ -339,7 +341,7 @@ if doPHASE5C
 %         cd('/media/alfventemp/IDS/Calibration');
 %     end
         %TEMP = PIX_SP;
-    PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor, PEAKS, channel, xWing );
+    PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor, PEAKS, channel, xWing,trimTime5C );
 end
 
 %% PHASE 6 - Convert Fitting Parameters, plot FWHM, PIX_SP, and REL_INT
