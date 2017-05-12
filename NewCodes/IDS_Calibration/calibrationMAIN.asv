@@ -124,7 +124,7 @@ doPHASE5 = 0;
 shot3 = 170504008; % Motor Calibration Shot
 shot4 = 170504006; % Optional second motor calibration shot
 motorSpeed = 0.0509; % [nm per second]
-trim5 = [300:2:1500]; % Trim calibration movie
+  = [300:2:1500]; % Trim calibration movie
 % 4-16-15
 % "motorSpeed" nominally 1, empirically set by analyzing shots
 % 129499 and 129496 from 1.7 to 2.0 ms. Systematic velocity difference of
@@ -152,7 +152,7 @@ binChanMotor = 177;178;
 channel = 31;
 lamMotor = [434.75, 435.84];
 trimTime5C = [300:2:2500];
-%slopeRange = [90,80]; %
+%slopeRange = [90,80]; % for 60nm/min
 %slopeRange = [20,10]; % for 12nm/min        
 %slopeRange = [11,5]; % for 6nnm/min
 slopeRange = [5.5,3]; % for 3nm/min

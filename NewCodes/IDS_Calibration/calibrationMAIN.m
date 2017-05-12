@@ -184,7 +184,8 @@ doPHASE8 = 1; % VERY IMPORTANT
 %-------------------------------------------------------------------------
 
 saveToShots = [-1];
-
+% impacts5 is for Mohawk +-6
+% impacts7 is for Mohawk +-8
 impactsFile = 'C:\Users\HITSI\Documents\GitHub\IDS_RIAN\NewCodes\Geometry\impacts7';
 
 
