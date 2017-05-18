@@ -1455,6 +1455,7 @@ for n = 1:length(in)
                        
                     set(ax7,'ylim',[-2,20]);
                 end
+                
                 % Plot Phases
                 hold on;
                 if max(max(dataPhase))>2*pi
@@ -1829,6 +1830,7 @@ for n = 1:length(in)
     end
     
 end
+
 if ~isempty(in(1).fftPlot)
     % Make the Legend
     %[leg,icon] = legend(ax8,phaseH(1,:,2),{in(1:1:end).legend});
