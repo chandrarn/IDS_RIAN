@@ -53,7 +53,7 @@ saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 [h,ax] = fig_settings(plt,Analysis,in)
 figure(h(1)); % make first figure current
 
-%% Main Loop
+%% XXXXXXXXXXXXXXX Main Shot Loop XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 for n = 1:length(in)
     n
@@ -105,87 +105,141 @@ for n = 1:length(in)
     end
     
     
-    if plotType==1 || plotType ==2 || plotType==3
-    %% Define the plotting Data
-            % PARAM: [IMPACT, OFFSET, AMP, PHASE, FREQ]
-            
-            
-            if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
-            %% If we want to doubleplot, but only the raw data
-                
-                %data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,in(n).doubleplot(1,:));
-                %data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-                %    dat(in(n).line).vel(:,in(n).doubleplot(2,:));
-                doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
-                doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
-                
-                if plotType ==1
-                    data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,doubleplot(1,:))+in(n).velShift;
-                    data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-                       dat(in(n).line).temp(:,doubleplot(2,:))+in(n).velShift;  
-                elseif plotType==2   
-                    data(1:length(dat(1).time),:) = dat(in(n).line).temp(:,doubleplot(1,:));
-                    data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-                        dat(in(n).line).temp(:,doubleplot(2,:)); 
-                elseif plotType==3
-                     data(1:length(dat(1).time),:) = dat(in(n).line).int(:,doubleplot(1,:));
-                    data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-                        dat(in(n).line).int(:,doubleplot(2,:));
-                    data = in(n).intScale.*data;  
-                end
-             
-           
-            elseif ~isempty(in(1).fftPlot)
-            %% Do the Sine Fit (detect doubleplotting inside)
-                dat(in(n).line).vel = averageNans(dat(in(n).line).vel)+in(n).velShift; % remove nans
-                dat(in(n).line).temp = averageNans(dat(in(n).line).temp); % remove nans
-                %dat(in(n).line).int = averageNans(dat(in(n).line).int).*in(n).intScale; % remove nans
-                saveDat(n).rawVel = dat(in(n).line).vel;
-                saveDat(n).rawTemp = dat(in(n).line).temp;
-               
-                if ~isempty(in(n).doubleplot)
-                    % Find where each fiber bundle begins and ends.
-                    doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
-                    doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
+  
+    %% XXXXXXXXXXXXXXXXXXX Generate Data To Plot XXXXXXXXXXXXXXXXXXXXXX
 
-                    % initialize Sine_Fit parameters
-                    param(:,1,n) = dat(1).impacts(doubleplot(1,:));
-                    param(:,6,n) = dat(1).impacts(doubleplot(2,:));
-                else
-                    doubleplot(1,:) = 1:length(dat(1).impacts);
-                    param(:,1,n) = dat(1).impacts(doubleplot(1,:));
-                end
+
+    % PARAM: [IMPACT, OFFSET, AMP, PHASE, FREQ]
+
+
+    if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
+    %% If we want to doubleplot, but only the raw data
+
+        %data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,in(n).doubleplot(1,:));
+        %data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
+        %    dat(in(n).line).vel(:,in(n).doubleplot(2,:));
+        doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
+        doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
+
+        if plotType ==1
+            data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,doubleplot(1,:))+in(n).velShift;
+            data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
+               dat(in(n).line).temp(:,doubleplot(2,:))+in(n).velShift;  
+        elseif plotType==2   
+            data(1:length(dat(1).time),:) = dat(in(n).line).temp(:,doubleplot(1,:));
+            data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
+                dat(in(n).line).temp(:,doubleplot(2,:)); 
+        elseif plotType==3
+             data(1:length(dat(1).time),:) = dat(in(n).line).int(:,doubleplot(1,:));
+            data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
+                dat(in(n).line).int(:,doubleplot(2,:));
+            data = in(n).intScale.*data;  
+        end
+
+
+    elseif ~isempty(in(1).fftPlot)
+    %% Do the Sine Fit (detect doubleplotting inside)
+        dat(in(n).line).vel = averageNans(dat(in(n).line).vel)+in(n).velShift; % remove nans
+        dat(in(n).line).temp = averageNans(dat(in(n).line).temp); % remove nans
+        %dat(in(n).line).int = averageNans(dat(in(n).line).int).*in(n).intScale; % remove nans
+        saveDat(n).rawVel = dat(in(n).line).vel;
+        saveDat(n).rawTemp = dat(in(n).line).temp;
+
+        if ~isempty(in(n).doubleplot)
+            % Find where each fiber bundle begins and ends.
+            doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
+            doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
+
+            % initialize Sine_Fit parameters
+            param(:,1,n) = dat(1).impacts(doubleplot(1,:));
+            param(:,6,n) = dat(1).impacts(doubleplot(2,:));
+        else
+            doubleplot(1,:) = 1:length(dat(1).impacts);
+            param(:,1,n) = dat(1).impacts(doubleplot(1,:));
+        end
 %                 if flipLoImpact == 1 % flip the lower array about its centeral impact.
 %                     dat(in(n).line).vel(:,doubleplot(2,:)) = dat(in(n).line).vel(:,doubleplot(2,end):-1:doubleplot(2,1));
 %                     dat(in(n).line).temp(:,doubleplot(2,:)) = dat(in(n).line).temp(:,doubleplot(2,end):-1:doubleplot(2,1));
 %                 end
-                 % Param: impacts offset amplitude phase, frequency
-                 if ~exist('param','var')
-                        param = zeros(length(doubleplot),10,length(in));
-                 end
-                display('Computing FFT');
-                pRel = zeros(length(doubleplot),2);
-                dPar = zeros(length(in),size(doubleplot,2),size(doubleplot,2),4);
-                
-                for i = 1:length(doubleplot) % Loop through impacts ( fits both arrays)
-                    
-                    [guess(i,:,n,:),param(i,:,n),saveDat,SigDev(n,i,:),RMS(:,i,n,:),RMS_ideal(:,i,n,:)] =...
-                        sine_fit(in, doubleplot,dat,n,i,saveDat);
-                
-                end
-                
-                [injParam] = inj_phase(dat,timebound,in);
-                
-            else
-            %% Just plot Lines
-                if plotType==1
-                    data = dat(in(n).line).vel + in(n).velShift;   
-                elseif plotType==2
-                    data = dat(in(n).line).temp;
-                elseif plotType==3
-                    data = in(n).intScale * dat(in(n).line).int;
-                end              
+         % Param: impacts offset amplitude phase, frequency
+         if ~exist('param','var')
+                param = zeros(length(doubleplot),10,length(in));
+         end
+        display('Computing FFT');
+        pRel = zeros(length(doubleplot),2);
+        dPar = zeros(length(in),size(doubleplot,2),size(doubleplot,2),4);
+
+        for i = 1:length(doubleplot) % Loop through impacts ( fits both arrays)
+
+            [guess(i,:,n,:),param(i,:,n),saveDat,SigDev(n,i,:),RMS(:,i,n,:),RMS_ideal(:,i,n,:)] =...
+                sine_fit_module(in, doubleplot,dat,n,i,saveDat);
+
+        end
+
+        [injParam] = inj_phase(dat,timebound,in);
+
+    else
+    %% Just plot Lines
+        if plotType==1
+            data = dat(in(n).line).vel + in(n).velShift;   
+        elseif plotType==2
+            data = dat(in(n).line).temp;
+        elseif plotType==3
+            data = in(n).intScale * dat(in(n).line).int;
+        end              
+    end
+
+    %% Build timebase
+    if in(n).doubleplot
+         time(1:length(dat(1).time)) = dat(1).time.*in(1).timeScale + in(n).timeShift;
+         time(length(dat(1).time)+1:2*length(dat(1).time)) =  time(1:length(dat(1).time));
+%              dat(1).time.*in(1).timeScale + in(n).timeShift;
+    else
+        time = dat(1).time.*in(1).timeScale + in(n).timeShift;
+    end
+
+    %% Multiplot has option for plotting data averages by impact
+
+
+
+
+
+    %% XXXXXXXXXXXXXXX Profile Calculation XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    % Loop through arrays
+    for i = 1: 1+in(n).doubleplot 
+        if in(n).fftPlot
+        %% If FFT occured, get amp, disp, phase
+            dataAvg(:,i) = param(:,2+5*(i-1),n);
+            dataStd(:,i) = param(:,3+5*(i-1),n);
+            dataPhase(:,i) = param(:,4+5*(i-1),n);
+            dataDispl(:,i) = param(:,3+5*(i-1),n).*(1./(param(:,5+5*(i-1),n)*2*pi)) .*1e5;
+            
+            % Correct the phase measurement to account for 2Pi jumps, has
+            % optional sanity check output plots.
+            [dataPhase] = correct_phase(dataPhase,plotSanityPhase,n,i,ax,in,param);
+            
+            % Plot Explainatory Reconstruction
+            if n==plotExplainReconst % only plot the shot we want
+                plotChan=9;
+                plotReconst(dat,in,param,n,i,ax,h,plotChan);
             end
             
-    end
+        else % if no FFT
+                % find index corresponding to time bounds
+                nTimeLim(1) = find(dat(1).time.*in(n).timeScale >= timebound(1), 1);
+                nTimeLim(2) = find(dat(1).time.*in(n).timeScale <= timebound(end), 1, 'last');
+                % nTimeLim(2) = nTimeLim(2) - 1; % the above command goes one too far
+
+                % Calculate all data
+                for m = 1:size(data, 2);
+                    assignin('base','data',data);
+                    selection = data((nTimeLim(1):nTimeLim(2))+(i-1)*size(data,1)/2, m);
+                    dataAvg(m,i) = mean(selection(~isnan(selection)));
+                    dataStd(m,i) = std(selection(~isnan(selection)));
+                    dataDispl(m,i) = dataStd(m,i).*(1/14500)./(2*pi) .*1e5;
+
+                end
+            end
+
 end

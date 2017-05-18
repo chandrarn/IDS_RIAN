@@ -1,4 +1,7 @@
-function [guess,param,saveDat,SigDev,RMS,RMS_ideal] = sine_fit(in, doubleplot,dat,n,i,saveDat)
+%% Calculate Sine Fit to Data for Multiplot_2
+% Generates amplitude and phase initial guess from an FFT
+% Fitting itself is done 
+function [guess,param,saveDat,SigDev,RMS,RMS_ideal] = sine_fit_module(in, doubleplot,dat,n,i,saveDat)
  
 
         %%%%%% Upper Array %%%%%%%%%%%
