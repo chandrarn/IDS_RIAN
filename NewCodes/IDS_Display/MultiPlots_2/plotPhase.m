@@ -1,12 +1,12 @@
 %% Plot Phases For Multiplots_2
 function [saveDat,phaseH] = plotPhase(dat,dataPhase,phaseSupress,plotError,...
-    ax,h,n,data,CutPow,pRel,injParam,xlim,SigDev)
+    ax,h,n,in,data,CutPow,pRel,injParam,xlim,SigDev,doubleplot,lnwdth)
 
 for i=1:size(doubleplot,1)
-    if Analysis==1
+    if isempty(in(1).fftPlot)
         plot(dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
         ylabel('Phase [deg]');
-    elseif Analysis==2 && in(1).shot > 8129499
+    elseif ~isempty(in(1).fftPlot) && in(1).shot > 8129499
         for j=1:length(dataPhase(:,i));try dataPhase(j.*(pRel(j,i)<CutPow),i)=NaN;end;end
     %                         ax8Data = dataPhase(:,i);
     %                         if plotType==1
@@ -19,11 +19,11 @@ for i=1:size(doubleplot,1)
         end
         if ~plotError
             saveDat(n).Phase(:,i) = dataPhase(:,i).*180./pi;
-            phaseH(:,i,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+            phaseH(:,i,n)=plot(ax(8),dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
         else
             saveDat(n).Phase(:,i) = dataPhase(:,i).*180./pi;
             saveDat(n).PhaseError(:,i) = SigDev(n,:,i).*180./pi;
-            phaseH(:,i,n)=errorbar(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,SigDev(n,:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+            phaseH(:,i,n)=errorbar(ax(8),dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,SigDev(n,:,i).*180./pi,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
         end                            
         ylabel(ax(8),'[deg]');set(ax(8),'ylim',[-400,400]);set(ax(8),'xticklabel',[]);
         set(ax(8),'xlim',xlim);

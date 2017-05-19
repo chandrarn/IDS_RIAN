@@ -3,8 +3,8 @@
 % and settings for plotting the FFT, etc
 
 function [in,timebound,chan_range,xlim,supress] = in_settings(n)
+lines = {'O II', 'C III', 'O II','C III'};
 
-%% IDS DATA
 switch n
     case 1
         %% 0-120-240
@@ -118,7 +118,7 @@ switch n
 
 
     case 2
-        % Low Performance
+        %% Low Performance
         % in(1).shot = 160525017;150625998;
         % in(1).line =2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
         % in(1).legend = [num2str(in(1).shot) ' ' lines{in(1).line}];

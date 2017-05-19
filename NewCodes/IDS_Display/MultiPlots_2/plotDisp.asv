@@ -1,8 +1,12 @@
 %% Plot Displacement for Multiplots_2
-function [saveDat] = plotDisp(dataDispl,ax,h,n,in,saveDat,dispSupress,...
-    doubleplot,RMS,dat,data,pRel,CutPow,includeTemp)
-for i = 1:
+function [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,dispSupress,...
+    doubleplot,RMS,dat,data,pRel,CutPow,includeTemp,plotError,lnwdth)
+
+% Loop through Arrays
+for i = 1:1+in(n).doubleplot
+    display('
 % If we arent doing the FFT
+% NOTE: THIS WILL NEVER EXECUTE
 if isempty(in(1).fftPlot)
     figure(h(4));
     hold on;
@@ -10,6 +14,7 @@ if isempty(in(1).fftPlot)
     ylabel('Average Radius of Displacement [cm]');set(gca,'ylim',[0,8]);
     figure(h(2));
 else
+    
 % We are doing the FFT    
     for j=1:length(dataDispl(:,i));try dataDispl(j.*(pRel(j,i)<CutPow),i)=NaN;end;end
     if ~plotError
@@ -26,7 +31,7 @@ else
         saveDat(n).LMVelError(:,i) = ( nanmean(dat(in(n).line).velU(:,doubleplot(i,:))));
         errorbar(ax(6),dat(1).impacts(1:size(data,2)),dataDispl(:,i),error,'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
     end
-     ylabel(ax(6),'[cm]');set(ax6,'ylim',[0,8]);
+     ylabel(ax(6),'[cm]');set(ax(6),'ylim',[0,8]);
     set(ax(6),'xlim',xlim);
     if ~includeTemp
         xlabel(ax(6),'Impacts [cm]');
@@ -34,6 +39,7 @@ else
         xlabel(ax(17),'Impacts [cm]');
     end
 
+end
 end
 
 end

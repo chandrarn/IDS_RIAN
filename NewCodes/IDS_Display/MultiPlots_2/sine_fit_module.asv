@@ -5,8 +5,7 @@
 % Also calculated percentace of FFT power spectrum at the injector
 % frequency and its higher harmonics.
 % Also caluclates the error in phase in a WEIRD WAY. 
-function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,pRel_out] = ...
-    sine_fit_module(in, doubleplot,dat,n,i,saveDat,plt)
+function [guess,param,saveDat,SigDev,RMS,RMS_ideal] = sine_fit_module(in, doubleplot,dat,n,i,saveDat,plt)
  
 
         %%%%%% Upper Array %%%%%%%%%%%
@@ -20,7 +19,7 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
             end
             if exist('savSig','var');size(savSig)
             end
-            size(signal);
+            size(signal)
             %savSig(1,i,n,:)=signal;
             Fsamp = 1/(mean(diff(dat(1).time.*(in(n).timeScale.*1e-3))));
             offset = nanmean(signal);
@@ -43,8 +42,7 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
 
             guess(i,:,n,j) = [offset,max(signal)-offset,pi/2,freq];
 
-            [param(i,(2:5)+5*(j-1),n),data((1:length(dat(1).time))...
-                +length(dat(1).time)*(j-1),i)] = sine_fit( ...
+            [param(i,(2:5)+5*(j-1),n),data(1:length(dat(1).time),i)] = sine_fit( ...
                 dat(1).time'.*(in(n).timeScale.*1e-3),signal',[nan,nan,nan,freq], ...
                 guess(i,:,n,j),0);
             % Use FFT Result
@@ -184,16 +182,12 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
 %         %catch
 %         %    display(['halted at ' num2str(i)]);
 %         %end
-
-            guess_out=guess(i,:,n,:);
-            param_out=param(i,:,n);
-            SigDev_out=SigDev(n,i,:);
-            RMS_out=RMS(:,i,n,:);
-            RMS_ideal_out=RMS_ideal(:,i,n,:);
-            data_out=data(:,i);
-            pRel_out=pRel(i,:);
-
-
+            
+            size(guess)
+            size(param)
+            size(SigDev)
+            size(RMS)
+            size(RMS_ideal)
 end
 
 

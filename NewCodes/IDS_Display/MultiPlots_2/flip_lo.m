@@ -1,7 +1,7 @@
 %% Flip Lower Fiber, for Multiplot_2
 % necessary for some HIT-SI3 shots
 
-function [dat] = flipLo(dat,flipLoImpact)
+function [dat] = flipLo(dat,flipLoImpact,in,n)
 
  breakInd = 30; % Assume that the fiber break occurs at index thirty
     impacts=importdata('impacts5.mat')';

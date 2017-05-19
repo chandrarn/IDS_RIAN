@@ -7,6 +7,9 @@ Directly connected to IAEA Plots
 
 %}
 
+clear all;
+close all;
+clc;
 %% Settings
 % Pick set of shots and analysis settings
  n = 1;% 160728013, 160728012
@@ -28,7 +31,7 @@ plt.Averages = 0;
 plt.compactCurrents = 1;
 plt.Tor = 0; % The line plot will show the differenve between fibers
 plt.ExplainReconst=0;% will plot the data and reconstruction from line n to a seperate plot
-driveDirection=1*(pltType==1); % upper fiber dropped by -pi, phase now references "positive toroidal flow magnitude"
+driveDirection=1*(plt.Type==1); % upper fiber dropped by -pi, phase now references "positive toroidal flow magnitude"
 flipLoImpact=[47].*(in(1).shot>229499); % correct for lower fiber being rotated 180 about impact 30 
 % the bracketed number is the pre-trimmed index of this impact. The
 % following data is hardcoded for 160728017 data range
@@ -46,11 +49,15 @@ end
 velSpace = 15; % km/s
 intSpace = 20; % arb.u.
 tempSpace = 20; % eV
+% Figure stuff
+fntsz = 19;
+lnwdth = 1.5;
+errWdth = 500; % errorbar width setting
 
 saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 
 %% Build Figures
-[h,ax] = fig_settings(plt,Analysis,in)
+[h,ax] = fig_settings(plt,Analysis,in);
 figure(h(1)); % make first figure current
 
 
@@ -67,16 +74,17 @@ for n = 1:length(in)
         input=load(['T:\IDS\Data Repository\dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
         dat=input.dat;
         if flipLoImpact ~=0 % flip the lower array about its centeral impact.
-            [dat] = flipLo(dat,flipLoImpact);
+            [dat] = flip_lo(dat,flipLoImpact,in,n);
         end
-        dat = trimRange(dat, chan_range, plotError,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
+        dat = trimRange(dat, chan_range, plt.Error,timebound.*(1./in(n).timeScale),[]); % for some reason, this wont save to workspace
         assignin('base','dat',dat);
     end
     
     Itor(:,n) = dat(1).Itor;
     
     % Plot labels
-    if plotType==1
+    switch plt.Type
+        case 1
         titles = 'Velocities';
         offset = velSpace;
         units = 'km/s';
@@ -85,7 +93,7 @@ for n = 1:length(in)
             errorL = dat(in(n).line).velL;
             errorU = dat(in(n).line).velU;
         end
-    elseif plotType==2
+        case 2
         titles = 'Temperatures';
         offset = tempSpace;
         units = 'eV';
@@ -94,7 +102,7 @@ for n = 1:length(in)
             errorL = dat(in(n).line).tempL;
             errorU = dat(in(n).line).tempU;
         end
-    elseif plotType==3
+        case 3
         titles = 'Intensities';
         sidebar = ['Arb.'];
         offset = intSpace;
@@ -104,6 +112,7 @@ for n = 1:length(in)
             errorU = dat(in(n).line).intU;
         end
     end
+    if~(in(1).error);errorL=NaN;errorU=NaN;end
     
     
   
@@ -152,6 +161,7 @@ for n = 1:length(in)
             doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
 
             % initialize Sine_Fit parameters
+            if(n==1);param=zeros(length(doubleplot),10,length(in));end
             param(:,1,n) = dat(1).impacts(doubleplot(1,:));
             param(:,6,n) = dat(1).impacts(doubleplot(2,:));
         else
@@ -169,15 +179,21 @@ for n = 1:length(in)
         display('Computing FFT');
         pRel = zeros(length(doubleplot),2);
         dPar = zeros(length(in),size(doubleplot,2),size(doubleplot,2),4);
-
+        data = zeros(2*length(dat(1).time),length(doubleplot));
         for i = 1:length(doubleplot) % Loop through impacts ( fits both arrays)
-
-            [guess(i,:,n,:),param(i,:,n),saveDat,SigDev(n,i,:),RMS(:,i,n,:),RMS_ideal(:,i,n,:)] =...
-                sine_fit_module(in, doubleplot,dat,n,i,saveDat);
-
+            
+            % Fit sine Fn to data, also find phase error
+            % XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            [guess(i,:,n,:),param(i,:,n),saveDat,SigDev(n,i,:),RMS(:,i,n,:),...
+                RMS_ideal(:,i,n,:),data(:,i),pRel(i,:)] =...
+                sine_fit_module(in, doubleplot,dat,n,i,saveDat,plt);
+            
         end
-
-        [injParam] = inj_phase(dat,timebound,in);
+        
+        % Find the phase of the injectors
+        if n==1
+            [injParam] = inj_phase(dat,timebound,in,n);
+        end
 
     else
         %% Just plot Lines
@@ -216,10 +232,10 @@ for n = 1:length(in)
             
             % Correct the phase measurement to account for 2Pi jumps, has
             % optional sanity check output plots.
-            [dataPhase] = correct_phase(dataPhase,plotSanityPhase,n,i,ax,in,param);
+            [dataPhase] = correct_phase(dataPhase,plt.SanityPhase,n,i,ax,in,param,data);
             
             % Plot Explainatory Reconstruction
-            if n==plotExplainReconst % only plot the shot we want
+            if n==plt.ExplainReconst % only plot the shot we want
                 plotChan=9;
                 plotReconst(dat,in,param,n,i,ax,h,plotChan);
             end
@@ -251,11 +267,11 @@ for n = 1:length(in)
     % Displacement and FFT are essentially the same for HIT-SI and HIT-SI3
     
     % DISPLACEMENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,dispSupress,...
-                doubleplot,RMS,dat,data,pRel,CutPow,includeTemp);
+    [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,supress.Disp,...
+                doubleplot,RMS,dat,data,pRel,CutPow,plt.includeTemp,plt.Error,lnwdth);
     
     % FFT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    if plotFFT
+    if plt.FFT
         for i=1:1+in(n).doubleplot
              plot(ax(9),dat(1).impacts(1:size(data,2)),100*pRel(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
         end
@@ -263,7 +279,7 @@ for n = 1:length(in)
          set(ax(9),'xlim',xlim); title(ax(9),'Inj. Mode % of Reconstruction');
         plot(ax(9),xlim,[CutPow,CutPow].*100,'--k');
     end
-    if n==1;figure(h2);end
+    if n==1;figure(h(2));end
     
     % Plot Flow Profile if no FFT
     if isempty(in(n).fftPlot) && in(n).doubleplot==1
@@ -277,12 +293,12 @@ for n = 1:length(in)
     elseif ~isempty(in(n).fftPlot)
         
        % plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
-        plot(ax7,xlim,[0,0],'--k'); set(ax7,'xlim',xlim);
-        ylabel(ax7,'[km/s]'); set(ax7,'ylim',[-6,6]);set(ax7,'xticklabel',[]);
-        h2.delete;
-        linkaxes([ax6 ax7 ax8 ],'x');
-        if includeTemp
-            linkaxes([ax6 ax7 ax8 ax17 ],'x');
+        plot(ax(7),xlim,[0,0],'--k'); set(ax(7),'xlim',xlim);
+        ylabel(ax(7),'[km/s]'); set(ax(7),'ylim',[-6,6]);set(ax(7),'xticklabel',[]);
+        h(2).delete;
+        linkaxes([ax(6) ax(7) ax(8) ],'x');
+        if plt.includeTemp
+            linkaxes([ax(6) ax(7) ax(8) ax(17) ],'x');
         end
     end
     
@@ -291,8 +307,8 @@ for n = 1:length(in)
         %% We're Doing HIT-SI3
         
         % FLOW  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        [saveDat] = plotDisp(dataDispl,ax,h,n,in,saveDat,dispSupress,...
-            doubleplot,RMS,dat,data,pRel,CutPow,includeTemp);
+        [saveDat] = plotFlow(param,dataAvg,supress.Flow,plt.Error,...
+            saveDat,ax,h,n,in,plt.Type,dat,doubleplot,data,RMS,lnwdth);
         
         % PHASE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         
@@ -312,7 +328,7 @@ for n = 1:length(in)
         end
         
         % Special hardcoded phase changes by 2Pi
-        [injParam,dataPhase] = phase_settings(dataPhase,n,in,plotType,injParam);
+        [injParam,dataPhase] = phase_settings(dataPhase,n,in,plt.Type,injParam);
         
         % Flip upper array, look at when toroidal drive happens
         if  driveDirection  == 1
@@ -322,25 +338,25 @@ for n = 1:length(in)
         dataPhase = dataPhase +in(n).phaseShift;
         
         % Plot Phases
-        [saveDat,phaseH] = plotPhase(dat,dataPhase,phaseSupress,plotError,...
-            ax,h,n,data,CutPow,pRel,injParam,xlim,SigDev);
+        [saveDat,phaseH] = plotPhase(dat,dataPhase,supress.Phase,plt.Error,...
+            ax,h,n,in,data,CutPow,pRel,injParam,xlim,SigDev,doubleplot,lnwdth);
         
         % TEMP XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        if includeTemp
-            if any(tempSupress(n,:,i))
-                dat(in(n).line).temp(:,doubleplot(i,tempSupress(n,:,i)))=NaN;
+        if plt.includeTemp
+            if any(supress.Temp(n,:,i))
+                dat(in(n).line).temp(:,doubleplot(i,supress.Temp(n,:,i)))=NaN;
             end
-            if ~plotError
+            if ~plt.Error
                 saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
-                plot(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                plot(ax(17),dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
             else
                 saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
                 saveDat(n).TempError(:,i) = sqrt(nanmean(dat(in(n).line).tempU(:,doubleplot(i,:)).^2 ))/sqrt(length(dat(1).time));
                 saveDat(n).LMTempError(:,i) =nanmean(dat(in(n).line).tempU(:,doubleplot(i,:)));
-                errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))), saveDat(n).TempError(:,i),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+                errorbar(ax(17),dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))), saveDat(n).TempError(:,i),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
             end
             ylabel('[eV]');
-            set(ax6,'xticklabel',[]);
+            set(ax(6),'xticklabel',[]);
         end
         
     elseif in(n).fftPlot
@@ -348,10 +364,10 @@ for n = 1:length(in)
         display('EXECUTING HITSI DATA')
         
         % FLOW XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        if any(flowSupress(n,:))
-            param(flowSupress(n,:),2,n)=NaN;
+        if any(supress.Flow(n,:))
+            param(supress.Flow(n,:),2,n)=NaN;
         end
-        if ~plotError
+        if ~plt.Error
              saveDat(n).Flow = param(:,2,n);
              t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
         else
@@ -375,15 +391,15 @@ for n = 1:length(in)
         if any(phaseSupress(n,:))
             dataPhase(phaseSupress(n,:),1)=NaN;
         end
-        if ~plotError
+        if ~plt.Error
             saveDat(n).Phase(:,1) = dataPhase(:,1).*180./pi;
-            phaseH(1,1,n)=plot(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+            phaseH(1,1,n)=plot(ax(8),dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
         else
             saveDat(n).Phase(:,1) = dataPhase(:,1).*180./pi;
             saveDat(n).PhaseError(:,1) = SigDev(n,:,1).*180./pi;
-            phaseH(1,1,n)=errorbar(ax8,dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,squeeze(SigDev(n,:)).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
+            phaseH(1,1,n)=errorbar(ax(8),dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,squeeze(SigDev(n,:)).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
         end
-        ylabel(ax8,'[deg]');set(ax8,'ylim',[0,400]);set(ax8,'xticklabel',[]);
+        ylabel(ax8,'[deg]');set(ax(8),'ylim',[0,400]);set(ax8,'xticklabel',[]);
         set(ax8,'xlim',xlim);
         % Plot injector Phase
         if n == 1
@@ -397,7 +413,7 @@ for n = 1:length(in)
             dat(in(n).line).temp(:,tempSupress(n,:))=NaN;
         end
         if includeTemp
-            if ~plotError
+            if ~plt.Error
                 saveDat(n).Temp = nanmean(dat(in(n).line).temp);
                 plot(ax17,dat(1).impacts(1:size(data,2)),nanmean(dat(in(n).line).temp),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
             else
@@ -417,16 +433,17 @@ for n = 1:length(in)
     end
     
     % Plot Data
-    [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,lnwdth,in,n,saveDat,t,plotTor);
+    [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,lnwdth,in,...
+        n,saveDat,plt.Tor,timebound,fntsz,plt,sidebar,titles)
 end
 
 
 if ~isempty(in(1).fftPlot)
     %% Add Legend to Phase Plot
     %[leg,icon] = legend(ax8,phaseH(1,:,2),{in(1:1:end).legend});
-    [leg,icon] = legend(ax8,phaseH(1,1,:),{in(1:1:end).legend});
+    [leg,icon] = legend(ax(8),squeeze(phaseH(1,:,2)),{in(1:1:end).legend});
     for i = 0: length(in)-1
-        try %(~plotError || in(1).shot < 829499)
+        try %(~plt.Error || in(1).shot < 829499)
             set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
             set(icon(length(in)+2+2*i),'Color',in(i+1).color{1});
             set(icon,'LineStyle','-');
@@ -439,11 +456,11 @@ end
 figure(h(1));
 
 %% Figure Properties for Averages
-if plotAverages
-    figure(h2) % make current
+if plt.Averages
+    figure(h(2)) % make current
     
     title(['Mean ' titles ' and Fluctuations'], 'fontsize', fntsz);
-    set(ax2, 'XLim', [dat(1).impacts(1) - 1, dat(1).impacts(end) + 1]);
+    set(ax(2), 'XLim', [dat(1).impacts(1) - 1, dat(1).impacts(end) + 1]);
     set(gca, 'LineWidth', lnwdth);
     set(gca, 'fontsize', fntsz);
     box on;
@@ -458,21 +475,23 @@ if plotAverages
         legendText{n} = in(n).legend;
         legendHands(n) = t2(n);
     end
-    legend(ax2, legendHands, 'Location', 'NorthEastOutside',...
+    legend(ax(2), legendHands, 'Location', 'NorthEastOutside',...
         legendText, 'fontsize', fntsz);
 end
 
+%% Plot Currents
+plot_currents(plt.compactCurrents,ax,h,dat,in,Itor,fntsz,lnwdth,timebound);
 
 %% Saving
 cd(['T:\IDS\Analysis Repository\']);
 if saving
     pause(1.5);% necessary to get figure size correct
-    saveas(h, ['Lines L' num2str(in(1).line) titles num2str(in(1).shot)], 'fig');
-    saveas(h6, ['Analysis L' num2str(in(1).line) num2str(in(1).shot)], 'fig');
-    saveas(h, ['Lines L' num2str(in(1).line) titles num2str(in(1).shot)], 'bmp');
-    saveas(h6, ['Analysis L' num2str(in(1).line) num2str(in(1).shot)], 'bmp');
+    saveas(h(1), ['Lines L' num2str(in(1).line) titles num2str(in(1).shot)], 'fig');
+    saveas(h(6), ['Analysis L' num2str(in(1).line) num2str(in(1).shot)], 'fig');
+    saveas(h(1), ['Lines L' num2str(in(1).line) titles num2str(in(1).shot)], 'bmp');
+    saveas(h(6), ['Analysis L' num2str(in(1).line) num2str(in(1).shot)], 'bmp');
     if in(1).fftPlot
-        saveas(h7, ['Spectrum L' num2str(in(1).line) num2str(in(1).shot)], 'fig');
-        saveas(h7, ['Spectrum L' num2str(in(1).line) num2str(in(1).shot)], 'bmp');
+        saveas(h(7), ['Spectrum L' num2str(in(1).line) num2str(in(1).shot)], 'fig');
+        saveas(h(7), ['Spectrum L' num2str(in(1).line) num2str(in(1).shot)], 'bmp');
     end
 end

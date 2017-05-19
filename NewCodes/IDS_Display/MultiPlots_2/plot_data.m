@@ -1,8 +1,8 @@
 %% Plot Data for Multiplots_2, with Line Offsets
 function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
-    lnwdth,in,n,saveDat,t,plotTor,timebound)
+    lnwdth,in,n,saveDat,plotTor,timebound,fntsz,plt,sidebar,titles)
     %% offset each line for plot
-    zeroline = zeros(size(data));
+    zeroline = zeros(ceil(size(data,1)/2),size(data,2));
     for j = 1:size(data, 2) 
         data(:, j) = data(:, j) + (j-1) * offset;
         zeroline(:,j) = zeros(ceil(size(data,1)/2),1)+(j-1) * offset;
@@ -57,12 +57,13 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     %% Impact Parameter Labels on Right
     for n = 1:size(data, 2)
         y = offset * (n-1) + 0.1 * offset;
-        text(timebound(end) + 0.02 * (timebound(end) - timebound(1)), y, num2str(dat(1).impacts(n), 2), 'fontsize', fntsz);
+        x=timebound(end) + 0.02 * (timebound(end) - timebound(1));
+        text(x, y,num2str(dat(1).impacts(n), 2), 'fontsize', fntsz);
         plot(ax(1), [dat(1).time(1), dat(1).time(end)], zeros(2) + (n-1) * offset, '-', 'color', 'k');
     end
     
     %% Misc. Figure Properties
-    if ~compactCurrents
+    if ~plt.compactCurrents
         xlabel('Time [ms]','fontsize', fntsz);
     else
         set(gca,'xticklabel',[]);
@@ -75,7 +76,7 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     set(gca, 'fontsize', fntsz);
     box on;
     grid on;
-    if or(plotType == 2, plotType == 3) % temperature or Intensity
+    if or(plt.Type == 2, plt.Type == 3) % temperature or Intensity
         yLowerLim = 0;
         yUpperLim = offset * size(data, 2);
     else

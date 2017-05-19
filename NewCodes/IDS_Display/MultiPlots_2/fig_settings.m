@@ -21,8 +21,7 @@ if ~plt.compactCurrents
 else
     ax(1) = axes('Parent', h(1), 'Position', [0.075+(.0585)/2, 0.28, 0.8-.0585, 0.65]);
 end
-
-hold on;
+hold(ax(1),'on');
 
 if plt.Averages || Analysis ==1
     h(2) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Toroidal Flow: ' num2str(in(1).line)], 'Position',...
