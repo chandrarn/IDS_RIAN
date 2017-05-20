@@ -2,9 +2,7 @@
 MultiPlots Improved:
 Modularized the input settings, and fiber flip
 
-Directly connected to IAEA Plots
-
-
+The SaveDat structure is input into 
 %}
 
 clear all;
@@ -23,27 +21,21 @@ plt.Type = 1; % Velocity
 %plotType = 4; % Displacement
 
 % Which plots to make, other settings
-saving = 0;
-plt.FFT = 0;
-plt.Currents = 1;
-plt.SanityPhase = 0;
-plt.Averages = 0;
-plt.compactCurrents = 1;
+saving = 0; % Save the Figues
+plt.FFT = 0; % Plot the FFT Power Spectrum
+plt.Currents = 1; % Plot the currents at the bottom of the data
+plt.SanityPhase = 0; % Plot the phase analysis stages
+plt.Averages = 0; % unused
+plt.compactCurrents = 1; %
 plt.Tor = 0; % The line plot will show the differenve between fibers
 plt.ExplainReconst=0;% will plot the data and reconstruction from line n to a seperate plot
 driveDirection=1*(plt.Type==1); % upper fiber dropped by -pi, phase now references "positive toroidal flow magnitude"
-flipLoImpact=[47].*(in(1).shot>229499); % correct for lower fiber being rotated 180 about impact 30 
-% the bracketed number is the pre-trimmed index of this impact. The
-% following data is hardcoded for 160728017 data range
+flipLoImpact=[47].*((in(1).shot>229499)&&(in(1).shot<170501000)); 
+% correct for lower fiber being rotated 180 about impact 30 
+% the bracketed number is the pre-trimmed index of this impact. 
 plt.Error = 1;
 plt.includeTemp = 1; % include temperature in the velocity plot
 CutPow  = .1; % FFT Power Cuttoff Percentage. 
-
-if isempty(in(1).fftPlot)
-    Analysis=1;
-else
-    Analysis = 2; % Analyze torroidal flow, Amplitude, phasing. Replaces "Averages"
-end
 
 % Spacing for line plot
 velSpace = 15; % km/s
@@ -57,14 +49,14 @@ errWdth = 500; % errorbar width setting
 saveFile = ['T:\IDS\Analysis Repository\' num2str(in(1).shot)];
 
 %% Build Figures
-[h,ax] = fig_settings(plt,Analysis,in);
+[h,ax] = fig_settings(plt,in);
 figure(h(1)); % make first figure current
 
 
 
 for n = 1:length(in)
 %% XXXXXXXXXXXXXXX Main Shot Loop XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    n
+    display(['Working on shot: ' num2str(in(n).shot)]);
     saveDat(n).title= in(n).AnalysisTitle;
     saveDat(n).shot=in(n).shot;
     clear data zeroline time
@@ -125,9 +117,7 @@ for n = 1:length(in)
     if ~isempty(in(n).doubleplot) && isempty(in(1).fftPlot)
     %% If we want to doubleplot, but only the raw data
 
-        %data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,in(n).doubleplot(1,:));
-        %data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
-        %    dat(in(n).line).vel(:,in(n).doubleplot(2,:));
+        % Find where each fiber bundle begins and ends.
         doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
         doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
 
@@ -168,24 +158,23 @@ for n = 1:length(in)
             doubleplot(1,:) = 1:length(dat(1).impacts);
             param(:,1,n) = dat(1).impacts(doubleplot(1,:));
         end
-%                 if flipLoImpact == 1 % flip the lower array about its centeral impact.
-%                     dat(in(n).line).vel(:,doubleplot(2,:)) = dat(in(n).line).vel(:,doubleplot(2,end):-1:doubleplot(2,1));
-%                     dat(in(n).line).temp(:,doubleplot(2,:)) = dat(in(n).line).temp(:,doubleplot(2,end):-1:doubleplot(2,1));
-%                 end
+
          % Param: impacts offset amplitude phase, frequency
          if ~exist('param','var')
                 param = zeros(length(doubleplot),10,length(in));
          end
         display('Computing FFT');
+        if n==1% initialize
         pRel = zeros(length(doubleplot),2);
-        dPar = zeros(length(in),size(doubleplot,2),size(doubleplot,2),4);
+        dPar = zeros(length(in),size(doubleplot,2),size(doubleplot,1),4);
         data = zeros(2*length(dat(1).time),length(doubleplot));
+        end
         for i = 1:length(doubleplot) % Loop through impacts ( fits both arrays)
             
             % Fit sine Fn to data, also find phase error
             % XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             [guess(i,:,n,:),param(i,:,n),saveDat,SigDev(n,i,:),RMS(:,i,n,:),...
-                RMS_ideal(:,i,n,:),data(:,i),pRel(i,:)] =...
+                RMS_ideal(:,i,n,:),data(:,i),pRel(i,:),dPar(n,i,:,:)] =...
                 sine_fit_module(in, doubleplot,dat,n,i,saveDat,plt);
             
         end
@@ -211,14 +200,9 @@ for n = 1:length(in)
     %% Build timebase
          time(1:length(dat(1).time)) = dat(1).time.*in(1).timeScale + in(n).timeShift;
          time(length(dat(1).time)+1:2*length(dat(1).time)) =  time(1:length(dat(1).time));
-%              dat(1).time.*in(1).timeScale + in(n).timeShift;
     else
         time = dat(1).time.*in(1).timeScale + in(n).timeShift;
     end
-
-    
-    % Multiplot has option for plotting data averages by impact
-
     
     % Loop through arrays
     for i = 1: 1+in(n).doubleplot
@@ -244,7 +228,6 @@ for n = 1:length(in)
                 % find index corresponding to time bounds
                 nTimeLim(1) = find(dat(1).time.*in(n).timeScale >= timebound(1), 1);
                 nTimeLim(2) = find(dat(1).time.*in(n).timeScale <= timebound(end), 1, 'last');
-                % nTimeLim(2) = nTimeLim(2) - 1; % the above command goes one too far
 
                 % Calculate all data
                 for m = 1:size(data, 2);
@@ -272,6 +255,7 @@ for n = 1:length(in)
     
     % FFT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     if plt.FFT
+        % Plot Normalized Fourrier Power: Injector Frequency/Total
         for i=1:1+in(n).doubleplot
              plot(ax(9),dat(1).impacts(1:size(data,2)),100*pRel(:,i),'-*','color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
         end
@@ -292,7 +276,6 @@ for n = 1:length(in)
     % Plot the black dashed line on the flow plot otherwise
     elseif ~isempty(in(n).fftPlot)
         
-       % plot(ax7,dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2)),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style);
         plot(ax(7),xlim,[0,0],'--k'); set(ax(7),'xlim',xlim);
         ylabel(ax(7),'[km/s]'); set(ax(7),'ylim',[-6,6]);set(ax(7),'xticklabel',[]);
         h(2).delete;
@@ -335,18 +318,22 @@ for n = 1:length(in)
                 dataPhase(:,1) = dataPhase(:,1)-pi;
                 display('WARNING: POSITIVE FIBER DROPPED -PI, DRIVE DIRECTION PHASE');
         end
+        
+        % Add in overall phase shift (Usually to flip negative shots phases
+        % by 2Pi, so phase is in toroidal current direction).
         dataPhase = dataPhase +in(n).phaseShift;
         
         % Plot Phases
         [saveDat,phaseH] = plotPhase(dat,dataPhase,supress.Phase,plt.Error,...
-            ax,h,n,in,data,CutPow,pRel,injParam,xlim,SigDev,doubleplot,lnwdth);
+            ax,h,n,in,data,CutPow,pRel,injParam,xlim,SigDev,doubleplot,lnwdth,saveDat);
         
         % TEMP XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         if plt.includeTemp
+            % Remove Datapoints with too High Error
             if any(supress.Temp(n,:,i))
                 dat(in(n).line).temp(:,doubleplot(i,supress.Temp(n,:,i)))=NaN;
             end
-            if ~plt.Error
+            if ~plt.Error % Plot with or without Errorbars
                 saveDat(n).Temp(:,i) = mean(dat(in(n).line).temp(:,doubleplot(i,:)));
                 plot(ax(17),dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp(:,doubleplot(i,:))),'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
             else
@@ -360,14 +347,14 @@ for n = 1:length(in)
         end
         
     elseif in(n).fftPlot
-        %% We're Doing HIT-SI
-        display('EXECUTING HITSI DATA')
+        %% We're Doing HIT-SI (or only one fiber array)
+        display('EXECUTING HIT-SI DATA')
         
         % FLOW XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         if any(supress.Flow(n,:))
             param(supress.Flow(n,:),2,n)=NaN;
         end
-        if ~plt.Error
+        if ~plt.Error % Plot with or without errorbars
              saveDat(n).Flow = param(:,2,n);
              t3(n)=plot(ax7,dat(1).impacts(1:size(data,2)),param(:,2,n),'color',[in(n).color{1}],'marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});%,...
         else
@@ -383,15 +370,23 @@ for n = 1:length(in)
         if max(max(dataPhase))>2*pi
             dataPhase=dataPhase-(max(max(dataPhase))-2*pi);
         end
+        
+        % Eliminate data where the injector frequency spectral power was
+        % not over the cutoff level
         for j=1:length(dataPhase(:,1));try dataPhase(j.*(pRel(j,i)<CutPow),1)=NaN;end;end
+        
+        % Add in phase shift (usually to flip negative shots by pi)
         dataPhase = dataPhase + in(n).phaseShift;
+        
         % Hardcoded Phase Settings
         [injParam,dataPhase] = phase_settings(dataPhase,n,in,plotType,injParam);
         
+        % Suppress data where the error is too high
         if any(phaseSupress(n,:))
             dataPhase(phaseSupress(n,:),1)=NaN;
         end
-        if ~plt.Error
+        
+        if ~plt.Error % Plot errobars
             saveDat(n).Phase(:,1) = dataPhase(:,1).*180./pi;
             phaseH(1,1,n)=plot(ax(8),dat(1).impacts(1:size(data,2)),dataPhase(:,1).*180./pi,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
         else
@@ -401,6 +396,7 @@ for n = 1:length(in)
         end
         ylabel(ax8,'[deg]');set(ax(8),'ylim',[0,400]);set(ax8,'xticklabel',[]);
         set(ax8,'xlim',xlim);
+        
         % Plot injector Phase
         if n == 1
             saveDat(n).injPhase = injParam(:,3).*180./pi;
@@ -412,6 +408,7 @@ for n = 1:length(in)
         if any(tempSupress(n,:))
             dat(in(n).line).temp(:,tempSupress(n,:))=NaN;
         end
+        
         if includeTemp
             if ~plt.Error
                 saveDat(n).Temp = nanmean(dat(in(n).line).temp);
@@ -423,7 +420,6 @@ for n = 1:length(in)
                 display(['TEST: ' num2str(size(dat(in(n).line).tempU)) ' + ' num2str(length(dat(1).time))])
                 error=sqrt((nanmean(dat(in(n).line).tempU.^2) + std(dat(in(n).line).temp).^2 )/length(dat(1).time));
                 saveDat(n).TempError = error;
-                %sqrt(mean(dat(in(n).line).tempU(:,doubleplot(i,:)).^2 ))/sqrt(length(dat(1).time));
                 errorbar(ax17,dat(1).impacts(1:size(data,2)),mean(dat(in(n).line).temp),error,'-*','color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
             end
             ylabel(ax17,'[eV]');
@@ -432,9 +428,10 @@ for n = 1:length(in)
         figure(h) % make other current
     end
     
-    % Plot Data
+    
+    % Plot Data XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,lnwdth,in,...
-        n,saveDat,plt.Tor,timebound,fntsz,plt,sidebar,titles)
+        n,saveDat,plt.Tor,timebound,fntsz,plt,sidebar,titles);
 end
 
 
@@ -455,7 +452,7 @@ if ~isempty(in(1).fftPlot)
 end
 figure(h(1));
 
-%% Figure Properties for Averages
+%% Figure Properties for Averages (Largely Unused)
 if plt.Averages
     figure(h(2)) % make current
     
@@ -480,11 +477,11 @@ if plt.Averages
 end
 
 %% Plot Currents
-plot_currents(plt.compactCurrents,ax,h,dat,in,Itor,fntsz,lnwdth,timebound);
+ax=plot_currents(plt.compactCurrents,ax,h,dat,in,Itor,fntsz,lnwdth,timebound);
 
 %% Saving
-cd(['T:\IDS\Analysis Repository\']);
 if saving
+    cd(['T:\IDS\Analysis Repository\']);
     pause(1.5);% necessary to get figure size correct
     saveas(h(1), ['Lines L' num2str(in(1).line) titles num2str(in(1).shot)], 'fig');
     saveas(h(6), ['Analysis L' num2str(in(1).line) num2str(in(1).shot)], 'fig');

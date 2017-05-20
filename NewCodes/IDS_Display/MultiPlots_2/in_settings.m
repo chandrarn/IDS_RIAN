@@ -1,6 +1,8 @@
 %% Input Settings for Multiplots
 % Returns the 'in' structure, which includes the shots, formatting stuff,
 % and settings for plotting the FFT, etc
+% Also returns the range of channels in each array to plot, and the time
+% range to plot over
 
 function [in,timebound,chan_range,xlim,supress] = in_settings(n)
 lines = {'O II', 'C III', 'O II','C III'};
@@ -54,8 +56,10 @@ switch n
         %Supression of Dissenting data:
         % For C III
         if in(1).line==2
+        % Format: Shot - Index from Outboard - Array
+        phaseSupress(1,:,2) = [4];
         phaseSupress(1,:,1)=1;
-        phaseSupress(1:2,:,2)=0;
+        phaseSupress(2,:,2)=0;
         flowSupress(1,:)=[1];
         flowSupress(2,:)=[1];
         dispSupress(1,:,2)=[1,1,1,1,1];

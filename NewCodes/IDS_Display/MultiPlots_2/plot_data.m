@@ -1,6 +1,8 @@
 %% Plot Data for Multiplots_2, with Line Offsets
+
 function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     lnwdth,in,n,saveDat,plotTor,timebound,fntsz,plt,sidebar,titles)
+
     %% offset each line for plot
     zeroline = zeros(ceil(size(data,1)/2),size(data,2));
     for j = 1:size(data, 2) 
@@ -9,7 +11,7 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     end
 
     %% Plot Data
-    if in(n).error
+    if in(n).error % if plotting raw data with errobars. Unused.
         time = ndgrid(dat(1).time, 1:size(data, 2));
         t(n, :) = errorbar(ax(1), time, data, errorL, errorU, 'color', in(n).color, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
     else
@@ -18,7 +20,7 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
             saveDat(n).LowerFiberData = data(length(dat(1).time)+1:end,:);
             saveDat(n).Impacts = dat(1).impacts(1:size(data,2));
             saveDat(n).Time =time(1:length(dat(1).time));
-            if ~in(n).error
+            if ~in(n).error % Errobars on Data
                 t(n, :) = plot(ax(1), time(1:length(dat(1).time)), data(1:length(dat(1).time),:), ...
                     'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
                 t(n, :) = plot(ax(1), time(length(dat(1).time)+1:end)', data(length(dat(1).time)+1:end,:), ...
@@ -68,14 +70,14 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     else
         set(gca,'xticklabel',[]);
     end
+    
     ylabel(sidebar, 'fontsize', fntsz);
-
     datatl=title([in(1).AnalysisTitle  ':' titles], 'fontsize', fntsz);
-    %set(ax, 'XLim', timebound);
     set(gca, 'LineWidth', lnwdth);
     set(gca, 'fontsize', fntsz);
     box on;
     grid on;
+    
     if or(plt.Type == 2, plt.Type == 3) % temperature or Intensity
         yLowerLim = 0;
         yUpperLim = offset * size(data, 2);

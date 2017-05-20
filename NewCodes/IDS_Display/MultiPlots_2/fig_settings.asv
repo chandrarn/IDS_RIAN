@@ -27,7 +27,7 @@ if plt.Averages || isempty(in(1).fftPlot)
     hold on;
     grid on;
 end
-if plt.Averages && ~isempty(in(1).fftPlot)
+if isempty(in(1).fftPlot) && ~isempty(in(1).fftPlot)
      h(3) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Phase: ' num2str(in(1).line)], 'Position',...
         [5, 35, figureWidth, 0.35 * analysisHeight], 'Color', [1 1 1]);
     ax(3) = axes('Parent', h(3), 'Position', [0.075, 0.15, 0.85, 0.75]); hold on; grid on;
@@ -39,14 +39,15 @@ if plt.Averages && ~isempty(in(1).fftPlot)
     ax(5) = axes('Parent', h(5), 'Position', [0.075, 0.15, 0.85, 0.75]);
     hold on;
     grid on;
-elseif ~plt.Averages && ~isempty(in(1).fftPlot) % This one usually Executes
+elseif ~isempty(in(1).fftPlot) && ~isempty(in(1).fftPlot)
     h(2)=figure;
     % Main Analysis Figure
     h(6) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Analysis: ' in(1).legend], 'Position',...
     [5, 1+25, figureWidth-450+Widen, analysisHeight-25], 'Color', [1 1 1]);
-    ax(6) = axes('Parent',h(6),'Position',[0.15,.08,.8,.25]); hold on; grid on;box on; % Phse
-    ax(7) = axes('Parent',h(6),'Position',[0.15,.38,.8,.25]); hold on; grid on;box on; % Flow
-    ax(8) = axes('Parent',h(6),'Position',[0.15,.68,.8,.25]); hold on; grid on;box on; % Disp
+    ax(6) = axes('Parent',h(6),'Position',[0.15,.08,.8,.25]); hold on; grid on;box on;
+    ax(7) = axes('Parent',h(6),'Position',[0.15,.38,.8,.25]); hold on; grid on;box on;
+    ax(8) = axes('Parent',h(6),'Position',[0.15,.68,.8,.25]); hold on; grid on;box on;
+    %txt=text(10,550,['Analysis: ' in(1).legend],'fontweight','bold','fontsize',13);
     mBox=uicontrol('Style','Text');% Make the title
     set(mBox,'String',in(1).AnalysisTitle); set(mBox,'fontweight','bold'); set(mBox,'fontsize',13);
     set(mBox,'Position', [ 30+ceil(Widen/2),960,400,20]);set(mBox,'BackgroundColor',[1 1 1]);
@@ -94,4 +95,7 @@ elseif ~plt.Averages && ~isempty(in(1).fftPlot) % This one usually Executes
         h(12)=figure('Visible','on','Name','Explainatory Reconstruction');
         ax(16) = axes('Parent',h(12)); hold on; grid on; box on;
     end
+%     h(3)=figure;
+%     h(4)=figure;
+%     h(5)=figure;
 end
