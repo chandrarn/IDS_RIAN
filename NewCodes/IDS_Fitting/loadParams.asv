@@ -4,10 +4,9 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
     %shot = 150625006; % because we can't save to pdc3
     %spectraPix = 1.1660e-11;
     
-    %lineShift = [-14,0,11]; % attempt to manually fit to the lines;
-    %y0 offset, set the cal line the second O-II line (in between
-    %C-Doublet)
-    y0 = 30;11;8;
+    lineShift = [-14,0,11]; % attempt to manually fit to the lines;
+    %y0 offset, set the cal line to C-II
+    y0 = 0;11;8;
     x0 = 0;-4; % -2.5;
     if useTree % try using the tree, if that doesnt work, try importing callibration from file
         import MDSplus.*;

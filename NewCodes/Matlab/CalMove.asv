@@ -1,4 +1,4 @@
-%% Modify calibration data (in param structure) in an existing shot
+% move calibration data from one shot in the tree to another
 % Sometimes MDSplus gets upset about NATIVEvalue
 %clear all;
 
@@ -7,12 +7,12 @@
 % newShot = [151217016:151217026];
 % refShot = 160525019
 % newShot = [ 160601011:160601026];
-refShot = [170518020];160728013;
+refShot = [];160728013;
 
 % Shots to apply calibration to
-newShot = [-1];
+newShot = [ 170518020:170518031];
 
-postHoc = 0; 
+postHoc = 2; 
 % 0 All movement within tree
 % 1 all movement outside tree
 % 2 new data in workspace
@@ -41,7 +41,7 @@ if postHoc==0 || postHoc == 3 || postHoc == 2
         load(['dat' num2str(refShot) '10.mat']);
         param = dat(1).param;
     elseif postHoc==2 % Get data from a variable in the workspace
-        try;param.peaks = PEAKS;catch;param.PEAKS = [0];end
+        try;param.peaks = PEAKS;catch;param.P = [0];end
         try;param.IonMass = MASS;catch;param.IonMass = [0];end
         try;param.LineLam = LAMBDA;catch;param.LineLam = [0];end
         try;param.PIX_SP = PIX_SP;catch;param.PIX_SP = [0];end

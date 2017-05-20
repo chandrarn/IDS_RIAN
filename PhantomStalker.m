@@ -18,8 +18,8 @@ import MDSplus.*
 addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
 pdc3 =0; % pdc3 flag should be set automatically
 % Correcting old data flag
-OldData = 0;
-shots =  [170504005];% Old data to correct, in ascending order.
+OldData = 1;
+shots =  [170519001:170519002];% Old data to correct, in ascending order.
 SavePath = 'T:\\PhantomMovies\\';
 % Load phaotm librarie
 LoadPhantomLibraries();

@@ -13,7 +13,7 @@ modes = 1:nBDmodes; % array of mode numbers to recombine and add together
 
 first = param.peaks(1, 2);
 last = param.peaks(find(param.peaks(:, 1) <= 36, 1, 'last'), 2);
-chan_bound_t = (floor(first)):(ceil(last)+10);
+chan_bound_t = (floor(first)):(ceil(last));
 
 first = param.peaks(find(param.peaks(:, 1) >= 37, 1), 2);
 last = param.peaks(end, 2);
@@ -21,7 +21,7 @@ chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
 %lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
-lam_bound = round(param.Center(1, 2))-BDwing -28  : round(param.Center(1, 2))+BDwing + 28 ;
+lam_bound = round(param.Center(1, 1))-BDwing -10  : round(param.Center(1, end))+BDwing + 10 ;
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
@@ -70,11 +70,14 @@ end
 if isempty(timeBound)
    timeBound = 1:length(time)-1;
 end
-size(time)
-size(timeBound)
+size(time);
+size(timeBound);
 time = time(timeBound);
 
-
+display(['Lam Bound: ' num2str(lam_bound(1)) '-' num2str(lam_bound(end))]); 
+display(['Chan Bound T: ' num2str(chan_bound_t(1)) '-' num2str(chan_bound_t(end))]); 
+display(['Chan Bound P: ' num2str(chan_bound_p(1)) '-' num2str(chan_bound_p(end))]); 
+display(['Time Bound: ' num2str(time(1)) '-' num2str(time(end))]); 
 
 for m = 1:2
     if m == 1 % toroidal fiber

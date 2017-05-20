@@ -10,7 +10,7 @@
 % numbers and coordinates of first and last channel, and excludes dead
 % channels.
 %
-% PHASE 2:
+% PHASE 2: 
 % Perform first fit for approximate coordinates of all channels.  Bin in
 % WAVELENGTH direction and fit sum of all spatial direction Gaussians using
 % the same fitting parameters for all.  This yields approximate center coordinates
@@ -88,20 +88,20 @@ calPlasmaFit.file = '/home/aaron/IDS/Calibration/Images/calPlasma';
 xWing = 2; % real space domain (1 => 3, 2 => 5)
 
 % PHASE 1 -----------------------------------------------------------------
-doPHASE1 = 0;
-shot1 = 170504007; % always use this one
-shot2 = 170504005; % set 'shot2' to zero if only using one fiber
-xlim = [30,370]; % pixels for initial plotting, leave empty if unsure
-ylim = [45,70]; % pixels for initial plotting, leave empty if unsure
+doPHASE1 = 1;
+shot1 = 170519001; % always use this one
+shot2 = 170519002; % set 'shot2' to zero if only using one fiber
+xlim = [1,318]; % pixels for initial plotting, leave empty if unsure
+ylim = [45,75]; % pixels for initial plotting, leave empty if unsure
 
 % PHASE 2 -----------------------------------------------------------------
-doPHASE2 = 0;
+doPHASE2 = 1;
 % chanNums = [1:4, 6:21, 23:72]; % 5 and 22 are dead
 %chanNums = [1:62]; % 5 dead, 22 weak but including - 5/31/13
 %chanNums = [1:4, 6:53, 55:72]; % 
 chanNums = [1:4, 6:72]; % Nothing wrong with 54, if lens is removed durring calibration
-firstCenter = [48,55]; % Center position of first channel, [real, wavelength]
-lastCenter = [352,58]; % Center position of last channel, [real, wavelength]
+firstCenter = [4,56]; % Center position of first channel, [real, wavelength]
+lastCenter = [309,59]; % Center position of last channel, [real, wavelength]
 brightWing = 5; % number of pixels in wavelength space for Gaussian fitting domain
 force = []; % force finding channel(s) at specific x location(s)
 remove = [];
@@ -165,7 +165,7 @@ doPHASE7 = 0;
 discard = [1,2,4,33:36];
 
 % PHASE 8 -----------------------------------------------------------------
-doPHASE8 = 1; % VERY IMPORTANT
+doPHASE8 = 0; % VERY IMPORTANT
 
 %-------------------------------------------------------------------------
 %saveToShots = [150505022:150505023,150506009:150506011]; % mohawk port, orthogonal to midplane, and axial port. 'impacts4'
