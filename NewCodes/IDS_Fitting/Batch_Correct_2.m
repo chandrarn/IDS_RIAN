@@ -42,7 +42,7 @@ end
 shots = [170518025,170518028,170518030];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 %shots=shots(end:-1:1);
 nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
-timeBound = [20:100]; % time point bounds for BD filtering.  Leave blank to use whole movie
+timeBound = [30:95]; % time point bounds for BD filtering.  Leave blank to use whole movie
 line = [1:4]; % spectral line number, from longest to shortest wavelength
 useTree = 1; % Use ONLY in cases where caliibration was unable to save to the tree
 %Is the file/tree stucture from HIT-SI, or HIT-SI3?

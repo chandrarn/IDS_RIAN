@@ -15,9 +15,9 @@ addpath('T:\IDS\Data Repository\');
 %% Settings
 
 % shot = 12858010;
-shot = 16052402510;
+shot = 17051803010;
 chan_sets = [3:32;32:61]; % available sets of channel numbers
-chans1 = chan_sets(2, :);
+chans1 = chan_sets(1, :);
 deadCh = [4]; % dead channel for displaying time instead of data
 line = 2; % line INDEX, ie: dat(#).vel
 

@@ -147,9 +147,9 @@ factor = 1; % estimated correction to motor speed
 
 % PHASE 5 C --------------------------------------------------------------
 doPHASE5C =1;
-motorCalShot = 170504006;
-binChanMotor = 295;178;
-channel = 59;
+motorCalShot = 170504008;
+binChanMotor = 177;178;
+channel = 6;
 lamMotor = [434.75, 435.84];
 trimTime5C = [300:2:2500];
 %slopeRange = [90,80]; % for 60nm/min

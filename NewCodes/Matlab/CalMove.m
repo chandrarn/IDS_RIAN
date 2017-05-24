@@ -7,12 +7,12 @@
 % newShot = [151217016:151217026];
 % refShot = 160525019
 % newShot = [ 160601011:160601026];
-refShot = [170518020];160728013;
+%refShot = [170518020];160728013;
 
 % Shots to apply calibration to
-newShot = [-1];
+newShot = [-1,170518025,170518028,170518030];
 
-postHoc = 0; 
+postHoc = 2; 
 % 0 All movement within tree
 % 1 all movement outside tree
 % 2 new data in workspace
@@ -55,9 +55,9 @@ if postHoc==0 || postHoc == 3 || postHoc == 2
     stt.LAMBDA = 0;
     stt.VOLTAGE = 0;
     stt.MASS = 0;
-    stt.PEAKS = 1;
-    stt.REL_INT = 1;
-    stt.PIX_SP = 0;
+    stt.PEAKS = 0;
+    stt.REL_INT = 0;
+    stt.PIX_SP = 1;
     stt.IMPACTS = 0;
 
     %%  make changes
