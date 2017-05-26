@@ -64,8 +64,8 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
             % EXACTLY the Inj frequency, power may be spread over a few
             % frequency bins.
             harm1 = bandpower(signal-offset,Fsamp,[13,17].*1e3);
-            harm2 = bandpower(signal-offset,Fsamp,[26,31].*1e3);
-            harm3=0;harm4=0;
+            harm2=0;harm3=0;harm4=0;
+            try harm2 = bandpower(signal-offset,Fsamp,[26,31].*1e3);end 
             try harm3 = bandpower(signal-offset,Fsamp,[41,46].*1e3);end
             try harm4 = bandpower(signal-offset,Fsamp,[55.5,60.5].*1e3);end
             %harm5 = bandpower(signal-offset,Fsamp,[70,75].*1e3);

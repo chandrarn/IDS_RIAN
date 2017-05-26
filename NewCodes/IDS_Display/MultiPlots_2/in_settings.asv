@@ -577,7 +577,7 @@ switch n
         in(1).line=2;
         in(1).color = {'r';'r'};%[66, 188, 244]./255};
         in(1).style = {'-','--'};
-        %in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
+        in(1).legend = [num2str(in(1).shot) ': +65.6kA'];
         in(1).phaseShift = -pi/2;
         in(1).error = 0; % 1 / 0 for errorbars
         in(1).velShift = -5; % SHIFT VELOCITY
@@ -594,7 +594,7 @@ switch n
         in(2).phaseShift = 2*pi -pi/2-pi;
         in(2).shot = 170518028;
         in(2).color = {'b';'b'};%[182, 244, 66]./255};
-        %in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
+        in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
         %Supression of Dissenting data:
         % For C III
         if in(1).line==2
@@ -606,7 +606,6 @@ switch n
         dispSupress=[zeros(2,1,2)];
         
         tempSupress=[zeros(2,1,2)];
-        end
        
         
 

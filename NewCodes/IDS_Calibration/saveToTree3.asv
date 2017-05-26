@@ -153,7 +153,7 @@ function AddData(HitTree, Tag, Data)
         disp(['Modifying ' Tag]);
         current_node = HitTree.getNode(Tag);
         % Make REAL Sure we dont write NaN to tree
-        if any(isnan(Data))
+        if isnan(Data)
             error(['WARNING: ATTEMPT TO WRITE NaN TO ' Tag '. ABORTING']);
         end
         current_node.putData(MDSarg(Data))

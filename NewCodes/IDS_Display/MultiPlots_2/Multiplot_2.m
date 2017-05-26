@@ -12,6 +12,7 @@ clc;
 % Pick set of shots and analysis settings
  n = 1;% 160728013, 160728012
 % n = 7;% 129499, 129496
+n=12;
 [in,timebound,chan_range,xlim,supress] = in_settings(n);
 
 % Pick plot type
@@ -73,6 +74,7 @@ for n = 1:length(in)
     end
     
     Itor(:,n) = dat(1).Itor;
+    ItorTime(:,n) = dat(1).ItorTime;
     
     % Plot labels
     switch plt.Type
@@ -121,15 +123,15 @@ for n = 1:length(in)
         doubleplot(1,:) = 1:(length(dat(1).impacts))/2;
         doubleplot(2,:) = (length(dat(1).impacts)/2)+1:length(dat(1).impacts);
 
-        if plotType ==1
+        if plt.Type ==1
             data(1:length(dat(1).time),:) = dat(in(n).line).vel(:,doubleplot(1,:))+in(n).velShift;
             data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
                dat(in(n).line).temp(:,doubleplot(2,:))+in(n).velShift;  
-        elseif plotType==2   
+        elseif plt.Type==2   
             data(1:length(dat(1).time),:) = dat(in(n).line).temp(:,doubleplot(1,:));
             data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
                 dat(in(n).line).temp(:,doubleplot(2,:)); 
-        elseif plotType==3
+        elseif plt.Type==3
              data(1:length(dat(1).time),:) = dat(in(n).line).int(:,doubleplot(1,:));
             data(length(dat(1).time)+1:2*length(dat(1).time),:) = ...
                 dat(in(n).line).int(:,doubleplot(2,:));
@@ -216,7 +218,7 @@ for n = 1:length(in)
             
             % Correct the phase measurement to account for 2Pi jumps, has
             % optional sanity check output plots.
-            [dataPhase] = correct_phase(dataPhase,plt.SanityPhase,n,i,ax,in,param,data);
+            [dataPhase] = correct_phase(dataPhase,plt.SanityPhase,n,i,ax,in,param,data,dat(1).impacts);
             
             % Plot Explainatory Reconstruction
             if n==plt.ExplainReconst % only plot the shot we want
@@ -233,8 +235,8 @@ for n = 1:length(in)
                 for m = 1:size(data, 2);
                     assignin('base','data',data);
                     selection = data((nTimeLim(1):nTimeLim(2))+(i-1)*size(data,1)/2, m);
-                    dataAvg(m,i) = mean(selection(~isnan(selection)));
-                    dataStd(m,i) = std(selection(~isnan(selection)));
+                    dataAvg(m,i) = nanmean(selection);
+                    dataStd(m,i) = nanstd(selection);
                     dataDispl(m,i) = dataStd(m,i).*(1/14500)./(2*pi) .*1e5;
 
                 end
@@ -250,8 +252,19 @@ for n = 1:length(in)
     % Displacement and FFT are essentially the same for HIT-SI and HIT-SI3
     
     % DISPLACEMENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,supress.Disp,...
-                doubleplot,RMS,dat,data,pRel,CutPow,plt.includeTemp,plt.Error,lnwdth);
+    if isempty(in(1).fftPlot)
+        %% If we arent doing the FFT
+        figure(h(4));
+        hold on;
+        for i = 1: 1+in(n).doubleplot
+            plot(dat(1).impacts(1:size(data,2)),dataDispl(:,i),'color', in(n).color{i}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{i});
+        end
+        ylabel('Average Radius of Displacement [cm]');set(gca,'ylim',[0,8]);
+        figure(h(2));
+    else
+        [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,supress.Disp,...
+                    doubleplot,RMS,dat,data,pRel,CutPow,plt.includeTemp,plt.Error,lnwdth);
+    end
     
     % FFT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     if plt.FFT
@@ -263,22 +276,17 @@ for n = 1:length(in)
          set(ax(9),'xlim',xlim); title(ax(9),'Inj. Mode % of Reconstruction');
         plot(ax(9),xlim,[CutPow,CutPow].*100,'--k');
     end
-    if n==1;figure(h(2));end
+
     
     % Plot Flow Profile if no FFT
     if isempty(in(n).fftPlot) && in(n).doubleplot==1
-
-        plot(dat(1).impacts(1:size(data,2)),-(dataAvg(:,1)-dataAvg(:,2))./2,'color' ,'k','marker','*','LineWidth', lnwdth, 'LineStyle', in(n).style{1});
-        plot(xlim,[0,0],'--k')
-        ylabel('Toroidal Flow [km/s]'); set(gca,'ylim',[-10,10]);
-        xlabel('Impacts [cm]');
-        
-    % Plot the black dashed line on the flow plot otherwise
+         plotFlow(dataStd,dataAvg,supress.Flow,plt.Error,...
+    saveDat,ax,h,n,in,plt.Type,dat,doubleplot,data,[],lnwdth);
+       
     elseif ~isempty(in(n).fftPlot)
         
         plot(ax(7),xlim,[0,0],'--k'); set(ax(7),'xlim',xlim);
         ylabel(ax(7),'[km/s]'); set(ax(7),'ylim',[-6,6]);set(ax(7),'xticklabel',[]);
-        h(2).delete;
         linkaxes([ax(6) ax(7) ax(8) ],'x');
         if plt.includeTemp
             linkaxes([ax(6) ax(7) ax(8) ax(17) ],'x');
@@ -430,6 +438,7 @@ for n = 1:length(in)
     
     
     % Plot Data XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    figure(h(1)); % Make current (unclear why this is necessary)
     [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,lnwdth,in,...
         n,saveDat,plt.Tor,timebound,fntsz,plt,sidebar,titles);
 end
@@ -438,7 +447,9 @@ end
 if ~isempty(in(1).fftPlot)
     %% Add Legend to Phase Plot
     %[leg,icon] = legend(ax8,phaseH(1,:,2),{in(1:1:end).legend});
-    [leg,icon] = legend(ax(8),squeeze(phaseH(1,:,2)),{in(1:1:end).legend});
+    [leg,icon] = legend(ax(8),squeeze(phaseH(1,:,2)),{'00000000000000000',...
+        '00000000000000000'});
+    sgn = ['-','+'];
     for i = 0: length(in)-1
         try %(~plt.Error || in(1).shot < 829499)
             set(icon(length(in)+1+2*i),'Color',in(i+1).color{1});
@@ -448,6 +459,10 @@ if ~isempty(in(1).fftPlot)
             set(icon(length(in)+1+i).Children.Children,'Color',in(i+1).color{1});
             set(icon(i+(floor(length(icon))/2+1)).Children.Children,'LineStyle','-');
         end
+        ItrMean = mean(Itor(find(ItorTime(:,n).*in(1).injTimeScale>timebound(1),1):...
+            find(ItorTime(:,n).*in(1).injTimeScale>timebound(2),1),i+1));
+        legTxt = [num2str(in(i+1).shot) ': ' sgn((sign(ItrMean)>0)+1) num2str(ItrMean,3)];
+        icon(i+1).String=legTxt;
     end
 end
 figure(h(1));
@@ -477,7 +492,7 @@ if plt.Averages
 end
 
 %% Plot Currents
-ax=plot_currents(plt.compactCurrents,ax,h,dat,in,Itor,fntsz,lnwdth,timebound);
+ax=plot_currents(plt.compactCurrents,ax,h,dat,in,Itor,ItorTime,fntsz,lnwdth,timebound);
 
 %% Saving
 if saving

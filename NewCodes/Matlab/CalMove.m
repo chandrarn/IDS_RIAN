@@ -2,6 +2,8 @@
 % Sometimes MDSplus gets upset about NATIVEvalue
 %clear all;
 
+import MDSplus.*
+
 % What shot to pull reference parameters from
 % refShot = 151124035;
 % newShot = [151217016:151217026];
@@ -12,11 +14,12 @@
 % Shots to apply calibration to
 newShot = [-1,170518025,170518028,170518030];
 
-postHoc = 2; 
+postHoc = 4; 
 % 0 All movement within tree
 % 1 all movement outside tree
 % 2 new data in workspace
 % 3 old data outside tree
+% 4 move each shot from its own dat into tree
 
 addpath('T:\IDS\Data Analysis\');
 addpath('T:\IDS\Calibration\');
@@ -26,7 +29,7 @@ addpath('T:\IDS\Data Repository');
 if postHoc==0 || postHoc == 3 || postHoc == 2
     
     if postHoc==0 %get data from ref shot in tree
-        import MDSplus.*
+        
         Conn = Connection('landau.hit');
         Conn.openTree('hitsi3',refShot);
 
@@ -97,7 +100,7 @@ if postHoc==0 || postHoc == 3 || postHoc == 2
     for i = newShot
         saveToTree3(i,stt,param.CalLam,param.LineLam,0,param.IonMass,param.peaks,param.REL_INT,param.PIX_SP,param.impacts);
     end
-else
+elseif postHoc == 2
     load(['dat' num2str(refShot) '10.mat']);
     param = dat(1).param;
     for i = newShot
@@ -113,4 +116,26 @@ else
             disp([ 'Unable to open shot ' num2str(i)]);
         end
     end
+elseif postHoc == 4
+    stt.CAL_LAMBDA = 0;
+    stt.LAMBDA = 0;
+    stt.VOLTAGE = 0;
+    stt.MASS = 0;
+    stt.PEAKS = 0;
+    stt.REL_INT = 0;
+    stt.PIX_SP = 1;
+    stt.IMPACTS = 0;
+    
+    files=dir('T:\IDS\Data Repository\dat16*.mat');
+    for i = 1:length(files)
+        shot=files(i).name;
+        if length(shot)==18
+            load(['T:\IDS\Data Repository\' shot ]);
+            if mod(i,10)==0;display(['File ' num2str(i) '/' num2str(length(files))]);end
+            param=dat(1).param;
+            saveToTree3(str2num(shot(4:12)),stt,param.CalLam,param.LineLam,0,...
+                param.IonMass,param.peaks,param.REL_INT,param.PIX_SP,param.impacts);
+        end
+    end
+    
 end

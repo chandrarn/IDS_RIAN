@@ -17,7 +17,7 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 170518025;
+shot = 170518028;
 
 plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
@@ -37,9 +37,9 @@ plotType =3; % 3 = IDS velocity
               % 18 = Turbulent velocity brodened temperature
 % shiftTime = 1.335; % PSI-TET, shift time axis for plot a [ms]
 % shiftTime = 0.9377; % NIMROD, shift time axis for plot a [ms]
-line = 2; % which line to plot, if5 multiple
+line = 1; % which line to plot, if multiple ( from to low to high lambda)
 shiftTime = 0; % IDS data, shift time axis for plot a [ms]
-shiftVel = 0; % km/s velocty shift
+shiftVel = 2; % km/s velocty shift
                 % -20 for 129810 - 129820
                 % -7 for 129499, etc. !!! REVISED TO -14
 shiftVel2 = 0;-4.0376; % special case for second fiber array
@@ -107,12 +107,12 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:28]; % toroidal, mohawk port perp.
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
- chan_ranget = 6:29; % 
+ chan_ranget = 12:32; % 
 %chan_ranget = [11:29];
 %chan_ranget = [6:26]%[9:29];
 
  chan_rangep = [46:63]; % poloidal
-chan_rangep = [37:62]; % poloidal
+chan_rangep = [46:66]; % poloidal
 %chan_rangep = [42:62];[44:65];
 %151217026 Presentation chords
 %chan_ranget = [12:26];

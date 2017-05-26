@@ -4,6 +4,7 @@
 
 function [h,ax] = fig_settings(plt,in)
 
+h = zeros(12,1);
 S = get(0, 'ScreenSize');
 analysisHeight = S(4) - 1;
 figureWidth = (S(3) - 12)/2.25;
@@ -24,6 +25,8 @@ if plt.Averages || isempty(in(1).fftPlot)
     h(2) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Toroidal Flow: ' num2str(in(1).line)], 'Position',...
         [5, 35, figureWidth, 0.35 * analysisHeight], 'Color', [1 1 1]);
     ax(2) = axes('Parent', h(2), 'Position', [0.075, 0.15, 0.85, 0.75]);
+    h(4) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Displacement: ' num2str(in(1).line)], 'Position',...
+        [5, 35, figureWidth, 0.35 * analysisHeight], 'Color', [1 1 1]);
     hold on;
     grid on;
 end
@@ -40,9 +43,9 @@ if plt.Averages && ~isempty(in(1).fftPlot)
     hold on;
     grid on;
 elseif ~plt.Averages && ~isempty(in(1).fftPlot) % This one usually Executes
-    h(2)=figure;
+    %h(2)=figure;
     % Main Analysis Figure
-    h(6) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Analysis: ' in(1).legend], 'Position',...
+    h(6) = figure('Visible', 'on', 'Name', ['MULTIPLOT-Analysis: ' num2str(in(1).shot)], 'Position',...
     [5, 1+25, figureWidth-450+Widen, analysisHeight-25], 'Color', [1 1 1]);
     ax(6) = axes('Parent',h(6),'Position',[0.15,.08,.8,.25]); hold on; grid on;box on; % Phse
     ax(7) = axes('Parent',h(6),'Position',[0.15,.38,.8,.25]); hold on; grid on;box on; % Flow

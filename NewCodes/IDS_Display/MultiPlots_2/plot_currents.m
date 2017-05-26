@@ -1,6 +1,6 @@
 %% Plot Currents for Multiplots_2
 
-function [ax] = plot_currents(compactCurrents,ax,h,dat,in,Itor,fntsz,lnwdth,timebound)
+function [ax] = plot_currents(compactCurrents,ax,h,dat,in,Itor,ItorTime,fntsz,lnwdth,timebound)
 
     if ~compactCurrents % Separate currents plot
         j = figure('Visible', 'on', 'Name', 'MULTIPLOT-Currents', 'Position',...

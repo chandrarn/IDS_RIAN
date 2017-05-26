@@ -1,5 +1,5 @@
 %% Correct phase from sine_fit and make sanity plots, for Multiplots_2
-function [dataPhase] = correct_phase(dataPhase,plotSanityPhase,n,i,ax,in,param,data)
+function [dataPhase] = correct_phase(dataPhase,plotSanityPhase,n,i,ax,in,param,data,impacts)
     % mod the phase
     % Sanity check
     if plotSanityPhase==1;eval(['plot(ax(' num2str(9+n) '),dat(1).impacts(1:size(data,2)),dataPhase(:,i).*180./pi,''color'',partialColor{n,i},''linewidth'',lnwdth)']);end
@@ -14,9 +14,9 @@ function [dataPhase] = correct_phase(dataPhase,plotSanityPhase,n,i,ax,in,param,d
     for j = 2:size(data, 2)
         if (dataPhase(j,i) - dataPhase(j-1,i))>(pi)
             dataPhase(j,i) = dataPhase(j,i)-(2*pi);
-            disp(['JUMP: -2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
+            disp(['JUMP: -2Pi, Line: ' num2str(i) ' Impact: ' num2str(impacts(j))]);
         elseif (dataPhase(j,i) - dataPhase(j-1,i))<(-pi)
-           disp(['JUMP: +2Pi, Line: ' num2str(i) ' Impact: ' num2str(dat(1).impacts(j))]);
+           disp(['JUMP: +2Pi, Line: ' num2str(i) ' Impact: ' num2str(impacts(j))]);
             dataPhase(j,i) = dataPhase(j,i)+(2*pi);
         end
     end
