@@ -39,7 +39,6 @@ function PIX_SP = newCalPlasma(motorCalShot, PIX_SP, binChanMotor, lamMotor,  PE
             motorCenters = zeros(n_time, size(binChanMotor, 1));
             xdata = 1:n_wavelength; % 1:96
             for n = 1:n_time % loop over time to find the speed of the line
-                
                 ydata = squeeze(dataB(n, :)); % curve for one channel, one time
 
                 [amp, x0] = max(ydata);

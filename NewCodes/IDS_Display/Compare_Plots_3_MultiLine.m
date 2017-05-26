@@ -17,7 +17,7 @@ end
 
 %% Plot_1 Settings: %%%%
 format long g
-shot = 160524025;
+shot = 170518025;
 
 plotType =3; % 3 = IDS velocity
               % 4 = IDS temperature 
@@ -107,7 +107,7 @@ chan_ranget = [5:32]; % toroidal, mohawk port in midplane
 % chan_ranget = [8:28]; % toroidal, mohawk port perp.
 % chan_ranget = [8:27]; % toroidal, 71 degree port
 % chan_ranget = [8:24]; % toroidal, axial port
- chan_ranget = 5:29; % NIMROD mohawk
+ chan_ranget = 6:29; % 
 %chan_ranget = [11:29];
 %chan_ranget = [6:26]%[9:29];
 

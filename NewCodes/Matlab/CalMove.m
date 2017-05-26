@@ -1,48 +1,64 @@
-% move calibration data from one shot in the tree to another
+%% Modify calibration data (in param structure) in an existing shot
 % Sometimes MDSplus gets upset about NATIVEvalue
 %clear all;
+
+% What shot to pull reference parameters from
 % refShot = 151124035;
 % newShot = [151217016:151217026];
 % refShot = 160525019
 % newShot = [ 160601011:160601026];
-refShot = 160728013;
-newShot = [ 160524024:160524025];
+%refShot = [170518020];160728013;
 
-postHoc = 3; % All movement within tree, all movement outside tree, old data outside tree
+% Shots to apply calibration to
+newShot = [-1,170518025,170518028,170518030];
+
+postHoc = 2; 
+% 0 All movement within tree
+% 1 all movement outside tree
+% 2 new data in workspace
+% 3 old data outside tree
 
 addpath('T:\IDS\Data Analysis\');
 addpath('T:\IDS\Calibration\');
 addpath('T:\IDS\Data Repository');
 
 
-if postHoc==0 || postHoc == 3
-    %get data from ref shot in tree
-    if postHoc==0
-    import MDSplus.*
-    Conn = Connection('landau.hit');
-    Conn.openTree('hitsi3',refShot);
+if postHoc==0 || postHoc == 3 || postHoc == 2
+    
+    if postHoc==0 %get data from ref shot in tree
+        import MDSplus.*
+        Conn = Connection('landau.hit');
+        Conn.openTree('hitsi3',refShot);
 
-    param.peaks = double(NATIVEvalue(Conn.get('\IDS_PEAKS').getDoubleArray)); 
-    param.IonMass = double((Conn.get('\IDS_MASS')));
-    param.LineLam = double((Conn.get('\IDS_LAMBDA')));
-    param.PIX_SP = double((Conn.get('\IDS_PIX_SP')));
-    param.REL_INT = double((Conn.get('\IDS_REL_INT')));
-    param.impacts = double((Conn.get('\IDS_IMPACTS')));
-    param.CalLam = double((Conn.get('\CAL_LAMBDA')));
-    else
+        param.peaks = double(NATIVEvalue(Conn.get('\IDS_PEAKS').getDoubleArray)); 
+        param.IonMass = double((Conn.get('\IDS_MASS')));
+        param.LineLam = double((Conn.get('\IDS_LAMBDA')));
+        param.PIX_SP = double((Conn.get('\IDS_PIX_SP')));
+        param.REL_INT = double((Conn.get('\IDS_REL_INT')));
+        param.impacts = double((Conn.get('\IDS_IMPACTS')));
+        param.CalLam = double((Conn.get('\CAL_LAMBDA')));
+    elseif postHoc==3 % Get data from an existing dat file
         load(['dat' num2str(refShot) '10.mat']);
         param = dat(1).param;
+    elseif postHoc==2 % Get data from a variable in the workspace
+        try;param.peaks = PEAKS;catch;param.PEAKS = [0];end
+        try;param.IonMass = MASS;catch;param.IonMass = [0];end
+        try;param.LineLam = LAMBDA;catch;param.LineLam = [0];end
+        try;param.PIX_SP = PIX_SP;catch;param.PIX_SP = [0];end
+        try;param.REL_INT = REL_INT;catch;param.REL_INT = [0];end
+        try;param.impacts = impacts;catch;param.impacts = [0];end
+        try;param.CalLam = CAL_LAMBDA;catch;param.CAL_LAMBDA = [0];end
     end
     %[param,options] = loadParams(refShot,[1],1,1);
     param.IonMass;
-    stt.CAL_LAMBDA = 1;
-    stt.LAMBDA = 1;
-    stt.VOLTAGE = 1;
-    stt.MASS = 1;
-    stt.PEAKS = 1;
-    stt.REL_INT = 1;
+    stt.CAL_LAMBDA = 0;
+    stt.LAMBDA = 0;
+    stt.VOLTAGE = 0;
+    stt.MASS = 0;
+    stt.PEAKS = 0;
+    stt.REL_INT = 0;
     stt.PIX_SP = 1;
-    stt.IMPACTS = 1;
+    stt.IMPACTS = 0;
 
     %%  make changes
     % load('T:\RChandra\NewCodes\Geometry\impacts5.mat');
@@ -64,7 +80,7 @@ if postHoc==0 || postHoc == 3
      %param.CalLam = 4.65025E-7; % TEMP FIX 151217026, it was set to 656nm
      % For 16051800 and on
 %      param.LineLam = [4.6418104e-07; 4.64741788164247e-07;4.64913483710916e-07;4.65024612594789e-07];
-    param.IonMass = [12;16;12;16];
+    %param.IonMass = [12;16;12;16];
     %param.Inst_Temp(:,1:4) = [param.Inst_Temp(:,2) ,param.Inst_Temp(1:3)]; 
     % fix callibration error for 160518 and 19
 %     figure; plot(param.peaks(:,2),param.peaks(:,3));
@@ -74,7 +90,7 @@ if postHoc==0 || postHoc == 3
     %param.peaks(30:end,3) = param.peaks(30:end,3) +0.241756163349005-0.008248785763696;% spectrometer bumped between shots
     % for [ 161018009:161018027]
     %param.impacts=[55.1426895042383,54.7460283605416,54.2042712159711,53.5188539152350,51.7246811561919,50.6206808792197,49.3825182058684,48.0134746975174,46.5171787952431,44.8975962031896,43.1590193780746,41.3060561526868,39.3436175235280,37.2769046349659,35.1113949943933,32.8528279549308,30.5071895041457,28.0806963991051,25.5797796898091,23.0110676746732,20.3813683332339,17.6976512826375,14.9670293057320,12.1967394997207,9.39412409533987,6.56661099739543,3.72169409823381,0.866913416323006,-1.99016488741679,-4.84196856256908,-7.68093933831615,-10.4995529554835,-13.2903391084416,-16.0459012440117,-18.7589361649027,-55.1426895042383,-54.7460283605416,-54.2042712159711,-53.5188539152350,-52.6915930523813,-51.7246811561919,-50.6206808792197,-49.3825182058684,-48.0134746975174,-46.5171787952431,-44.8975962031896,-43.1590193780746,-41.3060561526868,-39.3436175235280,-37.2769046349659,-35.1113949943933,-32.8528279549308,-28.0806963991051,-25.5797796898091,-23.0110676746732,-20.3813683332339,-17.6976512826375,-14.9670293057320,-12.1967394997207,-9.39412409533987,-6.56661099739543,-3.72169409823381,-0.866913416323006,1.99016488741679,4.84196856256908,7.68093933831615,10.4995529554835,13.2903391084416,16.0459012440117,18.7589361649027];
-    param.peaks=reshape(param.peaks,55,5);
+    %param.peaks=reshape(param.peaks,55,5);
     %param.peaks(:,3)=[64.5716336319537;64.7152980165642;64.2565331013773;64.3445402214184;64.1250179998928;64.0890338259467;64.1463385146612;64.2174714123468;63.9810086118457;64.0595592833065;64.0454113041528;63.9832502318573;63.9919644797281;63.8377753625362;63.8359635374366;63.7285859978438;63.7272664521733;63.6572336478220;63.6182377553779;63.6114257110770;63.4878595184938;63.4472873595804;63.3180277773227;63.3407453050264;63.4449343679779;63.2957371643466;63.3186866939331;63.1711350645435;63.2771451665117;63.5250198380493;63.2142286840405;63.3895954313549;63.5569488414813;63.4186655089664;64.5098465240965;64.2108206158928;62.5493763726233;63.0240634814728;63.3577060082475;62.8930852872995;62.3332787562951;62.4663542826716;62.4115543338672;62.4592504373161;62.3544579913494;62.2606300852417;62.4598056504478;62.4600286788039;62.1960477622280;62.0840092227450;62.2965089895570;62.2411779184083;62.1388031211641;62.1092184966401;62.1560378112728;62.0951687329900;62.0269058427853;62.0108595031086;61.9417243765801;62.0495196576660;62.0493435396346;61.9393956855534;61.9340556575973;61.8560231970375;61.8179316995842;61.6073533323180;61.7263135768224;61.7206944689361;61.7976898117878;62.0337779527818];
     %param.PIX_SP=param.PIX_SP.*.97; %slight adjustment
     %    figure; plot(param.peaks(:,2),param.peaks(:,3));

@@ -13,7 +13,7 @@ modes = 1:nBDmodes; % array of mode numbers to recombine and add together
 
 first = param.peaks(1, 2);
 last = param.peaks(find(param.peaks(:, 1) <= 36, 1, 'last'), 2);
-chan_bound_t = (floor(first)):(ceil(last)+10);
+chan_bound_t = (floor(first)):(ceil(last));
 
 first = param.peaks(find(param.peaks(:, 1) >= 37, 1), 2);
 last = param.peaks(end, 2);
@@ -21,7 +21,7 @@ chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
 %lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
-lam_bound = round(param.Center(1, 2))-BDwing -28  : round(param.Center(1, 2))+BDwing + 28 ;
+lam_bound = round(param.Center(1, end))-BDwing -10  : round(param.Center(1, 1))+BDwing +10 ;
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
@@ -34,7 +34,8 @@ try
     dummy = importdata(['Shot ' int2str(shot) '.mat']);
     data = dummy.CineArray;
     time = dummy.TimeVector;
-    data = data(end:-1:1, :,:);%precut time
+    % Sometimes PhantomStalker appears to flip the y-axis, should be fixed
+    %data = data(end:-1:1, :,:);%precut time
     newCineType = 1;
     clear dummy;
 catch
@@ -70,11 +71,14 @@ end
 if isempty(timeBound)
    timeBound = 1:length(time)-1;
 end
-size(time)
-size(timeBound)
+size(time);
+size(timeBound);
 time = time(timeBound);
 
-
+display(['Lam Bound: ' num2str(lam_bound(1)) '-' num2str(lam_bound(end))]); 
+display(['Chan Bound T: ' num2str(chan_bound_t(1)) '-' num2str(chan_bound_t(end))]); 
+display(['Chan Bound P: ' num2str(chan_bound_p(1)) '-' num2str(chan_bound_p(end))]); 
+display(['Time Bound: ' num2str(time(1)) '-' num2str(time(end))]); 
 
 for m = 1:2
     if m == 1 % toroidal fiber
@@ -175,16 +179,16 @@ for m = 1:2
     %% Save Data for Recombining
     if m == 1
         Ak_t = Ak(modes); % save weights
-        figure; semilogy(Ak./max(Ak),'-*','linewidth',2);
+        figure; semilogy(cumsum(Ak.^2)./sum(Ak.^2),'-*','linewidth',2);
         set(gca,'fontsize',12);set(gca,'fontweight','bold');
         title('BD Normalized Weights'); grid on;
-        xlabel('Mode #');ylabel('\lambda_n/\lambda_0'); hold on;
+        xlabel('Mode # m');ylabel('\Sigma^m_{k=1}\lambda_k^2 / \Sigma^N_{k=1}\lambda_k^2'); hold on;
         V_t = V(:, modes); % save chronos
         topos_t = topos(modes, :, :); % save topos
         assignin('base','Ak_t',Ak);
     else
         Ak_p = Ak(modes); % save weights
-        semilogy(Ak./max(Ak),'r-*','linewidth',2);
+        semilogy(cumsum(Ak.^2)./sum(Ak.^2),'r-*','linewidth',2);
         legend({'First Array','Second Array'});
         V_p = V(:, modes); % save chronos
         topos_p = topos(modes, :, :); % save topos
@@ -212,10 +216,16 @@ end
 %toc
 %clear data2 Ak_t V_t topos_t Ak_p V_tp topos_p;
 %assignin('base','Ak_t',Ak_t);assignin('base','Ak_p',Ak_p);
+
+% Make figure of CCD
+% Note: y-axis flip is to maintain consistancy with PCC
 figure; 
 surf(squeeze(sum(data, 1)./size(data,1))); 
+title(['Shot: ' num2str(shot)]);
+ylabel('\lambda Axis');
+xlabel('Spatial Axis');
 shading interp;
-view([ 0 90]);
+view([ 0 -90]);
 
 
 

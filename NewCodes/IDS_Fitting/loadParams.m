@@ -4,9 +4,10 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
     %shot = 150625006; % because we can't save to pdc3
     %spectraPix = 1.1660e-11;
     
-    lineShift = [-14,0,11]; % attempt to manually fit to the lines;
-    %y0 offset, set the cal line to OII
-    y0 = 0;11;8;
+    %lineShift = [-14,0,11]; % attempt to manually fit to the lines;
+    %y0 offset, set the cal line the second O-II line (in between
+    %C-Doublet)
+    y0 = 1;11;8;
     x0 = 0;-4; % -2.5;
     if useTree % try using the tree, if that doesnt work, try importing callibration from file
         import MDSplus.*;
@@ -40,9 +41,8 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
         param.CalLam = double(NATIVEvalue(Data.getFloatArray)); % [m]
         Data = Conn.get('\IDS_LAMBDA');
         LineLam = double(NATIVEvalue(Data.getFloatArray)); % [m]
-        param.LineLam = LineLam; % skip calibration lambda, which is first
-        % for doublet, this automatically selects both lines
-        % USed to be LineLam(line)
+        param.LineLam = LineLam;
+        % param.LineLam = LineLam(line); 
         
         Data = Conn.get('\IDS_PIX_SP');
         param.PIX_SP = double(NATIVEvalue(Data.getFloatArray)); % [m] (1 x n_channels) wavelength spacing per channel
@@ -108,10 +108,12 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
             else
                 temp = param.PIX_SP(i);
             end
-            param.Center(i, n) = param.peaks(i, 3)-(param.LineLam(3) - param.LineLam(line(n))) ./ temp; %mean(param.PIX_SP);%LineLam replaces CalLam, Mean(pixsp) underpredicts
+            param.Center(i, n) = param.peaks(i, 3)+(param.LineLam(3) - param.LineLam(line(n))) ./ temp; %mean(param.PIX_SP);%LineLam replaces CalLam, Mean(pixsp) underpredicts
          end
     end
-
+    
+    param.LineLam = LineLam(line); % This needs to be after center finding
+        
     % Establish Constants
     param.limits = [0 100; -40e3 40e3];
         % limits for sanitizing final output- throws out data  that exceeds the

@@ -64,16 +64,20 @@ for n = 1:n_time
         
         xBound = x0 - param.xWing : x0 + param.xWing;
         yBound = y0 - param.yWing +0: y0 + param.yWing-0;
-%         if nn == 2
-%             yBound = y0 - param.yWing-4 : y0 + param.yWing+1; %ELIMINATE -3 23/2/16
-%         elseif nn == 3
-%             yBound = y0 - param.yWing-4 : y0 + param.yWing-1;
-%         elseif nn == 4
-%             yBound = y0 - param.yWing +0: y0 + param.yWing-4;
-%         else
-%             yBound = y0 - param.yWing -1: y0 + param.yWing+1;
-%         end
-        yBound = yBound -1*(m>30); % second set of fibers is slightly lower.
+        
+        % Modify the fitting bounds slightly depending on what line we have
+        if floor(param.LineLam(nn).*1e10) == 4641 % nn == 1
+            yBound = y0 - param.yWing -3: y0 + param.yWing+3;
+        elseif floor(param.LineLam(nn).*1e10) == 4647 % nn == 2
+            yBound = y0 - param.yWing-0 : y0 + param.yWing+4; 
+        elseif floor(param.LineLam(nn).*1e10) == 4649 % nn == 3
+            yBound = y0 - param.yWing-0 : y0 + param.yWing + 0;
+        elseif floor(param.LineLam(nn).*1e10) == 4650 % nn == 4
+            yBound = y0 - param.yWing -3: y0 + param.yWing+0;  
+        end
+        
+        %yBound = yBound +1*(m>30); % second set of fibers is slightly higher.
+        
         if param.calcError
             n_pts = (2 * param.xWing + 1) * (length(yBound));
             blank1 = NaN * ones(1, 6); % overwrite parameters if found to be bad
@@ -85,7 +89,9 @@ for n = 1:n_time
             [X,Y] = meshgrid(1:size(data,3),yBound);
             yBound
             figure; surf(X,Y,squeeze(sum(data(:,yBound,:),1))); shading interp;
-            view([ 0 90]);set(gca,'ylim',[0,size(data,2)]);
+            view([ 0 -90]);set(gca,'ylim',[0,size(data,2)]);
+            title(['Line ' num2str(nn)]);
+            ylabel('\lambda Axis');xlabel('Spatial Axis');
             fig =1;
         end
 
