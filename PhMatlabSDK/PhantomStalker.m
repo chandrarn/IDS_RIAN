@@ -15,10 +15,10 @@ clear all;
 %close all;
 %clc;
 import MDSplus.*
-addpath(genpath('T:\RChandra\Phantom\PhMatlabSDK'));
+addpath(genpath('C:\Users\HITSI\Documents\GitHub\IDS_RIAN\PhMatlabSDK'));
 pdc3 =0; % pdc3 flag should be set automatically
 % Correcting old data flag
-OldData = 1;
+OldData = 0;
 shots =  [170519001:170519002];% Old data to correct, in ascending order.
 SavePath = 'T:\\PhantomMovies\\';
 % Load phaotm librarie
@@ -84,7 +84,8 @@ while cont==1;
     if ~OldData
         % The tree will send out this flag after a shot in hitsi3 and pdc3
         Conn.openTree('hitsi3',0); 
-        Conn.get('wfevent("END_OF_STORE")');
+        Conn.get('wfevent("DTACQ_TRIGGERED")');
+        
     end
     
     if OldData
@@ -185,9 +186,9 @@ while cont==1;
     %Get total number of frames
     pImCount = libpointer('uint32Ptr',0);
     pExpos = libpointer('uint32Ptr',0);
-    Exposure=double(pExpos.Value/10^9); % Put Exposure in S
     PhGetCineInfo(CH, PhFileConst.GCI_IMAGECOUNT, pImCount);
     PhGetCineInfo(CH, PhFileConst.GCI_EXPOSURENS, pExpos);
+    Exposure=double(pExpos.Value/10^9); % Put Exposure in S
     TimeVector=[0;0;0];
     
     %Subtract the trigger time ( trigger is time zero, not begining of
@@ -268,7 +269,7 @@ while cont==1;
          title('Time Vector');
          subplot(1,2,1);
      end
-     surf(sum(CineArray,3)./size(CineArray,3)); shading interp; view([ 0 90]); colorbar;
+     surf(sum(CineArray,3)./size(CineArray,3)); shading interp; view([ 0 -90]); colorbar;
      title(['Shot: ' num2str(shotnum)]);
      
      drawnow; % pull buffer immediately.
