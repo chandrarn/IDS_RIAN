@@ -67,9 +67,7 @@ for n = 1:n_time
             yBound = y0 - param.yWing -3: y0 + param.yWing+0;  
         end
         
-        %yBound = yBound +1*(m>30); % Because the second array is slightly
-        %higher, shift the window (Removed, calibration y0 should catch
-        %this).
+        %yBound = yBound +1*(m>30); % second set of fibers is slightly higher.
         
         if param.calcError
             n_pts = (2 * param.xWing + 1) * (length(yBound));
