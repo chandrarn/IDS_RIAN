@@ -1,0 +1,272 @@
+\begin{thebibliography}{34}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Akcay(2013)]{akcay2013extended}
+Cihan Akcay.
+\newblock \emph{Extended Magnetohydrodynamic Simulations of the Helicity
+  Injected Torus (HIT-SI) Spheromak Experiment with the NIMROD Code}.
+\newblock PhD thesis, University of Washington, 2013.
+
+\bibitem[Cothran et~al.(2006)Cothran, Brown, Schaffer, et~al.]{cothran2006fast}
+CD~Cothran, Michael~R Brown, MJ~Schaffer, et~al.
+\newblock Fast high resolution echelle spectroscopy of a laboratory plasma.
+\newblock \emph{Review of scientific instruments}, 77\penalty0 (6), 2006.
+
+\bibitem[Baciero et~al.(2001)Baciero, Zurro, McCarthy, Burgos, and
+  Tribaldos]{Baciero2001JT-II}
+A.~Baciero, B.~Zurro, K.~J. McCarthy, C.~Burgos, and V.~Tribaldos.
+\newblock A multi-channel spectroscopic system for measuring impurity ion
+  temperatures and poloidal rotation velocities in {TJ-II}.
+\newblock \emph{Review of Scientific Instruments}, 72\penalty0 (1):\penalty0
+  971--974, 2001.
+\newblock \doi{10.1063/1.1326008}.
+\newblock URL \url{http://dx.doi.org/10.1063/1.1326008}.
+
+\bibitem[Bamford et~al.(1992)Bamford, Carolan, and
+  Bunting]{bamford1992combination}
+RA~Bamford, PG~Carolan, and CA~Bunting.
+\newblock Combination of multichannel detection and fast time response in a
+  multichord spectrometer.
+\newblock \emph{Review of scientific instruments}, 63\penalty0 (10):\penalty0
+  4962--4964, 1992.
+
+\bibitem[Den~Hartog and Fonck(1994)]{den1994fast}
+DJ~Den~Hartog and RJ~Fonck.
+\newblock A fast spectroscopic diagnostic for the measurement of plasma
+  impurity ion dynamics.
+\newblock \emph{Review of scientific instruments}, 65\penalty0 (10):\penalty0
+  3238--3242, 1994.
+
+\bibitem[Sieck et~al.(2005)Sieck, Hamp, Izzo, Jarboe, Nelson, O'Neill, Redd,
+  and Smith]{sieck2005initial}
+PE~Sieck, WT~Hamp, VA~Izzo, TR~Jarboe, BA~Nelson, RG~O'Neill, AJ~Redd, and
+  RJ~Smith.
+\newblock Initial studies of steady inductive helicity injection on the
+  {HIT-SI} experiment.
+\newblock \emph{IEEE transactions on plasma science}, 33\penalty0 (2):\penalty0
+  723--728, 2005.
+
+\bibitem[Hossack et~al.(2017)Hossack, Jarboe, Chandra, Morgan, Sutherland,
+  Penna, Everson, and Nelson]{Hossack_HitSi3}
+A.C. Hossack, T.R. Jarboe, R.N. Chandra, K.D. Morgan, D.A. Sutherland, J.M.
+  Penna, C.J. Everson, and B.A. Nelson.
+\newblock Plasma response to sustainment with imposed-dynamo current drive in
+  {HIT-SI} and {HIT-SI3}.
+\newblock \emph{Nuclear Fusion}, 57\penalty0 (7):\penalty0 076026, 2017.
+\newblock URL \url{http://stacks.iop.org/0029-5515/57/i=7/a=076026}.
+
+\bibitem[Jarboe et~al.(2012)Jarboe, Victor, Nelson, Hansen, Akcay, Ennis,
+  Hicks, Hossack, Marklin, and Smith]{jarboe2012imposed}
+TR~Jarboe, BS~Victor, BA~Nelson, CJ~Hansen, C~Akcay, DA~Ennis, NK~Hicks,
+  AC~Hossack, GJ~Marklin, and RJ~Smith.
+\newblock Imposed-dynamo current drive.
+\newblock \emph{Nuclear Fusion}, 52\penalty0 (8):\penalty0 083017, 2012.
+
+\bibitem[Hossack et~al.(2013)Hossack, Firman, Jarboe, Prager, Victor, Wrobel,
+  and Ziemba]{hossack2013reduction}
+Aaron~C Hossack, Taylor Firman, Thomas~R Jarboe, James~R Prager, Brian~S
+  Victor, Jonathan~S Wrobel, and Timothy Ziemba.
+\newblock Reduction of plasma density in the {Helicity Injected Torus} with
+  steady inductance experiment by using a helicon pre-ionization source.
+\newblock \emph{Review of Scientific Instruments}, 84\penalty0 (10):\penalty0
+  103506, 2013.
+
+\bibitem[O'Neill(2007)]{ONeil2007experimental}
+Robert~Griffith O'Neill.
+\newblock \emph{An experimental study of helicity injection current drive in
+  the HIT-SI spheromak}.
+\newblock PhD thesis, University of Washington, 2007.
+
+\bibitem[O`Neill et~al.(2007)O`Neill, Smith, Akcay, Hamp, Hosn, Jarboe, Redd,
+  Sieck, Sutphin, Wrobel, et~al.]{Oneil2007overview}
+RG~O`Neill, RJ~Smith, C~Akcay, WT~Hamp, RZ~Aboul Hosn, TR~Jarboe, AJ~Redd,
+  PE~Sieck, GL~Sutphin, JS~Wrobel, et~al.
+\newblock Overview of {HIT-SI} diagnostic systems.
+\newblock \emph{Journal of fusion energy}, 26\penalty0 (1-2):\penalty0
+  131--133, 2007.
+
+\bibitem[McKee et~al.(1999)McKee, Ashley, Durst, Fonck, Jakubowski, Tritz,
+  Burrell, Greenfield, and Robinson]{mckee1999beam}
+G~McKee, R~Ashley, R~Durst, R~Fonck, M~Jakubowski, K~Tritz, K~Burrell,
+  C~Greenfield, and J~Robinson.
+\newblock The beam emission spectroscopy diagnostic on the {DIII-D} tokamak.
+\newblock \emph{Review of scientific instruments}, 70\penalty0 (1):\penalty0
+  913, 1999.
+
+\bibitem[Fonck et~al.(1984)Fonck, Darrow, and Jaehnig]{fonck1984determination}
+RJ~Fonck, DS~Darrow, and KP~Jaehnig.
+\newblock Determination of plasma-ion velocity distribution via charge-exchange
+  recombination spectroscopy.
+\newblock \emph{Physical Review A}, 29\penalty0 (6):\penalty0 3288, 1984.
+
+\bibitem[Burgos et~al.(2012)Burgos, Schmitz, Loch, and
+  Ballance]{burgos2012hybrid}
+JM~Mu{\~n}oz Burgos, O~Schmitz, SD~Loch, and CP~Ballance.
+\newblock Hybrid time dependent/independent solution for the he i line ratio
+  temperature and density diagnostic for a thermal helium beam with
+  applications in the scrape-off layer-edge regions in tokamaks.
+\newblock \emph{Physics of Plasmas (1994-present)}, 19\penalty0 (1):\penalty0
+  012501, 2012.
+
+\bibitem[Hossack(2015)]{hossack2015study}
+Aaron Hossack.
+\newblock \emph{A Study of Plasma Dynamics in HIT-SI using Ion Doppler
+  Spectroscopy}.
+\newblock PhD thesis, University of Washington, 2015.
+
+\bibitem[de~Wit et~al.(1994)de~Wit, Pecquet, Vallet, and
+  Lima]{de1994biorthogonal}
+T~Dudok de~Wit, A-L Pecquet, J-C Vallet, and R~Lima.
+\newblock The biorthogonal decomposition as a tool for investigating
+  fluctuations in plasmas.
+\newblock \emph{Physics of Plasmas (1994-present)}, 1\penalty0 (10):\penalty0
+  3288--3300, 1994.
+
+\bibitem[Victor et~al.(2015)Victor, Akcay, Hansen, Jarboe, Nelson, and
+  Morgan]{BVictor}
+B~S Victor, C~Akcay, C~J Hansen, T~R Jarboe, B~A Nelson, and K~D Morgan.
+\newblock Development of validation metrics using biorthogonal decomposition
+  for the comparison of magnetic field measurements.
+\newblock \emph{Plasma Physics and Controlled Fusion}, 57\penalty0
+  (4):\penalty0 045010, 2015.
+\newblock URL \url{http://stacks.iop.org/0741-3335/57/i=4/a=045010}.
+
+\bibitem[Fenzi et~al.(2001)Fenzi, Fonck, Jakubowski, and Mc~Kee]{fenzi20012d}
+Christel Fenzi, Raymond~J Fonck, Marcin Jakubowski, and George~R Mc~Kee.
+\newblock {2D} turbulence imaging in {DIII-D} via beam emission spectroscopy.
+\newblock \emph{Review of Scientific Instruments}, 72\penalty0 (1):\penalty0
+  988--991, 2001.
+
+\bibitem[Kutz(2013)]{kutz2013data}
+J~Nathan Kutz.
+\newblock \emph{Data-driven modeling \& scientific computation: methods for
+  complex systems \& big data}.
+\newblock Oxford University Press, 2013.
+
+\bibitem[Gavish and Donoho(2014)]{gavish2014optimal}
+Matan Gavish and David~L Donoho.
+\newblock The optimal hard threshold for singular values is $\sqrt{3}/4$.
+\newblock \emph{IEEE Transactions on Information Theory}, 60\penalty0
+  (8):\penalty0 5040--5053, 2014.
+
+\bibitem[Rapisarda et~al.(2007)Rapisarda, Zurro, Tribaldos, Baciero,
+  et~al.]{rapisarda2007role}
+D~Rapisarda, B~Zurro, V~Tribaldos, A~Baciero, et~al.
+\newblock The role of a fast ion component on the heating of the plasma bulk.
+\newblock \emph{Plasma Physics and Controlled Fusion}, 49\penalty0
+  (3):\penalty0 309, 2007.
+
+\bibitem[Nikoli\'{c} et~al.(2001)Nikoli\'{c}, Mijatovi\'{c}, Djurovi\'{c},
+  Kobilarov, and Konjevi\'{c}]{Nikolić200167}
+D~Nikoli\'{c}, Z~Mijatovi\'{c}, S~Djurovi\'{c}, R~Kobilarov, and
+  N~Konjevi\'{c}.
+\newblock Deconvolution of plasma broadened non-hydrogenic neutral atom lines.
+\newblock \emph{Journal of Quantitative Spectroscopy and Radiative Transfer},
+  70\penalty0 (1):\penalty0 67 -- 74, 2001.
+\newblock ISSN 0022-4073.
+\newblock \doi{http://dx.doi.org/10.1016/S0022-4073(00)00123-0}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0022407300001230}.
+
+\bibitem[Heesterman et~al.(2003)Heesterman, Sall, Giraud, Zastrow, Meigs,
+  Felton, and Joffrin]{Heesterman}
+P.~J.~L. Heesterman, I.~Sall, C.~Giraud, K-D. Zastrow, A.~Meigs, R.~Felton, and
+  E.~Joffrin.
+\newblock Real-time analysis of charge-exchange spectroscopy data at {JET}.
+\newblock \emph{Review of Scientific Instruments}, 74\penalty0 (3):\penalty0
+  1783--1786, 2003.
+\newblock \doi{10.1063/1.1534406}.
+\newblock URL \url{http://dx.doi.org/10.1063/1.1534406}.
+
+\bibitem[Avdeeva et~al.(2016)Avdeeva, Miroshnikov, Bakharev, Kurskiev, Patrov,
+  Sergeev, and Schegolev]{Avdeeva}
+G~F Avdeeva, I~V Miroshnikov, N~N Bakharev, G~S Kurskiev, M~I Patrov, V~Yu
+  Sergeev, and P~B Schegolev.
+\newblock {CXRS} measurements of ion temperature in {NBI} discharges on
+  {Globus-M} spherical tokamak.
+\newblock \emph{Journal of Physics: Conference Series}, 666\penalty0
+  (1):\penalty0 012002, 2016.
+\newblock URL \url{http://stacks.iop.org/1742-6596/666/i=1/a=012002}.
+
+\bibitem[Pablant et~al.(2014)Pablant, Bell, Bitter, Delgado-Aparicio, Hill,
+  Lazerson, and Morita]{Pablant}
+N.~A. Pablant, R.~E. Bell, M.~Bitter, L.~Delgado-Aparicio, K.~W. Hill,
+  S.~Lazerson, and S.~Morita.
+\newblock Tomographic inversion techniques incorporating physical constraints
+  for line integrated spectroscopy in stellarators and tokamaks.
+\newblock \emph{Review of Scientific Instruments}, 85\penalty0 (11):\penalty0
+  11E424, 2014.
+\newblock \doi{10.1063/1.4891977}.
+\newblock URL \url{http://dx.doi.org/10.1063/1.4891977}.
+
+\bibitem[Reinke et~al.(2012)Reinke, Podpaly, Bitter, Hutchinson, Rice,
+  Delgado-Aparicio, Gao, Greenwald, Hill, Howard, Hubbard, Hughes, Pablant,
+  White, and Wolfe]{Reinke}
+M.~L. Reinke, Y.~A. Podpaly, M.~Bitter, I.~H. Hutchinson, J.~E. Rice,
+  L.~Delgado-Aparicio, C.~Gao, M.~Greenwald, K.~Hill, N.~T. Howard, A.~Hubbard,
+  J.~W. Hughes, N.~Pablant, A.~E. White, and S.~M. Wolfe.
+\newblock X-ray imaging crystal spectroscopy for use in plasma transport
+  research.
+\newblock \emph{Review of Scientific Instruments}, 83\penalty0 (11):\penalty0
+  113504, 2012.
+\newblock \doi{10.1063/1.4758281}.
+\newblock URL \url{http://dx.doi.org/10.1063/1.4758281}.
+
+\bibitem[Luxon and Brown(1982)]{Luxon}
+J.L. Luxon and B.B. Brown.
+\newblock Magnetic analysis of non-circular cross-section tokamaks.
+\newblock \emph{Nuclear Fusion}, 22\penalty0 (6):\penalty0 813, 1982.
+\newblock URL \url{http://stacks.iop.org/0029-5515/22/i=6/a=009}.
+
+\bibitem[Lazerson and the DIII-D~Team(2015)]{Lazerson}
+S.A. Lazerson and the DIII-D~Team.
+\newblock Three-dimensional equilibrium reconstruction on the {DIII-D} device.
+\newblock \emph{Nuclear Fusion}, 55\penalty0 (2):\penalty0 023009, 2015.
+\newblock URL \url{http://stacks.iop.org/0029-5515/55/i=2/a=023009}.
+
+\bibitem[Levenberg(1944)]{LEVENBERG}
+Kenneth Levenberg.
+\newblock A method for the solution of certain non-linear problems in least
+  squares.
+\newblock \emph{Quarterly of Applied Mathematics}, 2\penalty0 (2):\penalty0
+  164--168, 1944.
+\newblock ISSN 0033569X, 15524485.
+\newblock URL \url{http://www.jstor.org/stable/43633451}.
+
+\bibitem[Marquardt(1963)]{marquardt1963algorithm}
+Donald~W Marquardt.
+\newblock An algorithm for least-squares estimation of nonlinear parameters.
+\newblock \emph{Journal of the society for Industrial and Applied Mathematics},
+  11\penalty0 (2):\penalty0 431--441, 1963.
+
+\bibitem[Fan and Yuan(2005)]{Fan2005}
+Jin-yan Fan and Ya-xiang Yuan.
+\newblock On the quadratic convergence of the levenberg-marquardt method
+  without nonsingularity assumption.
+\newblock \emph{Computing}, 74\penalty0 (1):\penalty0 23--39, 2005.
+\newblock ISSN 1436-5057.
+\newblock \doi{10.1007/s00607-004-0083-1}.
+\newblock URL \url{http://dx.doi.org/10.1007/s00607-004-0083-1}.
+
+\bibitem[Press et~al.(1996)Press, Teukolsky, Vetterling, and
+  Flannery]{press1996numerical}
+William~H Press, Saul~A Teukolsky, William~T Vetterling, and Brian~P Flannery.
+\newblock \emph{Numerical recipes in C}, volume~2.
+\newblock Cambridge university press Cambridge, 1996.
+
+\bibitem[Nocedal and Wright(2006)]{nocedal2006numerical}
+Jorge Nocedal and Stephen Wright.
+\newblock \emph{Numerical optimization}.
+\newblock Springer Science \& Business Media, 2006.
+
+\bibitem[Yuen(2010)]{yuen2010bayesian}
+Ka-Veng Yuen.
+\newblock \emph{Bayesian methods for structural dynamics and civil
+  engineering}.
+\newblock John Wiley \& Sons, 2010.
+
+\end{thebibliography}
