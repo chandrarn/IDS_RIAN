@@ -56,16 +56,19 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
         mdsclose();
     else
         %cd('T:\IDS\Calibration\Calibration repository')
-        temp = importdata(['T:\IDS\Calibration\Calibration repository\' int2str(shot) '.mat'] ); % load in params from file
-        assignin('base','temp',temp);
-        param.peaks = temp.PEAKS;
-        param.IonMass = (1.66e-27)*temp.MASS(line(1));
-        param.CalLam = temp.CAL_LAMBDA;
-        param.LineLam = temp.LAMBDA(line);
-        param.PIX_SP = temp.PIX_SP;
-        param.REL_INT = temp.REL_INT;
-        param.Impacts = temp.IMPACTS;
-        
+%         temp = importdata(['T:\IDS\Calibration\Calibration repository\' int2str(shot) '.mat'] ); % load in params from file
+        %temp = importdata(['C:\Users\Rian\Documents\MATLAB\thosematfilestho\Shot ' int2str(shot) '.mat'] ); % load in params from file
+        temp = importdata(['dat' num2str(shot) '10.mat']);
+        %assignin('base','temp',temp);
+        param.peaks = temp(1).param.peaks;
+        param.IonMass = temp(1).param.IonMass(line);
+        param.CalLam = temp(1).param.CalLam;
+        param.LineLam = [4.64181027837185e-07;4.64741788164247e-07;4.64913483710916e-07;4.65024612594789e-07];%temp(1).param.LineLam(line);
+        LineLam=param.LineLam;
+        param.PIX_SP = temp(1).param.PIX_SP;
+        param.REL_INT = temp(1).param.REL_INT;
+        param.Impacts = temp(1).param.impacts;
+        clear temp
         assignin('base','param',param)
         
     end
@@ -95,7 +98,7 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
             else
                 temp = param.PIX_SP(i);
             end
-            param.Center(i, n) = param.peaks(i, 3)+(param.LineLam(3) - param.LineLam(line(n))) ./ temp; %mean(param.PIX_SP);%LineLam replaces CalLam, Mean(pixsp) underpredicts
+            param.Center(i, n) = param.peaks(i, 3)+(param.LineLam(2) - param.LineLam(line(n))) ./ temp; %mean(param.PIX_SP);%LineLam replaces CalLam, Mean(pixsp) underpredicts
          end
     end
     

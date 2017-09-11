@@ -9,6 +9,7 @@ addpath('C:\Program Files\MDSplus\MATLAB');
 %cd('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes\BDfilter');
 addpath('T:\PhantomMovies\');
 
+
 % Load Constants and Parameters
 
 [param, options] = loadParams(shot, line, hitsi3, useTree);
@@ -23,24 +24,36 @@ if isempty(nBDmodes)
     % Load Data Array
     %Try to import the files from the new format, if possible
         try
-            temp = importdata(['Shot ' int2str(shot) '.mat']);
-            data(1,:,:)=temp.CineArray;
-            time=temp.TimeVector;
-            newCineType=1;
-            data(2,:,:) = zeros(128,336);
+            dummy = importdata(['Shot ' int2str(shot) '.mat']);
+            data = dummy.CineArray;
+            time = dummy.TimeVector;
+            % Sometimes PhantomStalker appears to flip the y-axis, should be fixed
+            %data = data(end:-1:1, :,:);%precut time
+            data=shiftdim(data,2); % Necessary to match NSTX codes
+            newCineType = 1;
+            clear dummy;
         catch
-        if ~isempty(s.sim)
-            shot = str2num([int2str(s.sim) int2str(shot)]); % FUCK YEAH
-        end
-        data = importdata(['shot' int2str(shot) '.mat']); % [counts] (time x wavelength space x channel space)
-        time = importdata(['t' int2str(shot) '.mat']); % [ms]
-        newCineType = 0;
+            if ~isempty(s.sim)
+                shot = str2num([int2str(s.sim) int2str(shot)]); % FUCK YEAH
+            end
+            data = importdata(['shot' int2str(shot) '.mat']); % [counts] (time x wavelength space x channel space)
+            time = importdata(['t' int2str(shot) '.mat']); % [ms]
+            newCineType = 0;
 
-        % Unflip images to correct for flip during Python conversion
-        data = data(:, end:-1:1, end:-1:1);
-        data = cast(data, 'double'); % comes in as 'uint16' and ruins everything
-        %Olny if you're NSTX and dont know whats up.
+            % Unflip images to correct for flip during Python conversion
+            data = data(:, end:-1:1, end:-1:1);
+            data = cast(data, 'double'); % comes in as 'uint16' and ruins everything
+            %Olny if you're NSTX and dont know whats up.
         end
+        data = data(timeBound,:,:);
+        time = time(timeBound);
+        figure; 
+        surf(squeeze(sum(data, 1)./size(data,1))); 
+        title(['Shot: ' num2str(shot)]);
+        ylabel('\lambda Axis');
+        xlabel('Spatial Axis');
+        shading interp;
+        view([ 0 -90]);
     
 else
     [data, time] = BDfilter(shot, nBDmodes, timeBound, param, s);

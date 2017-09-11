@@ -19,12 +19,20 @@ clear all;
 close all; 
 %clc;
 profile on;
+
+useTree=0; % Flag for performing all operations on local machine. Requires
+% Access to previously made .dat file. Avoids all MDS calls
+if useTree
 import MDSplus.*
 Conn=Connection('landau.hit');
+else
+addpath('C:\Users\Rian\Documents\MATLAB\thosematfilestho\');%Where old data is stored
+end
 global homePath;
 homePath = pwd;
-homePath=homePath(1:end-21); % grab the base filepath for the git repository
-addpath(genpath([homePath '\NewCodes'])); % recursively add files to path
+%homePath=homePath(1:end-21); % grab the base filepath for the git repository
+addpath(genpath([homePath(1:end-21) '\NewCodes'])); % recursively add files to path
+addpath(genpath([homePath(1:end-11) '\NewCodes']));
 assignin('base','homePath',homePath);
 
 
@@ -39,12 +47,11 @@ try
 try
     %addAllThePaths;
 end
-shots = [170518025,170518028,170518030];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
+shots = [129499];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 %shots=shots(end:-1:1);
-nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
-timeBound = [30:95]; % time point bounds for BD filtering.  Leave blank to use whole movie
-line = [1:4]; % spectral line number, from longest to shortest wavelength
-useTree = 1; % Use ONLY in cases where caliibration was unable to save to the tree
+nBDmodes = []; % number of modes to save after BD filtering. Leave blank for no BD filtering
+timeBound = [80:340]; % time point bounds for BD filtering.  Leave blank to use whole movie
+line = [2]; % spectral line number, from longest to shortest wavelength
 %Is the file/tree stucture from HIT-SI, or HIT-SI3?
 % (length(shots(1))>6)
 
@@ -62,8 +69,12 @@ label2 = 'Major Radius [cm]'; % Poloidal Section
 frame_sum = 1; % number of frames to sum (typically 1)
 plots = 0; % makes plots for debugging
 
+if useTree
 linuxDataPath = '/home/aaron/IDS/IDSdata/';
 windowsDataPath = 'T:\IDS\Data Repository\';
+else
+windowsDataPath = 'C:\Users\Rian\Documents\MATLAB\thosematfilestho\';
+end
 
 s.sim = [];  % tag indicating type of simulation
               % 2 = NIMROD --- weighted by n^2 ---  NO temperature  --- 7x timeSum
@@ -104,6 +115,7 @@ for n = 1:length(shots)
     end
     
     if(~hitsi3)
+        if useTree
         %I ASSUME THAT THIS IS HOW TAGS WORK
         HitTree = Tree('hitsi',shots(n));
         Data = Conn.get('\I_INJ_X');
@@ -126,6 +138,15 @@ for n = 1:length(shots)
         dat(1).Itor = 1e-3 * Itor;
        
         mdsclose();
+        else
+        oldDat = importdata(['dat' num2str(shots(n)) '10.mat']);% Load old data
+        dat(1).iinjxTime = oldDat(1).iinjxTime;
+        dat(1).iinjx = oldDat(1).iinjx;
+        dat(1).iinjyTime = oldDat(1).iinjyTime;
+        dat(1).iinjy = oldDat(1).iinjy;
+        dat(1).ItorTime = oldDat(1).ItorTime;
+        dat(1).Itor = oldDat(1).Itor;
+        end
 %         % Also try getting data directly, with tags?
 %         %mdsopen('landau.hit::hitsi', param.shotRef);
 %         [iinjxTime, dummy, iinjx] = gen_data_in('\I_INJ_X');

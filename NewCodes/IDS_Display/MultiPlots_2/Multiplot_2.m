@@ -10,9 +10,11 @@ close all;
 clc;
 %% Settings
 % Pick set of shots and analysis settings
- n = 1;% 160728013, 160728012
+% n = 1;% 160728013, 160728012
 % n = 7;% 129499, 129496
-n=12;
+% n=12; %170518025;,170518028
+n = 8; % 129499
+
 [in,timebound,chan_range,xlim,supress] = in_settings(n);
 
 % Pick plot type
@@ -65,6 +67,7 @@ for n = 1:length(in)
     
     if ~(exist('dat','var') && strcmp(dat(1).title,['Shot ' num2str(in(n).shot)])) % speed up runtime if data is already loaded
         input=load(['T:\IDS\Data Repository\dat' num2str(in(n).shot) '10.mat']); % Real HIT-SI Data
+		input=load(['C:\Users\Rian\Documents\MATLAB\thosematfilestho\' num2str(in(n).shot) '.mat']); % Local HIT-SI Data (for no BD test)
         dat=input.dat;
         if flipLoImpact ~=0 % flip the lower array about its centeral impact.
             [dat] = flip_lo(dat,flipLoImpact,in,n);

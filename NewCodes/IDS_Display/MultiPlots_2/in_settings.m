@@ -386,22 +386,22 @@ switch n
 
     case 8
         %% Low Performance HIT-SI / Comparison
-        % in(1).shot = 129499;%150625998;
-        % in(1).line = 3; % line # NB: 1 is C III, 2 is O II, 3 is C III !
-        % in(1).legend = [num2str(in(1).shot) ': +90kA'];
-        % in(1).color = {'r';'r'};%[225,105,0]./255};
-        % in(1).style = {'-','--'};
-        % in(1).error = 0; % 1 / 0 for errorbars
-        % in(1).velShift = 5; % SHIFT VELOCITY
-        % in(1).intScale = 1; % scale factor for intensity
-        % in(1).timeShift = 0; % ms, shift time base
-        % in(1).timeScale = 1;1e-3; % scale timebase to put into ms
-        % in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
-        % in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
-        % in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
-        % in(1).fftPlot = [1]; % FFT of signal, n frequencies
-        % in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
-        % in(1).phaseShift =-pi/2;
+         in(1).shot = 129499;%150625998;
+         in(1).line = 2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+         in(1).legend = [num2str(in(1).shot) ': +90kA'];
+         in(1).color = {'r';'r'};%[225,105,0]./255};
+         in(1).style = {'-','--'};
+         in(1).error = 0; % 1 / 0 for errorbars
+         in(1).velShift = 5; % SHIFT VELOCITY
+         in(1).intScale = 1; % scale factor for intensity
+         in(1).timeShift = 0; % ms, shift time base
+         in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+         in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
+         in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
+         in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
+         in(1).fftPlot = [1]; % FFT of signal, n frequencies
+         in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
+         in(1).phaseShift =-pi/2;
         % % 129450, 129451
         % in(2) = in(1);
         % in(2).shot=129496;
