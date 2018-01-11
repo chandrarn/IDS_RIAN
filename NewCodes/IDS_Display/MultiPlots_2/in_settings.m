@@ -5,7 +5,14 @@
 % range to plot over
 
 function [in,timebound,chan_range,xlim,supress] = in_settings(n)
+% Initialization
 lines = {'O II', 'C III', 'O II','C III'};
+%Supression of Dissenting data:
+% Format: Shot - Index from Outboard - Array
+phaseSupress = [zeros(2,1,2)];
+flowSupress=[zeros(2,1,2)];
+dispSupress=[zeros(2,1,2)];
+tempSupress=[zeros(2,1,2)];
 
 switch n
     case 1
@@ -387,15 +394,15 @@ switch n
     case 8
         %% Low Performance HIT-SI / Comparison
          in(1).shot = 129499;%150625998;
-         in(1).line = 2; % line # NB: 1 is C III, 2 is O II, 3 is C III !
+         in(1).line = 1; % line # NB: 1 is C III, 2 is O II, 3 is C III !
          in(1).legend = [num2str(in(1).shot) ': +90kA'];
-         in(1).color = {'r';'r'};%[225,105,0]./255};
+         in(1).color = {[225,105,0]./255};%{'r';'r'};%
          in(1).style = {'-','--'};
-         in(1).error = 0; % 1 / 0 for errorbars
-         in(1).velShift = 5; % SHIFT VELOCITY
+         in(1).error = 1; % 1 / 0 for errorbars
+         in(1).velShift = 0; % SHIFT VELOCITY
          in(1).intScale = 1; % scale factor for intensity
          in(1).timeShift = 0; % ms, shift time base
-         in(1).timeScale = 1;1e-3; % scale timebase to put into ms
+         in(1).timeScale = 1e3; % scale timebase to put into ms
          in(1).injTimeScale = 1;1e-3; % scale the injector time to ms
          in(1).injScale = 1e0; 1e-3; % scale the inj current into kA
          in(1).doubleplot = [];[1:23; 24,26:47]; % plot coorespoinding impacts
@@ -403,15 +410,20 @@ switch n
          in(1).AnalysisTitle='HIT-SI: 0-90 Phasing, OII';
          in(1).phaseShift =-pi/2;
         % % 129450, 129451
-        % in(2) = in(1);
+         in(2) = in(1);
         % in(2).shot=129496;
-        % in(2).line=2;
+         in(2).line=1;
+         in(2).timeScale=1e3;
         % in(2).legend = [num2str(in(2).shot) ': -76kA'];
-        % in(2).color = {'b';'b'};%[66, 188, 244]./255};
+         in(2).color = {'b';'b'};%[66, 188, 244]./255};
         % in(3)=in(1);
         % in(3).shot = 129450;
         % in(3).color = {'g';'g'};%[182, 244, 66]./255};
         % in(3).legend = [num2str(in(3).shot) ': +78kA'];
+        
+         % For C III
+        if in(1).line==3
+        end
 
     case 9
         % Low Performance HIT-SI3. 0-120-240
@@ -595,17 +607,9 @@ switch n
         in(2).shot = 170518028;
         in(2).color = {'b';'b'};%[182, 244, 66]./255};
         %in(2).legend = [num2str(in(2).shot) ': -52.3kA'];
-        %Supression of Dissenting data:
+
         % For C III
-        if in(1).line==2
-        % Format: Shot - Index from Outboard - Array
-        phaseSupress = [zeros(2,1,2)];
-       
-        flowSupress=[zeros(2,1,2)];
-       
-        dispSupress=[zeros(2,1,2)];
-        
-        tempSupress=[zeros(2,1,2)];
+        if in(1).line==2 
         end
        
         
@@ -648,7 +652,7 @@ elseif in(1).shot == 151217020 || in(1).shot == 151217021 || in(1).shot == 15121
 elseif in(1).shot <= 139499
     chan_ranget = [4:27];
     chan_rangep = []; % we dont want the axial port
-    timebound = [1.6 2.0];
+    timebound = [1.7 2.0];
 elseif in(1).shot ==8129499
     timebound = [0.3,0.66];
     chan_ranget = [1:36];

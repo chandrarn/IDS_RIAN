@@ -1,4 +1,4 @@
-function[fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, param, options, nn)
+function[fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, param, options, nn,s)
 global homePath
 % Revamped 6-4-13 by ACH to handle 2D fitting
 % fit_par = [vol, x0, y0, sigx, sigy, min(Z(:))];
@@ -13,9 +13,13 @@ global homePath
 
 % weight = 0;
 
+% LSQcurvefit variable initialization
 fit_par = NaN * zeros(n_time, param.n_chan, 6); % preallocate fit parameters
 guesses = fit_par; % preallocate array of initial guesses
 bounds = NaN * zeros(n_time, param.n_chan, 4); % preallocate grid bounds array
+
+% LM variable initialization
+p_fit = fit_par;
 
 n_pts = (2 * param.xWing + 1) * (2 * param.yWing + 1);
 blank1 = NaN * ones(1, 6); % overwrite parameters if found to be bad
@@ -200,13 +204,50 @@ for n = 1:n_time
                 end
             elseif param.calcError
 %                 % Find error estimates using modified LM code
+                    % When doing error calculation, only need to do this
+                    % part, replace fit_par with p_fit
 %                 [X2, dPar(n, m, :), stddev(n, m, :), corr, R_sq] = ...
 %                     lm_sigma(f2, fit_par(n, m, :), x, z, dp, c, weight);
                    fit_par(n, m, 1) = fit_par(n, m, 1) ;%- 3;
-                  [p_fit, Chi_sq, dPar(n, m, :), stddev(n, m, :), corr, R2, cvg_hst] = ...
-                    lm(@singletGauss2DLM, fit_par(n, m, :), x, z, 0.001, dp);%, p_min,p_max,0)
+                  [p_fit(n, m, :), Chi_sq, dPar(n, m, :), stddev(n, m, :), corr, R2, cvg_hst] = ...
+                    lm(@singletGauss2DLM, double(guess), x, z, param.Weights, dp);%, p_min,p_max,0)
                     
             end
+            
+            % Rewrite of curve-fitting, unifying lm/lsqcurvefit
+            % Curve Fit -------------------------------------------------------
+            %{ 
+            try
+                 if ~param.calcError
+                    [fit_par(n, m, :), resnorm, residual, exitflag] = ...
+                        lsqcurvefit(f1, double(guess), double(x), double(z), double(lb), double(ub), options);
+                 else
+                    [fit_par(n, m, :), Chi_sq, dPar(n, m, :), stddev(n, m, :), corr, R2, cvg_hst] = ...
+                        lm(@singletGauss2DLM, double(guess), x, z, 0.001, dp);%, p_min,p_max,0)
+                    
+                 end
+             catch
+                exitflag=0;
+                 display(['Lsqcurvefit error: ' num2str(n) ',' num2str(m)]);
+             end
+            
+            % Exclude Bad Data ------------------------------------------------
+
+            % Find Amplitude
+            amp = fit_par(n, m, 1) / (2*pi * fit_par(n, m, 4) * fit_par(n, m, 5));
+
+            if or(exitflag == 0, amp < param.ampThresh)
+                if(and(m >= 8,m <= 27))
+                disp(['MaxEval reached or Amp<Thresh @: Timepoint: ' num2str(n) ' , Channel: ' num2str(m) ' , Amp: ' num2str(amp) ' , Flag: ' num2str(exitflag) ]);
+                end
+                fit_par(n, m, :) = blank1;
+                if param.calcError
+
+                    dPar(n, m, :) = blank1;
+                    stddev(n, m, :) = blank2;
+                end
+            end
+              %}
 
         else % Do not attempt to fit
 %             if(and(m >= 8,m <= 27))
@@ -220,5 +261,9 @@ for n = 1:n_time
         end % Attempt the fit at all
         
     end % Channel Loop
+    % Temporary saving to check fit_par p_fit equality (Verified)
+    assignin('base','p_fit',p_fit);
+    assignin('base','fit_par',fit_par);
+    assignin('base','dPar',dPar);
 end % Time Loop
 end

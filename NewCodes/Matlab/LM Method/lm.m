@@ -64,7 +64,7 @@ function [p,X2,sigma_p,sigma_y,corr,R_sq,cvg_hst] = lm(func,p,t,y_dat,weight,dp,
 % Algorithmic Paramters
 
  prnt = 0;		% >0 final results; >1 intermediate results; >2 plots
- MaxIter = 20*Npar;	% maximum number of iterations
+ MaxIter = 400*Npar;	% maximum number of iterations
  epsilon_1     = 1e-6;	% convergence tolerance for gradient
  epsilon_2     = 1e-5;	% convergence tolerance for parameters
  epsilon_3     = 1e-9;	% convergence tolerance for Chi-square

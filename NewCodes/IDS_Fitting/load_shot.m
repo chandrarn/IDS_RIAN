@@ -12,7 +12,7 @@ addpath('T:\PhantomMovies\');
 
 % Load Constants and Parameters
 
-[param, options] = loadParams(shot, line, hitsi3, useTree);
+[param, options] = loadParams(shot, line, hitsi3, useTree,s);
 assignin('base','param',param)
 
 %% Special Preparations
@@ -61,7 +61,7 @@ end
 
 assignin('base','data',data);
 assignin('base','options',options);
-
+%error('HALT')
 %% Frame averaging, if applicable
 
 % Note from June 2013 - these are probably all broken due to switch to 2D
@@ -93,7 +93,7 @@ end
 
 for nn = 1:length(line)
     tic
-    [fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, param, options, nn);
+    [fit_par, dPar, bounds, stddev, param, guesses] = gaussFit_2D(data, param, options, nn,s);
     %fit_par = dat(nn).fit_par;
     %bounds = dat(nn).bounds;
     %guesses = dat(nn).guesses;

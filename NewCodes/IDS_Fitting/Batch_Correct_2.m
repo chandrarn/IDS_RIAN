@@ -31,8 +31,9 @@ end
 global homePath;
 homePath = pwd;
 %homePath=homePath(1:end-21); % grab the base filepath for the git repository
-addpath(genpath([homePath(1:end-21) '\NewCodes'])); % recursively add files to path
-addpath(genpath([homePath(1:end-11) '\NewCodes']));
+%addpath(genpath([homePath(1:end-21) '\NewCodes'])); % recursively add files to path
+%addpath(genpath([homePath(1:end-11) '\NewCodes']));
+addpath(genpath([homePath(1:end-11)]));
 assignin('base','homePath',homePath);
 
 
@@ -49,8 +50,8 @@ try
 end
 shots = [129499];%,160518015,160518017,160518024,160518029,160518032,160518034:160518036];
 %shots=shots(end:-1:1);
-nBDmodes = []; % number of modes to save after BD filtering. Leave blank for no BD filtering
-timeBound = [80:340]; % time point bounds for BD filtering.  Leave blank to use whole movie
+nBDmodes = [10]; % number of modes to save after BD filtering. Leave blank for no BD filtering
+timeBound = [245:290];%[200:310]; % time point bounds for BD filtering.  Leave blank to use whole movie
 line = [2]; % spectral line number, from longest to shortest wavelength
 %Is the file/tree stucture from HIT-SI, or HIT-SI3?
 % (length(shots(1))>6)
@@ -91,6 +92,8 @@ s.chSum = [9:11; 12:14; 16:18; 19:21; 23:25; 26:28];
 
 s.tSum = 0; % add frames together in a temporal pattern
 s.sumPatt = [50, 12, 200]; % [time point to start from, length of pattern, end]
+
+s.ErrorWeights = [''];% Give file path for error weights here
 
 %addpath('T:\RChandra\A-A-Ron Code\Matlab Code\Core Fitting Codes');
 %addpath('T:\RChandra\A-A-Ron Code\General Matlab');
@@ -233,7 +236,7 @@ for n = 1:length(shots)
 try
     save([linuxDataPath 'dat' num2str(s.sim) num2str(shots(n)) num2str(nBDmodes)], 'dat') % save 'dat' structure as 'dat<shot><nBDmodes>.mat'
 catch
-    save([windowsDataPath 'dat' num2str(s.sim) num2str(shots(n)) num2str(nBDmodes)], 'dat') % save 'dat' structure as 'dat<shot><nBDmodes>.mat'
+    save([windowsDataPath 'dat' num2str(s.sim) num2str(shots(n)) num2str(nBDmodes) '_WeightTest'], 'dat') % save 'dat' structure as 'dat<shot><nBDmodes>.mat'
 end
 %     end
 end

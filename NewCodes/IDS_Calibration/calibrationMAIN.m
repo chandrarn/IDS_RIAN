@@ -324,7 +324,7 @@ if doPHASE5
     
     % Step 2: Loop through time and fit every channel
     
-    PIX_SP = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing,trim5);
+    [PIX_SP,~,~] = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing,trim5);
     
 end
 

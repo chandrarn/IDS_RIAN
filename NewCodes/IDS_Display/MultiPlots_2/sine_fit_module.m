@@ -10,11 +10,14 @@
 function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,pRel_out,dPar_out] = ...
     sine_fit_module(in, doubleplot,dat,n,i,saveDat,plt)
 
-        for j = 1: 1+in(n).doubleplot % loop through arrays to calc fit
+        % Pre-Allocation
+        RMS= zeros(1+ ~isempty(in(n).doubleplot),i,n,200);
+        RMS_ideal= zeros(1+ ~isempty(in(n).doubleplot),i,n,200);
+        for j = 1: 1+ ~isempty(in(n).doubleplot) % loop through arrays to calc fit
             % Extract signal to fit to
             if plt.Type==1
                 signal = dat(in(n).line).vel(:,doubleplot(j,i));
-            elseif plotType == 2
+            elseif plt.Type == 2
                 signal = dat(in(n).line).temp(:,doubleplot(j,i));
             end
             
@@ -38,6 +41,7 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
             param_fft(i,(2:5)+5*(j-1),n) = [offset, amp, phase, f(I)];
             if f(I)>20000 ; f(I)=f(I)/2; end % hit harmoinc
 
+            % initial Guess
             guess(i,:,n,j) = [offset,max(signal)-offset,pi/2,freq]; % save guesses
             
             % Perform LM sine function fit, with FFT guesses
@@ -107,6 +111,18 @@ function [guess_out,param_out,saveDat,SigDev_out,RMS_out,RMS_ideal_out,data_out,
         data_out=data(:,i);
         pRel_out=pRel(i,:);
         dPar_out=dPar(n,i,:,:);
+        %{
+        display([num2str(i) ', ' num2str(n)]);
+        size(guess_out)
+        size(param_out)
+        size(saveDat)
+        size(SigDev_out)
+        size(RMS_out)
+        size(RMS_ideal_out)
+        size(data_out)
+        size(pRel_out)
+        size(dPar_out)
+        %}
 
 end
 

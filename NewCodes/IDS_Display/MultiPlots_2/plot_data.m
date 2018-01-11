@@ -13,7 +13,7 @@ function [saveDat,t] = plot_data(data,offset,dat,ax,time,errorL,errorU,...
     %% Plot Data
     if in(n).error % if plotting raw data with errobars. Unused.
         time = ndgrid(dat(1).time, 1:size(data, 2));
-        t(n, :) = errorbar(ax(1), time, data, errorL, errorU, 'color', in(n).color, 'LineWidth', lnwdth, 'LineStyle', in(n).style);
+        t(n, :) = errorbar(ax(1), time.*in(n).timeScale, data, errorL, errorU, 'color', in(n).color{1}, 'LineWidth', lnwdth, 'LineStyle', in(n).style{1});
     else
         if ~isempty(in(n).doubleplot) && ~plotTor % plot both fibers
             saveDat(n).UpperFiberData = data(1:length(dat(1).time),:);

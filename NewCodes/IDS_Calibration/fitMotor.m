@@ -1,7 +1,8 @@
-function PIX_SP = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing, trimData)
+function [PIX_SP,parameters,data] = fitMotor(shot3, shot4, PEAKS, motorSpeed, brightWing, xWing, trimData)
 %addpath('S:\MC_IDS\Matlab Code\Core Codes\lsqcurvefit');
 % SPECIAL NOTE:
 % +1 ADDED TO PEAKS, TIME BOUNDS ADDED TO MOVIE
+% Updated to return all fit parameters for all timepoints
 plotFits = 0;
 
 % Load Data
@@ -144,6 +145,8 @@ f1 = @linearFit;
 f2 = @linearLM;
 c= NaN;
 
+parameters = zeros(n_time,n_chan,6); % Storing parameters
+
 for n = 1:n_chan
 
     % find real space bound for fitting domain
@@ -262,14 +265,14 @@ for n = 1:n_chan
 
         % Fit Gaussian ----------------------------------------
         
-        parameters = lsqcurvefit(f, guess, x, z, lb, ub, options);
+        parameters(m,n,:) = lsqcurvefit(f, guess, x, z, lb, ub, options);
        % parameters1 = lsqcurvefit(f, [vol, PEAKS(n, 2)-.5, origy, sigx, sigy, min(Z(:))], x, z, lb, ub, options);
 %        origfit = parameters1(3);
-        if parameters(3) == finalfit
+        if parameters(m,n,3) == finalfit
             display(['NOCHANGECONDITIONREACHED: T ' num2str(m) ', P ' num2str(n)]);
         end
-        finalfit = parameters(3);
-        centers(n, m) = parameters(3); % save center in wavelength space only
+        finalfit = parameters(m,n,3);
+        centers(n, m) = parameters(m,n,3); % save center in wavelength space only
         
         if plotFits %&& mod(m,4) ==0
             % create fine mesh --------------------------------
@@ -284,7 +287,7 @@ for n = 1:n_chan
             xf(:, 1) = Xf(:);
             xf(:, 2) = Yf(:);
 
-            zf = singletGauss2D(parameters, xf); % calculate fit on fine mesh
+            zf = singletGauss2D(parameters(m,n,:), xf); % calculate fit on fine mesh
 
             Zf = reshape(zf, size(Xf, 1), size(Xf, 2)); % reshape into 2D image
 

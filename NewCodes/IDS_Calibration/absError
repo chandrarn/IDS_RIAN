@@ -1,0 +1,28 @@
+% Absolute error correction
+% Predicts gaussian position based on initial fit
+% Assume no optics curvature, subtract static cal from data, given
+% previously found y0, for all timepoints. Store point pairs, Int and Err,
+% for each pixel
+
+
+function [Int,Err] = absError(motorCalShot,trimTime,binChanMotor,xWing)
+
+% Load data
+addpath('T:\PhantomMovies');
+%             data = importdata(['shot' int2str(motorCalShot) '.mat']); % [counts] (time x wavelength space x channel space)
+%             time = importdata(['t' int2str(motorCalShot) '.mat']); % [ms]
+%             data = cast(data, 'double');
+data = importdata(['Shot ' int2str(motorCalShot) '.mat']);
+time = data.TimeVector(trimTime).*1e-3;
+data = data.CineArray;
+data = cast(data, 'double');
+%data = data(:, end:-1:1, end:-1:1);
+data = shiftdim(data,2);
+data = data(trimTime, end:-1:1, :);         
+[n_time, n_wavelength, n_spatial] = size(data);
+for n = 1:n_time
+     dataB(n, :) = sum(squeeze(data(n, :, binChanMotor-xWing:binChanMotor+xWing)), 2);
+end
+
+
+end

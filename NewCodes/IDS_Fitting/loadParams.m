@@ -1,4 +1,4 @@
-function[param, options] = loadParams(shot, line, hitsi3, useTree)
+function[param, options] = loadParams(shot, line, hitsi3, useTree,s)
     % This code loads in calibration parameters from the tree into the
     % "param.XXXXX" structure. It further sets fitting parameters like the
     % minimum gaussian amplitude to be fit, and the window for BD filtering
@@ -73,6 +73,13 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
         
     end
 
+    % If Doing Error Weighting
+    if ~isempty(s.ErrorWeights)
+       param.Weights = load(s.ErrorWeights); 
+    else
+        param.Weights = 0.001;
+    end
+    
 %     if length(line) == 2 % fit to a doublet
 %         param.dbl = 1; % flag to tell Gaussian fitting routine to fit doublet
 %     else
@@ -123,7 +130,7 @@ function[param, options] = loadParams(shot, line, hitsi3, useTree)
     end
     % MODIFY MAXIMUM LSQCURVEFIT ITERATIONS
     options.MaxIter = options.MaxIter*4;
-    options.MaxFunEvals= 600*4;
+    options.MaxFunEvals= options.MaxFunEvals*4;
     param.kBoltz = 1.3807e-23; % Boltzmann's Constant [SI]
     param.c = 2.99792458e8; % speed of light [SI]
 

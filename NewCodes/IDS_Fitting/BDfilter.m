@@ -21,7 +21,7 @@ chan_bound_p = (floor(first)):(ceil(last)+0);%+10
 
 %remove -3 if you see it 23/2/16
 %lam_bound = round(param.Center(1, 1)) - BDwing : round(param.Center(1, end)) + BDwing +18
-lam_bound = round(param.Center(1, end))-BDwing -10  : round(param.Center(1, 1))+BDwing +10 ;
+lam_bound = round(param.Center(1, end))-BDwing   : round(param.Center(1, 1))+BDwing ;
 % Since 'Center' is ordered longes to shortest the indexing is a little
 % weird.
 
@@ -182,10 +182,14 @@ for m = 1:2
         figure; semilogy(cumsum(Ak.^2)./sum(Ak.^2),'-*','linewidth',2);
         set(gca,'fontsize',12);set(gca,'fontweight','bold');
         title('BD Normalized Weights'); grid on;
+        set(gca,'ytick',[.2:.1:1]);
         xlabel('Mode # m');ylabel('\Sigma^m_{k=1}\lambda_k^2 / \Sigma^N_{k=1}\lambda_k^2'); hold on;
         V_t = V(:, modes); % save chronos
         topos_t = topos(modes, :, :); % save topos
         assignin('base','Ak_t',Ak);
+        assignin('base','V_t',V_t);
+        assignin('base','topos_t',topos_t);
+        
     else
         Ak_p = Ak(modes); % save weights
         semilogy(cumsum(Ak.^2)./sum(Ak.^2),'r-*','linewidth',2);

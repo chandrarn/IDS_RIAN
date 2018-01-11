@@ -1,0 +1,115 @@
+\documentclass[]{AIAA}
+\begin{comment}
+\documentclass[%
+ aip,
+%jmp,%
+%bmf,%
+%sd,%
+rsi,%
+ amsmath,amssymb,
+%preprint,%
+ reprint,%
+%author-year,%
+%author-numerical,%
+]{revtex4-1}
+\end{comment}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{placeins}
+\usepackage{multirow}
+\usepackage{epstopdf}
+%\usepackage[font=bf,justification=justified,format=plain]{caption}
+%\usepackage{hyperref}
+%\usepackage{authblk}
+%\usepackage{setspace}
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
+
+\begin{document}
+\title{RSI Letter of Response}
+\author{Aaron Hossack}\affiliation{University of Washington, Seattle, WA, USA}
+\author{Rian Chandra}\email{rianc@uw.edu}\affiliation{University of Washington, Seattle, WA, USA}
+\author{Chris Everson}\affiliation{University of Washington, Seattle, WA, USA}
+\author{Tom Jarboe}\affiliation{University of Washington, Seattle, WA, USA}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Overview}
+% Context of paper is more limited. Goal: show cababilities of simple, relatively inexpensive diagnostic, beyond those existing in published literature
+\hspace{4ex}The authors would like to thank the reviewers for their thoughtful feedback and criticisms. The following is a response to the main issues addressed in the review, particularly those raised by reviewer two, who's comments were unusually knowledgeable and insightful. The purpose of our paper is to highlight capabilities of a relatively inexpensive, simple diagnostic for laboratory plasmas. As such, we believe the proper context for the paper is other Ion Doppler Spectrometer systems, and not necessarily all other plasma spectroscopy diagnostics in general. This view informs our responses to the below.
+
+\section{BD Filtering of Spatial and Temporal Signals}
+% We follow established conventions for SVD filtering
+\hspace{4ex}The potential issues concerning alterations to the spectral shape induced by our signal filtering are well founded (``The application of this [filtering technique] to the wavelength (pixel) direction of raw spectra has the risk that removal of high frequency components could alter the spectral shape''). BD (or SVD) signal filtering conventionally truncates both the temporal and spatial basis structures (such as in Fenzi\cite{fenzi20012d}, or Classen\cite{Classen2010}), but to confirm its validity we ran our analysis codes with BD filtering turned off for HIT-SI shot 129499, CIII line, and found that the resulting profiles (like those given in Figs 12,13) are statistically identical within at most one and a half error units for nearly all points, on all but the outermost (weakest) spatial channels. The profiles show no qualitatively significant change.
+
+
+\section{Weighted Gaussian Fit/Pixel Sensitivity}
+% Not generally done on IDS (Mad citations). Given no stark/zeeman, assume gaussian (lorentzian?). Uncertainty in this fit, due to noise, is the source of the parameter error in velocity and temperature
+\hspace{4ex}Arguing that our error characterization technique is unsound, reviewer two states the following: ``Error characterization in (weighted!) least squares fitting is based on the covariance matrix. The weights involve the characterization of the photon noise and the detector noise. This is usually not mentioned in papers because it is assumed to be sufficiently established''. This is restated later on: ``All active charge exchange spectroscopy or X-ray doppler spectroscopy systems...  ...use error-characterization based on photon noise and detector introduced noise for determining the weights to be used in the Chi$^2$ minimization.'' It is difficult to refute, with evidence, the claim that a certain technique is usually left unstated. However, a review of 14 published articles involving passive and active IDS systems (or close variants such as X-Ray doppler spectroscopy) finds not a single one mentioning that a \textit{weighted} least-squares fit was performed (\cite{schorn1992}\cite{tanabe2013}\cite{hutchinson2000}\cite{burrell1980}\cite{bitter1979}\cite{khachan2001}\cite{gu2004}\cite{groebner1983}\cite{Reinke}\cite{rapisarda2007role}\cite{bamford1992combination}\cite{Baciero2001JT-II}\cite{den1994fast}\cite{cothran2006fast}). Particular attention is given to Bitter\cite{bitter1979}, Fonck\cite{fonck1984determination}, Burell\cite{burrell1980}, and Reinke\cite{Reinke}, who give unusually thorough overviews of their calibration and/or fitting procedures, yet still do not mention that the nonlinear least-squares fit of a gaussian (or convolved gaussian function) was weighted. In only a few cases is the detection channel sensitivity even measured (such as by Burell\cite{burrell1980}), and it appears to be used here as a pre-fit scale factor for the data. A few studies with particularly good accounting of errors (such as Tanabe\cite{tanabe2013}) describe detector dark noise and readout noise as affecting error on the final fit, but not as a weighting term. It is true that no sources found explicitly state that  homogeneous weights were used, either. Nevertheless, we conclude that, contrary to the claim made by the reviewer, the study of uncertainty in passive IDS diagnostics (and closely related techniques) begins with the RMS error of the fit to the raw data (``statistical uncertainty'' in many cited works), and not with detector sensitivity and photon noise. This motivates our use of homogeneous fit weights.\\
+\hspace*{4ex}Furthermore, it should be emphasized that we do not claim ``that previously described systems do not use proper error-characterization''. Rather, we posit that global metrics such as $\chi^2$ are accurate, but not useful when trying to interpret derived profiles. Studies using similar passive IDS systems almost never include parameter resolved errors (IE, errorbars for velocity, temperature) which are necessary to evaluate profiles, particularly when Signal-to-Noise is low. We hope to encourage their more widespread adoption.
+
+
+\section{Sine Fit}
+% Separate from BD issue (want to show generally applicable filtering technique). Signal is not necessarily spatially periodic
+\hspace{4ex}The reviewer notes that the use of both FFT and BD filtering could be redundant. We present both for two reasons. Firstly, while the spectral signals are largely temporally periodic, it is not clear that an FFT would be a useful filter for the spatial direction. For similar reasons the FFT is only performed on the velocity data; the temporal evolution of the spectral line's thermal broadening is not found to be quite as period as its doppler shift. Secondly, the purpose of the BD and FFT are not the same. In the case of the former, we wish to present a successful, generalizable filtering technique which has not yet been applied to passive IDS systems. In the case of the latter, we wish to highlight profiles which can be easily extracted beyond the usual raw temperature and velocity (such as temporal phase and displacement), with isolation of some dynamic component with a model (in our case, the periodic helicity-injection correlated component of the ion motion).
+
+\section{Zeeman/Stark Effects on Spectral Profile}
+\hspace*{4ex}In the paper, the claim is made that Stark and Zeeman effects do not significantly effect the spectral profile. The reviewers reasonably ask us to provide motivation. Such effects are generally assumed negligible in experiments looking at similar ions species, at similar parameter regimes\cite{cothran2006fast}. This assumption is usually left unstated, but can be inferred from the type of function used to fit to the spectral profile (ie, single gaussian \cite{den2006advances}). The paper has been updated with citations for the Stark shift in both ion species\cite{Konjevic2002}, and the Zeeman shift for C III\cite{Carolan1985}. In both cases, the required electron densities and magnetic field strengths respectively must be over three orders of magnitude higher than those found in HIT-SI and HIT-SI3, for the shits to reach the observed thermal broadening width. The O II transitions of interest, which are at very similar energy levels to those of C III, are expected to behave similarly under the same magnetic field. Precice validation with an atomic dataset such as ADAS has so far proven difficult.
+
+\newpage
+\section{Bibliography}
+\bibliography{Bibleography}
+\end{document}
+
+\begin{comment}
+% Is fitting significant, do they have parametric error, is the fit weighted/is any information given about detector sensativity
+
+Uhlemann 1993, TExTOR: 
+
+Groebner 1983, DIII-D: "Statistical noise in MCA intensity". NL-LSF, convolved Gaussian. No weights. Sources of error do not include detector sensativity. Error bars present
+
+Khachan 2000, IEC: ICCD, convolved gaussian fit. No mention of weighting.
+
+Bitter 1978, PLT, X-Ray spectrometer: MCA, "Least suwares fit to experimental data of Voigt function, taking into account natural line broadening". "Error bars indicate the statistical error of the experimental data" (?????)  ****************** Thorough Explainataion
+
+Fonck 1984, CXRS Overview. Single channel vibrating mirror (not MCA), NL-LSF convolved gaussian. "Uncertainties in the derived values of v and T due to both statistical uncertainties in the fits and shot-to-shot variations" ******************* Very Thorough
+
+
+
+
+Burrell 1980, Neutral Beams (for TFTR), OMA. HIGHLY DETAILED CALIBRATION: Sensativity vs Channel and Wavelength Calibration Applied, BEFORE fit, Convolved Gaussian fit to measured spectral profile (NL-LSQ Undefined, reference unclear)*****************
+
+Brown, 2007, SSX: No info on fitting, cite Cothran 2006
+
+Den Hartog, 1994, MST: 16 Channel PMT, NL-LSF gaussian to raw data, PARAMETRIC ERROR: "The rms fluctuation level (which includes both plasma dnd noise fluctuations) between (background signal time period) is <6eV and <.7kms. Fibers face eachother ("easier to perform relative calibration").
+
+Sawyer 1963, Xray, Theta-Pinch.
+
+Gu 2004, HIT-II, 16ch PMT, Sensativity accounted for, Minimum sensativity calculated, no fitting info
+
+Hutchinson 1999, Alcator, Insufficient diagnostic info "estimated
+systematic uncertainties of 65 kms and statistical uncertainties from spectrum to spectrum of up to the same value, depending on emission intensity"
+
+Tanabe 2013, TS-3 FRC, Abel ICCD, Good Error Accounting (dark noise, readout noise, shot noise). No mention of sensitivity calibration/etc. No mention of gaussian fit algorithm. 
+
+Schorn 1992, TEXTOR. CXS, NL-LSQ, PMT, Includes Zeeman Split, insufficient calibration information 
+
+Y Ono 2012, TS-3/4 Tokamak Merging. Has parametric error. OMA. No explaination/
+
+BAciero 2001, TJ-II, CCD, Thorough Explaination of fitting/calibration, NL-LSQ (Algorithm assumes homoeneous weights). (REL_INT calculated, lines not corrected by this)
+
+Bamford 1992, COMPASS-C, OMA/CCD AND PMT. NL-LSQ Gaussian for CCD. Complex convolved gaussian fit for PMT (sort of line ratios). No Weighting
+
+Reinke 2012, Alcator, Crystal Xray Spectroscopy, REferences "statistical uncertainty" converted to parametric error. NL-LSQ gaussian sum. In Situ locked mode calibration. No sensativity given.
+
+Rapisarda, 2006 TJ-II. CCD (10 channels). Baciero 2001 algorithm for Convolved Gaussian Study.
+
+
+
+
+
+
+\end{comment}

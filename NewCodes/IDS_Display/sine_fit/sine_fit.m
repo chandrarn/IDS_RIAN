@@ -55,7 +55,8 @@ end
 
 automatic_initial_params=NaN(1,4);
 automatic_initial_params(1)=median(y);
-automatic_initial_params(2)=mean(minmax(y));
+%automatic_initial_params(2)=mean(minmax(y));
+automatic_initial_params(2)=mean([min(y) max(y)]);
 automatic_initial_params(3)=0;
 [~,pos]=findpeaks(smooth(y,10));
 automatic_initial_params(4)=1/max(diff(x(pos)));

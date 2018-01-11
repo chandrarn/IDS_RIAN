@@ -3,7 +3,7 @@ function [saveDat] = plotDisp(dataDispl,ax,h,i,n,in,saveDat,dispSupress,...
     doubleplot,RMS,dat,data,pRel,CutPow,includeTemp,plotError,lnwdth)
 
 % Loop through Arrays
-for i = 1:1+in(n).doubleplot
+for i = 1:1+~isempty(in(n).doubleplot)
 
 
 %% We are doing the FFT    
