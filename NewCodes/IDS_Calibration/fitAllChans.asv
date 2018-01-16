@@ -29,10 +29,9 @@ peaks(:, 1) = chanNums; % put channel numbers into peaks array
 % Use simple interpolation to guess at peak locations in wavelength space
 
 allChans = linspace(firstCenter(2), lastCenter(2), chanNums(end) - chanNums(1) + 1);
-%size(allChans)
-%size(chanNums)
-peaks(:, 3) = allChans(chanNums-chanNums(1)+1); % remove dead channels
-% Account for not seeing channel one;
+size(allChans)
+
+peaks(:, 3) = allChans(chanNums); % remove dead channels
 
 % Find local maxima using 'extrema' function
 [xmax, imax, xmin, imin] = extrema(data); % xmax is local maxima, imax is indices

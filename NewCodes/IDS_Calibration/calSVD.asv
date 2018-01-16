@@ -21,7 +21,7 @@ end
 
 % Arrange in vertical columns
 
-[ n_pix, n_chan, n_time] = size(data)
+[ n_pix, n_chan, n_time] = size(data);
 BDdat = NaN*zeros(n_chan * n_pix, n_time);
 
 for n = 1:n_time
@@ -67,7 +67,7 @@ if shot2 ~= 0 % load the second shot, if it exists
 
     % Arrange in vertical columns
 
-    [ n_pix, n_chan,n_time] = size(data)
+    [ n_pix, n_chan,n_time] = size(data);
     BDdat = NaN*zeros(n_chan * n_pix, n_time);
 
     for n = 1:n_time

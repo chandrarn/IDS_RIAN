@@ -129,7 +129,7 @@ Err = zeros(size(data));
     end
  end
  figure; plot(modInt(:),erroInt(:),'b*');
- grid on;title(['Model vs Error, Chan ' num2str(n) ', All Pixels']);
+ grid on;
 %end
 modPlt = modInt(:,67,3);
 modPlt=modPlt(:);
